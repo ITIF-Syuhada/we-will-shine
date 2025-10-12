@@ -32,13 +32,14 @@ Jika nama repository GitHub Anda berbeda dari `we-will-shine`, update file `svel
 
 ```js
 paths: {
-    base: process.env.NODE_ENV === 'production' ? '/nama-repository-anda' : ''
+	base: process.env.NODE_ENV === 'production' ? '/nama-repository-anda' : '';
 }
 ```
 
 ### 4. Deploy Otomatis
 
 Setiap kali Anda push ke branch `main`, GitHub Actions akan otomatis:
+
 - Build aplikasi SvelteKit
 - Deploy ke GitHub Pages
 
@@ -85,27 +86,33 @@ pnpm run preview
 ## 🔧 Konfigurasi Penting
 
 ### svelte.config.js
+
 - Menggunakan `@sveltejs/adapter-static` untuk static site generation
 - Base path disesuaikan untuk GitHub Pages
 - Fallback ke `404.html` untuk SPA routing
 
 ### src/routes/+layout.ts
+
 - `prerender: true` - Pre-render semua halaman
 - `trailingSlash: 'always'` - Tambahkan trailing slash untuk kompatibilitas
 
 ### static/.nojekyll
+
 - File ini mencegah GitHub Pages menggunakan Jekyll
 - Penting untuk file/folder yang dimulai dengan underscore
 
 ## 🛠️ Troubleshooting
 
 ### CSS/JS tidak load
+
 Pastikan base path di `svelte.config.js` sesuai dengan nama repository.
 
 ### 404 saat refresh halaman
+
 Pastikan `fallback: '404.html'` ada di konfigurasi adapter.
 
 ### Build gagal di GitHub Actions
+
 Periksa log di tab **Actions** di repository GitHub Anda.
 
 ## 📚 Dokumentasi
