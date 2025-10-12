@@ -3,13 +3,13 @@ import { expect, test } from '@playwright/test';
 test.describe('Sverdle Game Tests', () => {
 	test.beforeEach(async ({ page }) => {
 		// Clear localStorage before each test
-		await page.goto('/sverdle');
+		await page.goto('/we-will-shine/sverdle');
 		await page.evaluate(() => localStorage.clear());
 		await page.reload();
 	});
 
 	test('sverdle page loads correctly', async ({ page }) => {
-		await page.goto('/sverdle');
+		await page.goto('/we-will-shine/sverdle');
 
 		// Should not be 404
 		await expect(page).not.toHaveURL(/.*404.*/);
@@ -28,7 +28,7 @@ test.describe('Sverdle Game Tests', () => {
 	});
 
 	test('can type letters using keyboard', async ({ page }) => {
-		await page.goto('/sverdle');
+		await page.goto('/we-will-shine/sverdle');
 
 		// Wait for game to load
 		await page.waitForSelector('.grid');
@@ -50,7 +50,7 @@ test.describe('Sverdle Game Tests', () => {
 	});
 
 	test('can click keyboard buttons', async ({ page }) => {
-		await page.goto('/sverdle');
+		await page.goto('/we-will-shine/sverdle');
 
 		// Wait for keyboard to load
 		await page.waitForSelector('.keyboard');
@@ -68,7 +68,7 @@ test.describe('Sverdle Game Tests', () => {
 	});
 
 	test('backspace removes letters', async ({ page }) => {
-		await page.goto('/sverdle');
+		await page.goto('/we-will-shine/sverdle');
 
 		// Type some letters
 		await page.keyboard.press('h');
@@ -84,7 +84,7 @@ test.describe('Sverdle Game Tests', () => {
 	});
 
 	test('enter button is disabled until 5 letters are typed', async ({ page }) => {
-		await page.goto('/sverdle');
+		await page.goto('/we-will-shine/sverdle');
 
 		// Enter button should be disabled initially
 		const enterButton = page.locator('button[data-key="enter"]');
@@ -102,7 +102,7 @@ test.describe('Sverdle Game Tests', () => {
 	});
 
 	test('game state persists in localStorage', async ({ page }) => {
-		await page.goto('/sverdle');
+		await page.goto('/we-will-shine/sverdle');
 
 		// Wait for game to initialize
 		await page.waitForSelector('.grid');
@@ -132,7 +132,7 @@ test.describe('Sverdle Game Tests', () => {
 	});
 
 	test('restart button clears game', async ({ page }) => {
-		await page.goto('/sverdle');
+		await page.goto('/we-will-shine/sverdle');
 
 		// Play until game over (submit 6 guesses)
 		for (let i = 0; i < 6; i++) {
