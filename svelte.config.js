@@ -21,7 +21,7 @@ const config = {
 			base: dev ? '' : '/we-will-shine'
 		},
 		prerender: {
-			handleHttpError: ({ path, referrer, message }) => {
+			handleHttpError: ({ path, message }) => {
 				// Ignore 404s for paths that don't start with base
 				if (path.startsWith('/') && !path.startsWith('/we-will-shine')) {
 					return;
