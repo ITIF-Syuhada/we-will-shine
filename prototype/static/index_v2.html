@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="id">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dream Explorer - Jelajahi Masa Depanmu!</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<style>
+			body {
+				box-sizing: border-box;
+			}
+
+			@keyframes float {
+				0%,
+				100% {
+					transform: translateY(0px) rotate(0deg);
+				}
+				50% {
+					transform: translateY(-15px) rotate(5deg);
+				}
+			}
+
+			@keyframes pulse-glow {
+				0%,
+				100% {
+					box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+				}
+				50% {
+					box-shadow: 0 0 40px rgba(147, 51, 234, 0.6);
+				}
+			}
+
+			@keyframes slide-up {
+				from {
+					transform: translateY(20px);
+					opacity: 0;
+				}
+				to {
+					transform: translateY(0);
+					opacity: 1;
+				}
+			}
+
+			@keyframes bounce-in {
+				0% {
+					transform: scale(0.3);
+					opacity: 0;
+				}
+				50% {
+					transform: scale(1.05);
+				}
+				70% {
+					transform: scale(0.9);
+				}
+				100% {
+					transform: scale(1);
+					opacity: 1;
+				}
+			}
+
+			@keyframes shake {
+				0%,
+				100% {
+					transform: translateX(0);
+				}
+				25% {
+					transform: translateX(-5px);
+				}
+				75% {
+					transform: translateX(5px);
+				}
+			}
+
+			.float-animation {
+				animation: float 4s ease-in-out infinite;
+			}
+			.pulse-glow {
+				animation: pulse-glow 2s ease-in-out infinite;
+			}
+			.slide-up {
+				animation: slide-up 0.5s ease-out;
+			}
+			.bounce-in {
+				animation: bounce-in 0.6s ease-out;
+			}
+			.shake {
+				animation: shake 0.5s ease-in-out;
+			}
+
+			.gradient-bg {
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+			}
+
+			.card-interactive {
+				transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+				cursor: pointer;
+			}
+
+			.card-interactive:hover {
+				transform: translateY(-8px) scale(1.02);
+				box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+			}
+
+			.card-interactive:active {
+				transform: translateY(-4px) scale(0.98);
+			}
+
+			.typing-indicator {
+				display: inline-block;
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background-color: #9333ea;
+				animation: typing 1.4s infinite ease-in-out;
+			}
+
+			.typing-indicator:nth-child(1) {
+				animation-delay: -0.32s;
+			}
+			.typing-indicator:nth-child(2) {
+				animation-delay: -0.16s;
+			}
+
+			@keyframes typing {
+				0%,
+				80%,
+				100% {
+					transform: scale(0);
+					opacity: 0.5;
+				}
+				40% {
+					transform: scale(1);
+					opacity: 1;
+				}
+			}
+
+			.progress-bar {
+				transition: width 0.5s ease-in-out;
+			}
+
+			.notification {
+				position: fixed;
+				top: 20px;
+				right: 20px;
+				z-index: 1000;
+				transform: translateX(400px);
+				transition: transform 0.3s ease-in-out;
+			}
+
+			.notification.show {
+				transform: translateX(0);
+			}
+
+			.compact-section {
+				max-height: 70vh;
+				overflow-y: auto;
+			}
+
+			.compact-section::-webkit-scrollbar {
+				width: 6px;
+			}
+
+			.compact-section::-webkit-scrollbar-track {
+				background: #f1f5f9;
+				border-radius: 10px;
+			}
+
+			.compact-section::-webkit-scrollbar-thumb {
+				background: #9333ea;
+				border-radius: 10px;
+			}
+		</style>
+	</head>
+	<body class="min-h-full bg-gradient-to-br from-purple-400 via-pink-300 to-blue-300">
+		<!-- Notification System -->
+		<div
+			id="notification"
+			class="notification rounded-2xl border-l-4 border-purple-500 bg-white p-4 shadow-2xl"
+		>
+			<div class="flex items-center space-x-3">
+				<div class="text-2xl" id="notif-icon">🎉</div>
+				<div>
+					<div class="font-bold text-gray-800" id="notif-title">Selamat!</div>
+					<div class="text-sm text-gray-600" id="notif-message">Kamu mendapat poin!</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="app" class="min-h-full">
+			<!-- Welcome Screen -->
+			<div id="welcome-screen" class="flex min-h-full items-center justify-center p-4">
+				<div class="mx-auto max-w-sm text-center">
+					<div class="float-animation mb-6">
+						<div class="pulse-glow mb-3 text-6xl">🌟</div>
+						<h1 class="mb-2 text-3xl font-bold text-white drop-shadow-lg">Dream Explorer</h1>
+						<p class="mb-6 text-lg text-white/90">Jelajahi masa depan impianmu!</p>
+					</div>
+
+					<div class="mb-6 rounded-2xl bg-white/20 p-4 backdrop-blur-lg">
+						<p class="mb-3 text-sm text-white">✨ Hadiah dari Bu Guru untuk 7D Putri ✨</p>
+						<p class="text-xs text-white/80">Masukkan kode dari coklat:</p>
+					</div>
+
+					<div class="space-y-3">
+						<input
+							type="text"
+							id="secret-code"
+							placeholder="Kode rahasia..."
+							class="w-full rounded-xl border-0 bg-white/90 px-4 py-3 text-center text-lg font-semibold transition-all focus:ring-4 focus:ring-pink-300 focus:outline-none"
+							maxlength="10"
+						/>
+						<button
+							onclick="checkCode()"
+							class="w-full transform rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 px-6 py-3 font-bold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-pink-600 hover:to-purple-700 active:scale-95"
+						>
+							🚀 Mulai Petualangan!
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Main App -->
+			<div id="main-app" class="hidden min-h-full">
+				<!-- Compact Header -->
+				<header class="gradient-bg sticky top-0 z-50 p-3 text-white shadow-lg">
+					<div class="mx-auto flex max-w-6xl items-center justify-between">
+						<div class="flex items-center space-x-2">
+							<span class="pulse-glow text-2xl">🌟</span>
+							<h1 class="text-lg font-bold">Dream Explorer</h1>
+						</div>
+						<div class="flex items-center space-x-3">
+							<div class="flex items-center space-x-2 rounded-full bg-white/20 px-3 py-1">
+								<span class="text-xs">Level <span id="user-level">1</span></span>
+								<div class="h-2 w-16 overflow-hidden rounded-full bg-white/30">
+									<div
+										id="level-progress"
+										class="progress-bar h-full bg-yellow-400"
+										style="width: 0%"
+									></div>
+								</div>
+							</div>
+							<div
+								class="flex items-center space-x-1 rounded-full bg-yellow-400 px-2 py-1 text-yellow-900"
+							>
+								<span class="text-sm">⭐</span>
+								<span id="points" class="text-sm font-bold">0</span>
+							</div>
+						</div>
+					</div>
+				</header>
+
+				<!-- Compact Navigation -->
+				<nav class="sticky top-12 z-40 bg-white/90 shadow-md backdrop-blur-sm">
+					<div class="mx-auto max-w-6xl px-3">
+						<div class="flex justify-center space-x-1 overflow-x-auto py-2">
+							<button
+								onclick="showSection('motivation')"
+								class="nav-btn flex-shrink-0 rounded-full bg-purple-100 px-3 py-2 text-xs font-semibold text-purple-600"
+							>
+								💪 Motivasi
+							</button>
+							<button
+								onclick="showSection('careers')"
+								class="nav-btn flex-shrink-0 rounded-full px-3 py-2 text-xs font-semibold text-gray-600 transition-all hover:bg-purple-50 hover:text-purple-600"
+							>
+								🎯 Karir
+							</button>
+							<button
+								onclick="showSection('ai-chat')"
+								class="nav-btn flex-shrink-0 rounded-full px-3 py-2 text-xs font-semibold text-gray-600 transition-all hover:bg-purple-50 hover:text-purple-600"
+							>
+								🤖 AI Mentor
+							</button>
+							<button
+								onclick="showSection('dream-board')"
+								class="nav-btn flex-shrink-0 rounded-full px-3 py-2 text-xs font-semibold text-gray-600 transition-all hover:bg-purple-50 hover:text-purple-600"
+							>
+								✨ Dreams
+							</button>
+							<button
+								onclick="showSection('games')"
+								class="nav-btn flex-shrink-0 rounded-full px-3 py-2 text-xs font-semibold text-gray-600 transition-all hover:bg-purple-50 hover:text-purple-600"
+							>
+								🎮 Games
+							</button>
+						</div>
+					</div>
+				</nav>
+
+				<!-- Content Sections -->
+				<main class="mx-auto max-w-6xl p-3 pb-16">
+					<!-- Motivation Section -->
+					<section id="motivation-section" class="section-content compact-section">
+						<div class="mb-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+							<!-- Daily Quote Card -->
+							<div
+								class="card-interactive rounded-2xl bg-gradient-to-br from-pink-100 to-purple-100 p-4"
+								onclick="getNewQuote()"
+							>
+								<div class="mb-2 text-center text-3xl">🌅</div>
+								<h3 class="mb-2 text-sm font-bold text-purple-800">Quote Hari Ini</h3>
+								<p id="daily-quote" class="mb-2 text-center text-xs text-gray-700 italic">
+									"Mimpi besar dimulai dari langkah kecil!"
+								</p>
+								<div class="text-center">
+									<span class="rounded-full bg-purple-200 px-2 py-1 text-xs text-purple-800"
+										>Klik untuk quote baru!</span
+									>
+								</div>
+							</div>
+
+							<!-- Mood Tracker -->
+							<div class="rounded-2xl bg-gradient-to-br from-blue-100 to-cyan-100 p-4">
+								<div class="mb-2 text-center text-3xl">😊</div>
+								<h3 class="mb-2 text-sm font-bold text-blue-800">Mood Hari Ini</h3>
+								<div class="mb-2 flex justify-center space-x-2">
+									<button
+										onclick="setMood('😢')"
+										class="text-2xl transition-transform hover:scale-125"
+									>
+										😢
+									</button>
+									<button
+										onclick="setMood('😐')"
+										class="text-2xl transition-transform hover:scale-125"
+									>
+										😐
+									</button>
+									<button
+										onclick="setMood('😊')"
+										class="text-2xl transition-transform hover:scale-125"
+									>
+										😊
+									</button>
+									<button
+										onclick="setMood('😄')"
+										class="text-2xl transition-transform hover:scale-125"
+									>
+										😄
+									</button>
+									<button
+										onclick="setMood('🤩')"
+										class="text-2xl transition-transform hover:scale-125"
+									>
+										🤩
+									</button>
+								</div>
+								<p class="text-center text-xs text-blue-600">
+									Mood: <span id="current-mood">😊</span>
+								</p>
+							</div>
+
+							<!-- Quick Goals -->
+							<div class="rounded-2xl bg-gradient-to-br from-green-100 to-emerald-100 p-4">
+								<div class="mb-2 text-center text-3xl">🎯</div>
+								<h3 class="mb-2 text-sm font-bold text-green-800">Target Hari Ini</h3>
+								<div class="space-y-1">
+									<label class="flex items-center space-x-2 text-xs">
+										<input
+											type="checkbox"
+											class="h-3 w-3 rounded text-green-600"
+											onchange="checkGoal(this)"
+										/>
+										<span>Baca 1 artikel karir</span>
+									</label>
+									<label class="flex items-center space-x-2 text-xs">
+										<input
+											type="checkbox"
+											class="h-3 w-3 rounded text-green-600"
+											onchange="checkGoal(this)"
+										/>
+										<span>Chat dengan AI Mentor</span>
+									</label>
+									<label class="flex items-center space-x-2 text-xs">
+										<input
+											type="checkbox"
+											class="h-3 w-3 rounded text-green-600"
+											onchange="checkGoal(this)"
+										/>
+										<span>Tambah 1 impian baru</span>
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Achievement Showcase -->
+						<div class="rounded-2xl bg-white p-4 shadow-lg">
+							<h3 class="mb-3 text-center text-lg font-bold text-purple-800">🏆 Pencapaian</h3>
+							<div class="grid grid-cols-4 gap-2" id="achievements-grid">
+								<!-- Achievements will be populated here -->
+							</div>
+						</div>
+					</section>
+
+					<!-- Careers Section -->
+					<section id="careers-section" class="section-content compact-section hidden">
+						<div class="mb-4 grid grid-cols-2 gap-3 md:grid-cols-3">
+							<div
+								class="card-interactive rounded-2xl bg-white p-3 shadow-lg"
+								onclick="exploreCareer('tech')"
+							>
+								<div class="mb-2 text-center text-3xl">💻</div>
+								<h3 class="mb-1 text-center text-sm font-bold">Teknologi</h3>
+								<p class="text-center text-xs text-gray-600">Programmer, AI, Data</p>
+							</div>
+							<div
+								class="card-interactive rounded-2xl bg-white p-3 shadow-lg"
+								onclick="exploreCareer('creative')"
+							>
+								<div class="mb-2 text-center text-3xl">🎨</div>
+								<h3 class="mb-1 text-center text-sm font-bold">Kreatif</h3>
+								<p class="text-center text-xs text-gray-600">Desain, Animasi, Konten</p>
+							</div>
+							<div
+								class="card-interactive rounded-2xl bg-white p-3 shadow-lg"
+								onclick="exploreCareer('health')"
+							>
+								<div class="mb-2 text-center text-3xl">⚕️</div>
+								<h3 class="mb-1 text-center text-sm font-bold">Kesehatan</h3>
+								<p class="text-center text-xs text-gray-600">Dokter, Perawat, Terapi</p>
+							</div>
+							<div
+								class="card-interactive rounded-2xl bg-white p-3 shadow-lg"
+								onclick="exploreCareer('business')"
+							>
+								<div class="mb-2 text-center text-3xl">💼</div>
+								<h3 class="mb-1 text-center text-sm font-bold">Bisnis</h3>
+								<p class="text-center text-xs text-gray-600">Entrepreneur, Marketing</p>
+							</div>
+							<div
+								class="card-interactive rounded-2xl bg-white p-3 shadow-lg"
+								onclick="exploreCareer('education')"
+							>
+								<div class="mb-2 text-center text-3xl">📚</div>
+								<h3 class="mb-1 text-center text-sm font-bold">Pendidikan</h3>
+								<p class="text-center text-xs text-gray-600">Guru, Peneliti, Dosen</p>
+							</div>
+							<div
+								class="card-interactive rounded-2xl bg-white p-3 shadow-lg"
+								onclick="exploreCareer('social')"
+							>
+								<div class="mb-2 text-center text-3xl">🤝</div>
+								<h3 class="mb-1 text-center text-sm font-bold">Sosial</h3>
+								<p class="text-center text-xs text-gray-600">NGO, Diplomat, Media</p>
+							</div>
+						</div>
+
+						<div id="career-detail" class="slide-up hidden rounded-2xl bg-white p-4 shadow-lg">
+							<button
+								onclick="closeCareerDetail()"
+								class="mb-3 text-sm text-purple-600 hover:text-purple-800"
+							>
+								← Kembali
+							</button>
+							<div id="career-content"></div>
+						</div>
+					</section>
+
+					<!-- AI Chat Section -->
+					<section id="ai-chat-section" class="section-content compact-section hidden">
+						<div class="overflow-hidden rounded-2xl bg-white shadow-lg">
+							<div class="bg-gradient-to-r from-purple-500 to-pink-500 p-3 text-center text-white">
+								<h3 class="font-bold">🤖 AI Mentor Kamu</h3>
+								<p class="text-xs opacity-90">Tanya apa saja tentang masa depan!</p>
+							</div>
+
+							<div id="chat-messages" class="h-64 space-y-3 overflow-y-auto bg-gray-50 p-3">
+								<div class="flex items-start space-x-2">
+									<div
+										class="flex h-6 w-6 items-center justify-center rounded-full bg-purple-500 text-xs font-bold text-white"
+									>
+										AI
+									</div>
+									<div class="max-w-xs rounded-2xl bg-white p-3 shadow-sm">
+										<p class="text-xs text-gray-800">
+											Halo! Aku siap membantu kamu menjelajahi masa depan! Tanya apa saja! 😊
+										</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="border-t bg-white p-3">
+								<div class="flex space-x-2">
+									<input
+										type="text"
+										id="chat-input"
+										placeholder="Ketik pertanyaan..."
+										class="flex-1 rounded-xl border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+										onkeypress="if(event.key==='Enter') sendMessage()"
+									/>
+									<button
+										onclick="sendMessage()"
+										class="rounded-xl bg-purple-500 px-4 py-2 text-sm text-white transition-colors hover:bg-purple-600"
+									>
+										Kirim
+									</button>
+								</div>
+
+								<!-- Quick Questions -->
+								<div class="mt-2 flex flex-wrap gap-1">
+									<button
+										onclick="quickQuestion('Apa itu programmer?')"
+										class="rounded-full bg-purple-100 px-2 py-1 text-xs text-purple-700 transition-colors hover:bg-purple-200"
+									>
+										Apa itu programmer?
+									</button>
+									<button
+										onclick="quickQuestion('Bagaimana jadi dokter?')"
+										class="rounded-full bg-purple-100 px-2 py-1 text-xs text-purple-700 transition-colors hover:bg-purple-200"
+									>
+										Jadi dokter?
+									</button>
+									<button
+										onclick="quickQuestion('Jurusan apa yang bagus?')"
+										class="rounded-full bg-purple-100 px-2 py-1 text-xs text-purple-700 transition-colors hover:bg-purple-200"
+									>
+										Jurusan bagus?
+									</button>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!-- Dream Board Section -->
+					<section id="dream-board-section" class="section-content compact-section hidden">
+						<div class="mb-4">
+							<div class="flex space-x-2">
+								<input
+									type="text"
+									id="dream-input"
+									placeholder="Tulis impian kamu..."
+									class="flex-1 rounded-xl border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500 focus:outline-none"
+									onkeypress="if(event.key==='Enter') addDream()"
+								/>
+								<button
+									onclick="addDream()"
+									class="rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 px-4 py-2 text-sm text-white transition-all hover:from-pink-600 hover:to-purple-700"
+								>
+									➕
+								</button>
+							</div>
+						</div>
+
+						<div id="dreams-container" class="grid grid-cols-1 gap-3 md:grid-cols-2">
+							<!-- Dreams will be added here -->
+						</div>
+					</section>
+
+					<!-- Games Section -->
+					<section id="games-section" class="section-content compact-section hidden">
+						<div class="grid gap-4 md:grid-cols-2">
+							<!-- Career Quiz -->
+							<div class="rounded-2xl bg-white p-4 shadow-lg">
+								<h3 class="mb-3 text-center text-lg font-bold text-purple-800">
+									🎯 Quiz Kepribadian
+								</h3>
+								<div id="quiz-content">
+									<p class="mb-3 text-sm text-gray-600">
+										Temukan karir yang cocok dengan kepribadianmu!
+									</p>
+									<button
+										onclick="startQuiz()"
+										class="w-full rounded-xl bg-purple-500 py-2 text-white transition-colors hover:bg-purple-600"
+									>
+										Mulai Quiz
+									</button>
+								</div>
+							</div>
+
+							<!-- Memory Game -->
+							<div class="rounded-2xl bg-white p-4 shadow-lg">
+								<h3 class="mb-3 text-center text-lg font-bold text-purple-800">🧠 Memory Game</h3>
+								<div id="memory-game">
+									<p class="mb-3 text-sm text-gray-600">
+										Latih memori dengan mencocokkan kartu profesi!
+									</p>
+									<button
+										onclick="startMemoryGame()"
+										class="w-full rounded-xl bg-blue-500 py-2 text-white transition-colors hover:bg-blue-600"
+									>
+										Mulai Game
+									</button>
+								</div>
+							</div>
+						</div>
+					</section>
+				</main>
+			</div>
+		</div>
+
+		<script>
+			// Enhanced data and variables
+			const motivationalQuotes = [
+				'Mimpi besar dimulai dari langkah kecil hari ini! 🌟',
+				'Kamu lebih kuat dari yang kamu kira! 💪',
+				'Setiap hari adalah kesempatan baru untuk belajar! 📚',
+				'Jangan takut bermimpi, takutlah tidak bermimpi! ✨',
+				'Masa depan cerah menanti mereka yang berani berusaha! 🌅',
+				'Kegagalan adalah guru terbaik menuju kesuksesan! 🎯',
+				'Percaya pada diri sendiri adalah langkah pertama! 🚀'
+			];
+
+			const achievements = [
+				{
+					id: 'first-login',
+					name: 'First Explorer',
+					icon: '🥇',
+					unlocked: false,
+					desc: 'Login pertama kali'
+				},
+				{
+					id: 'quote-master',
+					name: 'Quote Master',
+					icon: '📝',
+					unlocked: false,
+					desc: 'Baca 5 quote motivasi'
+				},
+				{
+					id: 'career-explorer',
+					name: 'Career Explorer',
+					icon: '🎯',
+					unlocked: false,
+					desc: 'Jelajahi 3 bidang karir'
+				},
+				{
+					id: 'ai-chatter',
+					name: 'AI Chatter',
+					icon: '🤖',
+					unlocked: false,
+					desc: 'Chat 10 kali dengan AI'
+				},
+				{
+					id: 'dream-builder',
+					name: 'Dream Builder',
+					icon: '✨',
+					unlocked: false,
+					desc: 'Tambah 5 impian'
+				},
+				{
+					id: 'quiz-master',
+					name: 'Quiz Master',
+					icon: '🧠',
+					unlocked: false,
+					desc: 'Selesaikan quiz kepribadian'
+				},
+				{
+					id: 'mood-tracker',
+					name: 'Mood Tracker',
+					icon: '😊',
+					unlocked: false,
+					desc: 'Set mood 7 hari berturut'
+				},
+				{
+					id: 'goal-achiever',
+					name: 'Goal Achiever',
+					icon: '🏆',
+					unlocked: false,
+					desc: 'Selesaikan semua target harian'
+				}
+			];
+
+			let userPoints = 0;
+			let userLevel = 1;
+			let dreams = [];
+			let chatCount = 0;
+			let quoteCount = 0;
+			let careerExplored = [];
+			let currentMood = '😊';
+			let dailyGoals = 0;
+
+			// Enhanced functions
+			function checkCode() {
+				const code = document.getElementById('secret-code').value.trim();
+				if (code.length > 0) {
+					document.getElementById('welcome-screen').classList.add('hidden');
+					document.getElementById('main-app').classList.remove('hidden');
+					addPoints(50, 'Selamat datang di Dream Explorer!', '🎉');
+					unlockAchievement('first-login');
+					renderAchievements();
+				} else {
+					document.getElementById('secret-code').classList.add('shake');
+					setTimeout(() => {
+						document.getElementById('secret-code').classList.remove('shake');
+					}, 500);
+				}
+			}
+
+			function showSection(sectionName) {
+				document.querySelectorAll('.section-content').forEach((section) => {
+					section.classList.add('hidden');
+				});
+
+				document.getElementById(sectionName + '-section').classList.remove('hidden');
+
+				document.querySelectorAll('.nav-btn').forEach((btn) => {
+					btn.classList.remove('text-purple-600', 'bg-purple-100');
+					btn.classList.add('text-gray-600');
+				});
+
+				event.target.classList.remove('text-gray-600');
+				event.target.classList.add('text-purple-600', 'bg-purple-100');
+			}
+
+			function getNewQuote() {
+				const randomQuote =
+					motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+				document.getElementById('daily-quote').textContent = `"${randomQuote}"`;
+				addPoints(10, 'Quote baru didapat!', '💭');
+				quoteCount++;
+
+				if (quoteCount >= 5) {
+					unlockAchievement('quote-master');
+				}
+			}
+
+			function setMood(mood) {
+				currentMood = mood;
+				document.getElementById('current-mood').textContent = mood;
+				addPoints(5, 'Mood terupdate!', mood);
+			}
+
+			function checkGoal(checkbox) {
+				if (checkbox.checked) {
+					dailyGoals++;
+					addPoints(15, 'Target tercapai!', '🎯');
+
+					if (dailyGoals >= 3) {
+						unlockAchievement('goal-achiever');
+					}
+				} else {
+					dailyGoals--;
+				}
+			}
+
+			function exploreCareer(careerType) {
+				if (!careerExplored.includes(careerType)) {
+					careerExplored.push(careerType);
+					addPoints(25, 'Karir baru dijelajahi!', '🎯');
+
+					if (careerExplored.length >= 3) {
+						unlockAchievement('career-explorer');
+					}
+				}
+
+				const careerData = {
+					tech: {
+						title: '💻 Dunia Teknologi',
+						careers: [
+							'Programmer',
+							'Data Scientist',
+							'UI/UX Designer',
+							'Cyber Security',
+							'AI Engineer'
+						],
+						tips: 'Mulai belajar coding dari Scratch atau Python!'
+					},
+					creative: {
+						title: '🎨 Dunia Kreatif',
+						careers: [
+							'Desainer Grafis',
+							'Animator',
+							'Content Creator',
+							'Fotografer',
+							'Video Editor'
+						],
+						tips: 'Latih kreativitas dengan tools gratis seperti Canva!'
+					},
+					health: {
+						title: '⚕️ Dunia Kesehatan',
+						careers: ['Dokter', 'Perawat', 'Psikolog', 'Fisioterapis', 'Ahli Gizi'],
+						tips: 'Pelajari biologi dan kimia dengan baik!'
+					},
+					business: {
+						title: '💼 Dunia Bisnis',
+						careers: ['Entrepreneur', 'Marketing', 'Finance', 'HR', 'Consultant'],
+						tips: 'Mulai bisnis kecil dari hobi kamu!'
+					},
+					education: {
+						title: '📚 Dunia Pendidikan',
+						careers: ['Guru', 'Dosen', 'Peneliti', 'Tutor', 'Konselor'],
+						tips: 'Coba mengajar teman untuk latihan!'
+					},
+					social: {
+						title: '🤝 Dunia Sosial',
+						careers: ['Aktivis NGO', 'Diplomat', 'Jurnalis', 'Social Worker', 'Community Manager'],
+						tips: 'Ikut kegiatan sosial di sekolah!'
+					}
+				};
+
+				const career = careerData[careerType];
+				document.getElementById('career-content').innerHTML = `
+                <h3 class="text-xl font-bold text-purple-800 mb-3">${career.title}</h3>
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    ${career.careers
+											.map(
+												(c) => `
+                        <div class="bg-purple-50 rounded-xl p-2 text-center">
+                            <span class="text-sm font-medium text-purple-800">${c}</span>
+                        </div>
+                    `
+											)
+											.join('')}
+                </div>
+                <div class="bg-yellow-50 rounded-xl p-3">
+                    <p class="text-sm text-yellow-800"><strong>💡 Tips:</strong> ${career.tips}</p>
+                </div>
+            `;
+
+				document.getElementById('career-detail').classList.remove('hidden');
+			}
+
+			function closeCareerDetail() {
+				document.getElementById('career-detail').classList.add('hidden');
+			}
+
+			function sendMessage() {
+				const input = document.getElementById('chat-input');
+				const message = input.value.trim();
+
+				if (message) {
+					addUserMessage(message);
+					input.value = '';
+					showTypingIndicator();
+
+					setTimeout(() => {
+						hideTypingIndicator();
+						addAIResponse(message);
+						chatCount++;
+						addPoints(10, 'Chat dengan AI!', '🤖');
+
+						if (chatCount >= 10) {
+							unlockAchievement('ai-chatter');
+						}
+					}, 1500);
+				}
+			}
+
+			function quickQuestion(question) {
+				document.getElementById('chat-input').value = question;
+				sendMessage();
+			}
+
+			function showTypingIndicator() {
+				const chatMessages = document.getElementById('chat-messages');
+				const typingDiv = document.createElement('div');
+				typingDiv.id = 'typing-indicator';
+				typingDiv.className = 'flex items-start space-x-2';
+				typingDiv.innerHTML = `
+                <div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold">AI</div>
+                <div class="bg-white rounded-2xl p-3 shadow-sm">
+                    <div class="flex space-x-1">
+                        <div class="typing-indicator"></div>
+                        <div class="typing-indicator"></div>
+                        <div class="typing-indicator"></div>
+                    </div>
+                </div>
+            `;
+				chatMessages.appendChild(typingDiv);
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+			}
+
+			function hideTypingIndicator() {
+				const typingIndicator = document.getElementById('typing-indicator');
+				if (typingIndicator) {
+					typingIndicator.remove();
+				}
+			}
+
+			function addUserMessage(message) {
+				const chatMessages = document.getElementById('chat-messages');
+				const messageDiv = document.createElement('div');
+				messageDiv.className = 'flex items-start space-x-2 justify-end bounce-in';
+				messageDiv.innerHTML = `
+                <div class="bg-purple-500 text-white rounded-2xl p-3 max-w-xs">
+                    <p class="text-xs">${message}</p>
+                </div>
+                <div class="w-6 h-6 bg-pink-500 rounded-full flex items-center justify-center text-white text-xs font-bold">Kamu</div>
+            `;
+				chatMessages.appendChild(messageDiv);
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+			}
+
+			function addAIResponse(userMessage) {
+				const responses = {
+					default: 'Pertanyaan bagus! Ceritakan lebih detail tentang minat kamu ya! 😊',
+					programmer:
+						'Programmer itu keren! Mereka membuat aplikasi dan website. Mulai belajar dari Scratch atau Python ya!',
+					dokter:
+						'Dokter membantu menyembuhkan orang. Kamu perlu belajar biologi dan kimia dengan baik!',
+					jurusan:
+						'Pilih jurusan sesuai minat! Teknologi, kesehatan, bisnis, atau kreatif - semua punya prospek bagus!'
+				};
+
+				let response = responses.default;
+				const lowerMessage = userMessage.toLowerCase();
+
+				if (lowerMessage.includes('programmer') || lowerMessage.includes('coding')) {
+					response = responses.programmer;
+				} else if (lowerMessage.includes('dokter') || lowerMessage.includes('medis')) {
+					response = responses.dokter;
+				} else if (lowerMessage.includes('jurusan') || lowerMessage.includes('kuliah')) {
+					response = responses.jurusan;
+				}
+
+				const chatMessages = document.getElementById('chat-messages');
+				const messageDiv = document.createElement('div');
+				messageDiv.className = 'flex items-start space-x-2 bounce-in';
+				messageDiv.innerHTML = `
+                <div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold">AI</div>
+                <div class="bg-white rounded-2xl p-3 max-w-xs shadow-sm">
+                    <p class="text-xs text-gray-800">${response}</p>
+                </div>
+            `;
+				chatMessages.appendChild(messageDiv);
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+			}
+
+			function addDream() {
+				const input = document.getElementById('dream-input');
+				const dreamText = input.value.trim();
+
+				if (dreamText) {
+					const dream = {
+						id: Date.now(),
+						text: dreamText,
+						date: new Date().toLocaleDateString('id-ID'),
+						color: [
+							'from-pink-100 to-purple-100',
+							'from-blue-100 to-cyan-100',
+							'from-green-100 to-emerald-100',
+							'from-yellow-100 to-orange-100'
+						][Math.floor(Math.random() * 4)]
+					};
+
+					dreams.push(dream);
+					input.value = '';
+					renderDreams();
+					addPoints(20, 'Impian baru ditambahkan!', '✨');
+
+					if (dreams.length >= 5) {
+						unlockAchievement('dream-builder');
+					}
+				}
+			}
+
+			function renderDreams() {
+				const container = document.getElementById('dreams-container');
+
+				if (dreams.length === 0) {
+					container.innerHTML = `
+                    <div class="col-span-full text-center py-8">
+                        <div class="text-4xl mb-2">✨</div>
+                        <p class="text-sm text-gray-500">Belum ada impian. Yuk mulai menuliskan impianmu!</p>
+                    </div>
+                `;
+					return;
+				}
+
+				container.innerHTML = dreams
+					.map(
+						(dream) => `
+                <div class="bg-gradient-to-br ${dream.color} rounded-2xl p-3 card-interactive bounce-in">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="text-lg">⭐</div>
+                        <button onclick="removeDream(${dream.id})" class="text-gray-400 hover:text-red-500 text-sm">✕</button>
+                    </div>
+                    <p class="text-sm text-gray-800 font-medium mb-2">${dream.text}</p>
+                    <p class="text-xs text-gray-500">${dream.date}</p>
+                </div>
+            `
+					)
+					.join('');
+			}
+
+			function removeDream(dreamId) {
+				dreams = dreams.filter((dream) => dream.id !== dreamId);
+				renderDreams();
+			}
+
+			function startQuiz() {
+				// Simple personality quiz
+				const questions = [
+					{
+						q: 'Kamu lebih suka:',
+						a: [
+							'Bekerja dengan komputer',
+							'Bekerja dengan orang',
+							'Bekerja dengan tangan',
+							'Bekerja sendiri'
+						]
+					},
+					{
+						q: 'Hobi favoritmu:',
+						a: ['Gaming/Teknologi', 'Olahraga/Sosial', 'Seni/Kreatif', 'Membaca/Belajar']
+					},
+					{
+						q: 'Impian kamu:',
+						a: ['Membuat aplikasi', 'Membantu orang', 'Menciptakan karya', 'Menemukan sesuatu']
+					}
+				];
+
+				// Simplified quiz implementation
+				document.getElementById('quiz-content').innerHTML = `
+                <div class="text-center">
+                    <p class="text-sm mb-3">Quiz sedang dalam pengembangan!</p>
+                    <p class="text-xs text-gray-600">Akan segera hadir dengan fitur yang lebih lengkap!</p>
+                </div>
+            `;
+
+				addPoints(30, 'Quiz dimulai!', '🧠');
+			}
+
+			function startMemoryGame() {
+				document.getElementById('memory-game').innerHTML = `
+                <div class="text-center">
+                    <p class="text-sm mb-3">Memory game sedang dalam pengembangan!</p>
+                    <p class="text-xs text-gray-600">Akan segera hadir dengan gameplay yang seru!</p>
+                </div>
+            `;
+
+				addPoints(20, 'Game dimulai!', '🎮');
+			}
+
+			function addPoints(points, message, icon) {
+				userPoints += points;
+				document.getElementById('points').textContent = userPoints;
+
+				// Update level
+				const newLevel = Math.floor(userPoints / 100) + 1;
+				if (newLevel > userLevel) {
+					userLevel = newLevel;
+					document.getElementById('user-level').textContent = userLevel;
+					showNotification(`Level Up! Sekarang Level ${userLevel}!`, '🎉');
+				}
+
+				// Update progress bar
+				const progress = userPoints % 100;
+				document.getElementById('level-progress').style.width = progress + '%';
+
+				showNotification(message, icon);
+			}
+
+			function showNotification(message, icon) {
+				const notification = document.getElementById('notification');
+				document.getElementById('notif-icon').textContent = icon;
+				document.getElementById('notif-message').textContent = message;
+
+				notification.classList.add('show');
+
+				setTimeout(() => {
+					notification.classList.remove('show');
+				}, 3000);
+			}
+
+			function unlockAchievement(achievementId) {
+				const achievement = achievements.find((a) => a.id === achievementId);
+				if (achievement && !achievement.unlocked) {
+					achievement.unlocked = true;
+					showNotification(`Achievement Unlocked: ${achievement.name}!`, achievement.icon);
+					renderAchievements();
+				}
+			}
+
+			function renderAchievements() {
+				const grid = document.getElementById('achievements-grid');
+				grid.innerHTML = achievements
+					.map(
+						(achievement) => `
+                <div class="text-center p-2 ${achievement.unlocked ? 'bg-yellow-50' : 'bg-gray-100'} rounded-xl ${achievement.unlocked ? '' : 'opacity-50'}">
+                    <div class="text-2xl mb-1">${achievement.icon}</div>
+                    <div class="text-xs font-semibold ${achievement.unlocked ? 'text-yellow-700' : 'text-gray-500'}">${achievement.name}</div>
+                </div>
+            `
+					)
+					.join('');
+			}
+
+			// Initialize
+			renderDreams();
+			renderAchievements();
+		</script>
+		<script>
+			(function () {
+				function c() {
+					var b = a.contentDocument || a.contentWindow.document;
+					if (b) {
+						var d = b.createElement('script');
+						d.innerHTML =
+							"window.__CF$cv$params={r:'98da3f2c20896bf4',t:'MTc2MDMxMDM3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+						b.getElementsByTagName('head')[0].appendChild(d);
+					}
+				}
+				if (document.body) {
+					var a = document.createElement('iframe');
+					a.height = 1;
+					a.width = 1;
+					a.style.position = 'absolute';
+					a.style.top = 0;
+					a.style.left = 0;
+					a.style.border = 'none';
+					a.style.visibility = 'hidden';
+					document.body.appendChild(a);
+					if ('loading' !== document.readyState) c();
+					else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c);
+					else {
+						var e = document.onreadystatechange || function () {};
+						document.onreadystatechange = function (b) {
+							e(b);
+							'loading' !== document.readyState && ((document.onreadystatechange = e), c());
+						};
+					}
+				}
+			})();
+		</script>
+	</body>
+</html>
