@@ -1,32 +1,31 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import { base } from '$app/paths';
 	import { confetti } from '@neoconfetti/svelte';
-	import type { ActionData, PageData } from './$types';
 	import { MediaQuery } from 'svelte/reactivity';
-
-	interface Props {
-		data: PageData;
-		form: ActionData;
-	}
-	let { data, form = $bindable() }: Props = $props();
+	import { Game } from './game';
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 
 	/** Whether the user prefers reduced motion */
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
 
+	// Game state
+	let game = $state<Game | null>(null);
+	let currentGuess = $state('');
+	let badGuess = $state(false);
+
 	/** Whether or not the user has won */
-	let won = $derived(data.answers.at(-1) === 'xxxxx');
+	let won = $derived(game?.answers.at(-1) === 'xxxxx');
 
 	/** The index of the current guess */
-	let i = $derived(won ? -1 : data.answers.length);
-
-	/** The current guess */
-	let currentGuess = $derived(data.guesses[i] || '');
+	let i = $derived(won ? -1 : (game?.answers.length ?? 0));
 
 	/** Whether the current guess can be submitted */
 	let submittable = $derived(currentGuess.length === 5);
 
 	const { classnames, description } = $derived.by(() => {
+		if (!game) return { classnames: {}, description: {} };
+
 		/**
 		 * A map of classnames for all letters that have been guessed,
 		 * used for styling the keyboard
@@ -37,8 +36,8 @@
 		 * used for adding text for assistive technology (e.g. screen readers)
 		 */
 		let description: Record<string, string> = {};
-		data.answers.forEach((answer, i) => {
-			const guess = data.guesses[i];
+		game?.answers.forEach((answer, i) => {
+			const guess = game!.guesses[i] ?? '';
 			for (let i = 0; i < 5; i += 1) {
 				const letter = guess[i];
 				if (answer[i] === 'x') {
@@ -53,19 +52,70 @@
 		return { classnames, description };
 	});
 
+	// Initialize game from localStorage
+	onMount(() => {
+		if (browser) {
+			const saved = localStorage.getItem('sverdle');
+			game = new Game(saved ?? undefined);
+		}
+	});
+
+	// Save game to localStorage
+	function saveGame() {
+		if (browser && game) {
+			localStorage.setItem('sverdle', game.toString());
+		}
+	}
+
 	/**
 	 * Modify the game state without making a trip to the server,
 	 * if client-side JavaScript is enabled
 	 */
-	function update(event: MouseEvent) {
-		event.preventDefault();
-		const key = (event.target as HTMLButtonElement).getAttribute('data-key');
+	function update(key: string) {
+		if (!game) return;
 
 		if (key === 'backspace') {
 			currentGuess = currentGuess.slice(0, -1);
-			if (form?.badGuess) form.badGuess = false;
+			if (badGuess) badGuess = false;
 		} else if (currentGuess.length < 5) {
 			currentGuess += key;
+		}
+	}
+
+	/**
+	 * Handle key clicks
+	 */
+	function handleClick(event: MouseEvent) {
+		const key = (event.target as HTMLButtonElement).getAttribute('data-key');
+		if (key) update(key);
+	}
+
+	/**
+	 * Handle guess submission
+	 */
+	function handleEnter() {
+		if (!game || !submittable) return;
+
+		const guess = currentGuess.split('');
+		const valid = game.enter(guess);
+
+		if (!valid) {
+			badGuess = true;
+			return;
+		}
+
+		currentGuess = '';
+		badGuess = false;
+		saveGame();
+	}
+
+	/**
+	 * Restart the game
+	 */
+	function restart() {
+		if (browser) {
+			localStorage.removeItem('sverdle');
+			game = new Game();
 		}
 	}
 
@@ -76,11 +126,20 @@
 	function keydown(event: KeyboardEvent) {
 		if (event.metaKey) return;
 
-		if (event.key === 'Enter' && !submittable) return;
+		if (event.key === 'Enter') {
+			handleEnter();
+			return;
+		}
 
-		document
-			.querySelector(`[data-key="${event.key}" i]`)
-			?.dispatchEvent(new MouseEvent('click', { cancelable: true, bubbles: true }));
+		if (event.key === 'Backspace') {
+			update('backspace');
+			return;
+		}
+
+		// Only accept letter keys
+		if (event.key.length === 1 && /[a-z]/i.test(event.key)) {
+			update(event.key.toLowerCase());
+		}
 	}
 </script>
 
@@ -93,111 +152,101 @@
 
 <h1 class="visually-hidden">Sverdle</h1>
 
-<form
-	method="post"
-	action="?/enter"
-	use:enhance={() => {
-		// prevent default callback from resetting the form
-		return ({ update }) => {
-			update({ reset: false });
-		};
-	}}
->
-	<a class="how-to-play" href="{base}/sverdle/how-to-play">How to play</a>
+{#if game}
+	<div class="game-container">
+		<a class="how-to-play" href="{base}/sverdle/how-to-play">How to play</a>
 
-	<div class="grid" class:playing={!won} class:bad-guess={form?.badGuess}>
-		{#each Array.from(Array(6).keys()) as row (row)}
-			{@const current = row === i}
-			<h2 class="visually-hidden">Row {row + 1}</h2>
-			<div class="row" class:current>
-				{#each Array.from(Array(5).keys()) as column (column)}
-					{@const guess = current ? currentGuess : data.guesses[row]}
-					{@const answer = data.answers[row]?.[column]}
-					{@const value = guess?.[column] ?? ''}
-					{@const selected = current && column === guess.length}
-					{@const exact = answer === 'x'}
-					{@const close = answer === 'c'}
-					{@const missing = answer === '_'}
-					<div class="letter" class:exact class:close class:missing class:selected>
-						{value}
-						<span class="visually-hidden">
-							{#if exact}
-								(correct)
-							{:else if close}
-								(present)
-							{:else if missing}
-								(absent)
-							{:else}
-								empty
-							{/if}
-						</span>
-						<input name="guess" disabled={!current} type="hidden" {value} />
-					</div>
-				{/each}
-			</div>
-		{/each}
-	</div>
+		<div class="grid" class:playing={!won} class:bad-guess={badGuess}>
+			{#each Array.from(Array(6).keys()) as row (row)}
+				{@const current = row === i}
+				<h2 class="visually-hidden">Row {row + 1}</h2>
+				<div class="row" class:current>
+					{#each Array.from(Array(5).keys()) as column (column)}
+						{@const guess = current ? currentGuess : game.guesses[row]}
+						{@const answer = game.answers[row]?.[column]}
+						{@const value = guess?.[column] ?? ''}
+						{@const selected = current && column === guess.length}
+						{@const exact = answer === 'x'}
+						{@const close = answer === 'c'}
+						{@const missing = answer === '_'}
+						<div class="letter" class:exact class:close class:missing class:selected>
+							{value}
+							<span class="visually-hidden">
+								{#if exact}
+									(correct)
+								{:else if close}
+									(present)
+								{:else if missing}
+									(absent)
+								{:else}
+									empty
+								{/if}
+							</span>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
 
-	<div class="controls">
-		{#if won || data.answers.length >= 6}
-			{#if !won && data.answer}
-				<p>the answer was "{data.answer}"</p>
-			{/if}
-			<button data-key="enter" class="restart selected" formaction="?/restart">
-				{won ? 'you won :)' : `game over :(`} play again?
-			</button>
-		{:else}
-			<div class="keyboard">
-				<button data-key="enter" class:selected={submittable} disabled={!submittable}>enter</button>
-
-				<button
-					onclick={update}
-					data-key="backspace"
-					formaction="?/update"
-					name="key"
-					value="backspace"
-				>
-					back
+		<div class="controls">
+			{#if won || game.answers.length >= 6}
+				{#if !won && game.answer}
+					<p>the answer was "{game.answer}"</p>
+				{/if}
+				<button class="restart selected" onclick={restart}>
+					{won ? 'you won :)' : `game over :(`} play again?
 				</button>
+			{:else}
+				<div class="keyboard">
+					<button
+						class:selected={submittable}
+						disabled={!submittable}
+						onclick={handleEnter}
+						data-key="enter"
+					>
+						enter
+					</button>
 
-				{#each ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'] as row (row)}
-					<div class="row">
-						{#each row as letter, index (index)}
-							<button
-								onclick={update}
-								data-key={letter}
-								class={classnames[letter]}
-								disabled={submittable}
-								formaction="?/update"
-								name="key"
-								value={letter}
-								aria-label="{letter} {description[letter] || ''}"
-							>
-								{letter}
-							</button>
-						{/each}
-					</div>
-				{/each}
-			</div>
-		{/if}
+					<button onclick={handleClick} data-key="backspace"> back </button>
+
+					{#each ['qwertyuiop', 'asdfghjkl', 'zxcvbnm'] as row (row)}
+						<div class="row">
+							{#each row as letter, index (index)}
+								<button
+									onclick={handleClick}
+									data-key={letter}
+									class={classnames[letter]}
+									disabled={submittable}
+									aria-label="{letter} {description[letter] || ''}"
+								>
+									{letter}
+								</button>
+							{/each}
+						</div>
+					{/each}
+				</div>
+			{/if}
+		</div>
 	</div>
-</form>
 
-{#if won}
-	<div
-		style="position: absolute; left: 50%; top: 30%"
-		use:confetti={{
-			particleCount: reducedMotion.current ? 0 : undefined,
-			force: 0.7,
-			stageWidth: window.innerWidth,
-			stageHeight: window.innerHeight,
-			colors: ['#ff3e00', '#40b3ff', '#676778']
-		}}
-	></div>
+	{#if won}
+		<div
+			style="position: absolute; left: 50%; top: 30%"
+			use:confetti={{
+				particleCount: reducedMotion.current ? 0 : undefined,
+				force: 0.7,
+				stageWidth: window.innerWidth,
+				stageHeight: window.innerHeight,
+				colors: ['#ff3e00', '#40b3ff', '#676778']
+			}}
+		></div>
+	{/if}
+{:else}
+	<p>Loading...</p>
 {/if}
 
 <style>
-	form {
+	.game-container {
 		width: 100%;
 		height: 100%;
 		display: flex;

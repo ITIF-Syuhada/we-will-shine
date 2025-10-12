@@ -1,4 +1,4 @@
-import { words, allowed } from './words.server';
+import { words, allowed } from './words';
 
 export class Game {
 	index: number;

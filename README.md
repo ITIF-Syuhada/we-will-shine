@@ -76,6 +76,24 @@ Preview production build:
 pnpm run preview
 ```
 
+## 🧪 Testing
+
+Jalankan end-to-end tests dengan Playwright:
+
+```sh
+# Run tests headless
+pnpm run test:e2e
+
+# Run tests dengan UI mode (interactive)
+pnpm run test:e2e:ui
+```
+
+Test coverage meliputi:
+
+- ✅ Navigation antar halaman
+- ✅ Sverdle game functionality (keyboard input, game state, localStorage)
+- ✅ Halaman About dan How-to-play
+
 ## 📁 Struktur Project
 
 - `src/routes/` - Halaman dan routing aplikasi
@@ -114,6 +132,23 @@ Pastikan `fallback: '404.html'` ada di konfigurasi adapter.
 ### Build gagal di GitHub Actions
 
 Periksa log di tab **Actions** di repository GitHub Anda.
+
+### Halaman dengan server-side logic tidak berfungsi di GitHub Pages
+
+GitHub Pages hanya mendukung static files. Halaman yang menggunakan:
+
+- Server actions (form actions)
+- Server-side rendering (SSR)
+- Cookies atau session
+
+Harus diubah menjadi client-side only:
+
+1. Hapus `+page.server.ts` atau set `export const ssr = false`
+2. Set `export const prerender = true` di `+page.ts`
+3. Gunakan localStorage atau client-side state management
+4. Verifikasi dengan `pnpm run build` bahwa file `.html` ter-generate di folder `build/`
+
+**Contoh**: Halaman Sverdle sudah diperbaiki dari server-side (cookies) menjadi client-side (localStorage). Lihat `CHANGELOG.md` untuk detail.
 
 ## 📚 Dokumentasi
 
