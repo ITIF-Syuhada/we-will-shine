@@ -21,7 +21,13 @@ const config = {
 			base: dev ? '' : '/we-will-shine'
 		},
 		prerender: {
-			origin: 'https://itif-syuhada.github.io'
+			handleHttpError: ({ path, referrer, message }) => {
+				// Ignore 404s for paths that don't start with base
+				if (path.startsWith('/') && !path.startsWith('/we-will-shine')) {
+					return;
+				}
+				throw new Error(message);
+			}
 		}
 	}
 };
