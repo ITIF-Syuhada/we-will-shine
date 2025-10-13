@@ -61,152 +61,143 @@
 </svelte:head>
 
 {#if showResult}
-	<!-- Result Screen dengan warna soft -->
-	<div class="space-y-6">
-		<!-- Success Header -->
+	<!-- Result Screen - COMPACT -->
+	<div class="space-y-3">
+		<!-- Success Header - COMPACT -->
 		<div
-			class="rounded-3xl border-2 border-green-200 bg-gradient-to-r from-green-100 via-emerald-100 to-teal-100 p-10 text-center shadow-xl"
+			class="rounded-2xl border-2 border-green-200 bg-gradient-to-r from-green-100 via-emerald-100 to-teal-100 p-3 text-center shadow-md"
 		>
-			<div class="mb-5 animate-bounce text-7xl">🎉</div>
-			<h1 class="mb-2 text-4xl font-bold text-gray-800">Selamat, {firstName}!</h1>
-			<p class="text-xl text-gray-600">Kamu telah menyelesaikan quiz kepribadian!</p>
+			<div class="mb-1 animate-bounce text-3xl">🎉</div>
+			<h1 class="mb-0.5 text-sm font-bold text-gray-800">Selamat, {firstName}!</h1>
+			<p class="text-[10px] text-gray-600">Quiz selesai!</p>
 		</div>
 
-		<!-- Personal Motivation Card -->
-		<div class="rounded-3xl border-2 border-purple-200 bg-white p-10 shadow-xl">
-			<div class="mb-7 text-center">
+		<!-- Personal Motivation Card - COMPACT -->
+		<div class="rounded-2xl border-2 border-purple-200 bg-white p-3 shadow-md">
+			<div class="mb-2 text-center">
 				<div
-					class="mb-5 inline-block rounded-full bg-gradient-to-br from-purple-200 to-pink-200 p-6 shadow-lg"
+					class="mb-2 inline-block rounded-full bg-gradient-to-br from-purple-200 to-pink-200 p-2 shadow-sm"
 				>
-					<span class="text-6xl">💝</span>
+					<span class="text-2xl">💝</span>
 				</div>
 				<h2
-					class="mb-2 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-3xl font-bold text-transparent"
+					class="mb-1 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-sm font-bold text-transparent"
 				>
 					Pesan Khusus Untukmu!
 				</h2>
 			</div>
 
 			<div
-				class="mb-7 rounded-2xl border-2 border-purple-100 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-8"
+				class="mb-2 max-h-60 overflow-y-auto rounded-xl border-2 border-purple-100 bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 p-3"
 			>
-				<p class="text-lg leading-relaxed whitespace-pre-line text-gray-700">
+				<p class="text-[11px] leading-relaxed whitespace-pre-line text-gray-700">
 					{personalMotivation}
 				</p>
 			</div>
 
-			<!-- Next Steps -->
-			<div class="mb-7 rounded-2xl border-2 border-blue-100 bg-blue-50/50 p-7 shadow-sm">
-				<h3 class="mb-5 text-lg font-bold text-blue-600">🎯 Next Steps untuk Kamu:</h3>
-				<ul class="space-y-3 text-gray-700">
-					<li class="flex items-start gap-3">
-						<span class="mt-0.5 text-green-500">✓</span>
-						<span class="text-sm leading-relaxed"
-							>Mulai eksplorasi lebih dalam tentang karir yang kamu minati</span
-						>
+			<!-- Next Steps - COMPACT -->
+			<div class="mb-2 rounded-xl border-2 border-blue-100 bg-blue-50/50 p-2">
+				<h3 class="mb-1.5 text-[11px] font-bold text-blue-600">🎯 Next Steps:</h3>
+				<ul class="space-y-1 text-gray-700">
+					<li class="flex items-start gap-1.5">
+						<span class="mt-0.5 text-[10px] text-green-500">✓</span>
+						<span class="text-[10px] leading-relaxed">Eksplorasi karir yang kamu minati</span>
 					</li>
-					<li class="flex items-start gap-3">
-						<span class="mt-0.5 text-green-500">✓</span>
-						<span class="text-sm leading-relaxed"
-							>Ikuti komunitas atau klub yang sesuai dengan passion-mu</span
-						>
+					<li class="flex items-start gap-1.5">
+						<span class="mt-0.5 text-[10px] text-green-500">✓</span>
+						<span class="text-[10px] leading-relaxed">Ikuti komunitas sesuai passion-mu</span>
 					</li>
-					<li class="flex items-start gap-3">
-						<span class="mt-0.5 text-green-500">✓</span>
-						<span class="text-sm leading-relaxed"
-							>Mulai belajar skill dasar yang relevan dari sekarang</span
-						>
+					<li class="flex items-start gap-1.5">
+						<span class="mt-0.5 text-[10px] text-green-500">✓</span>
+						<span class="text-[10px] leading-relaxed">Mulai belajar skill yang relevan</span>
 					</li>
-					<li class="flex items-start gap-3">
-						<span class="mt-0.5 text-green-500">✓</span>
-						<span class="text-sm leading-relaxed"
-							>Jangan takut mencoba dan gagal - itu bagian dari belajar!</span
-						>
+					<li class="flex items-start gap-1.5">
+						<span class="mt-0.5 text-[10px] text-green-500">✓</span>
+						<span class="text-[10px] leading-relaxed">Jangan takut mencoba dan gagal!</span>
 					</li>
 				</ul>
 			</div>
 
-			<!-- Teacher's Message -->
+			<!-- Teacher's Message - COMPACT -->
 			<div
-				class="rounded-2xl border-2 border-purple-100 bg-gradient-to-r from-purple-100 to-pink-100 p-7"
+				class="rounded-xl border-2 border-purple-100 bg-gradient-to-r from-purple-100 to-pink-100 p-2"
 			>
-				<p class="text-center text-sm leading-relaxed text-gray-700 italic">
-					"Ustadz & Ustadzah sangat bangga dengan semangat dan potensi yang kalian punya. Ingat,
-					perjalanan 1000 mil dimulai dari satu langkah. Langkah pertamamu sudah dimulai hari ini.
-					Keep going, never give up! Semoga Allah SWT selalu membimbing langkahmu menuju masa depan
-					yang penuh berkah. Aamiin." 🤲
+				<p class="text-center text-[10px] leading-relaxed text-gray-700 italic">
+					"Ustadz & Ustadzah bangga dengan semangat kalian. Perjalanan 1000 mil dimulai dari satu
+					langkah. Langkah pertamamu sudah dimulai hari ini. Keep going! Semoga Allah SWT selalu
+					membimbing langkahmu. Aamiin." 🤲
 				</p>
 			</div>
 		</div>
 
-		<!-- Action Buttons -->
-		<div class="grid gap-4 sm:grid-cols-2">
+		<!-- Action Buttons - COMPACT -->
+		<div class="grid grid-cols-2 gap-2">
 			<button
 				onclick={goToCareerExplore}
-				class="rounded-2xl bg-gradient-to-r from-purple-400 to-pink-400 py-4 font-bold text-white shadow-md transition-all hover:scale-[1.02] hover:shadow-lg"
+				class="rounded-xl bg-gradient-to-r from-purple-400 to-pink-400 py-2.5 text-xs font-bold text-white shadow-sm transition-all active:scale-95"
 			>
-				🎯 Explore Karir Lainnya
+				🎯 Explore Karir
 			</button>
 			<button
 				onclick={restartQuiz}
-				class="rounded-2xl border-2 border-purple-400 bg-white py-4 font-bold text-purple-600 shadow-md transition-all hover:bg-purple-50 hover:shadow-lg"
+				class="rounded-xl border-2 border-purple-400 bg-white py-2.5 text-xs font-bold text-purple-600 shadow-sm transition-all active:scale-95"
 			>
-				🔄 Isi Ulang Quiz
+				🔄 Isi Ulang
 			</button>
 		</div>
 	</div>
 {:else}
-	<!-- Quiz Questions -->
-	<div class="space-y-6">
-		<!-- Header -->
+	<!-- Quiz Questions - COMPACT -->
+	<div class="space-y-3">
+		<!-- Header - COMPACT -->
 		<div
-			class="rounded-3xl border-2 border-purple-200 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 p-7 shadow-lg"
+			class="rounded-2xl border-2 border-purple-200 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 p-2 shadow-md"
 		>
-			<div class="mb-5 flex items-center justify-between">
-				<div class="flex items-center gap-3">
-					<div class="rounded-full bg-white/70 p-3">
-						<span class="text-3xl">🧠</span>
+			<div class="mb-2 flex items-center justify-between">
+				<div class="flex items-center gap-2">
+					<div class="rounded-full bg-white/70 p-1.5">
+						<span class="text-xl">🧠</span>
 					</div>
-					<h1 class="text-2xl font-bold text-gray-800">Kenali Dirimu</h1>
+					<h1 class="text-sm font-bold text-gray-800">Kenali Dirimu</h1>
 				</div>
 				<span
-					class="rounded-full border-2 border-purple-200 bg-white px-4 py-2 text-sm font-bold text-purple-600"
+					class="rounded-full border-2 border-purple-200 bg-white px-2 py-1 text-[10px] font-bold text-purple-600"
 				>
 					{currentQuestion + 1}/{questionnaire.length}
 				</span>
 			</div>
-			<div class="h-3.5 overflow-hidden rounded-full bg-white/60">
+			<div class="h-2 overflow-hidden rounded-full bg-white/60">
 				<div
-					class="h-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 shadow-sm transition-all duration-300"
+					class="h-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300"
 					style="width: {progress}%"
 				></div>
 			</div>
 		</div>
 
-		<!-- Question Card -->
-		<div class="animate-slide-in rounded-2xl border-2 border-purple-100 bg-white p-8 shadow-xl">
-			<h2 class="mb-7 text-xl font-semibold text-gray-800">
+		<!-- Question Card - COMPACT -->
+		<div class="animate-slide-in rounded-xl border-2 border-purple-100 bg-white p-3 shadow-md">
+			<h2 class="mb-3 text-xs font-semibold text-gray-800">
 				{currentQuestionData.question}
 			</h2>
 
-			<div class="space-y-3">
+			<div class="space-y-2">
 				{#each currentQuestionData.options as option (option.value)}
 					<button
 						onclick={() => handleAnswer(option.value)}
-						class="group w-full transform rounded-2xl border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 p-5 text-left shadow-sm transition-all hover:scale-[1.02] hover:border-purple-300 hover:from-purple-100 hover:to-pink-100 hover:shadow-lg"
+						class="group w-full transform rounded-xl border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 p-2.5 text-left transition-all active:scale-95 active:border-purple-300 active:from-purple-100 active:to-pink-100"
 					>
-						<span class="font-medium text-gray-800 group-hover:text-gray-900">{option.text}</span>
+						<span class="text-[11px] font-medium text-gray-800">{option.text}</span>
 					</button>
 				{/each}
 			</div>
 		</div>
 
-		<!-- Tips -->
+		<!-- Tips - COMPACT -->
 		<div
-			class="rounded-2xl border-2 border-dashed border-purple-200 bg-purple-50/50 p-5 text-center"
+			class="rounded-lg border-2 border-dashed border-purple-200 bg-purple-50/50 p-2 text-center"
 		>
-			<p class="text-sm text-purple-600">
-				💡 <strong>Tips:</strong> Jawab sejujur-jujurnya ya! Tidak ada jawaban yang salah 😊
+			<p class="text-[10px] text-purple-600">
+				💡 Jawab sejujur-jujurnya ya! Tidak ada jawaban salah 😊
 			</p>
 		</div>
 	</div>

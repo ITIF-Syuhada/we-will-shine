@@ -176,52 +176,52 @@
 	<title>AI Mentor - We Will Shine</title>
 </svelte:head>
 
-<div class="space-y-6">
-	<!-- Header dengan design soft -->
+<div class="space-y-3">
+	<!-- Header - COMPACT -->
 	<div
-		class="rounded-3xl border-2 border-purple-200 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 p-8 shadow-lg"
+		class="rounded-2xl border-2 border-purple-200 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 p-3 shadow-md"
 	>
-		<div class="flex items-center gap-4">
-			<div class="rounded-full bg-white/70 p-4">
-				<span class="text-5xl">🤖</span>
+		<div class="flex items-center gap-2">
+			<div class="rounded-full bg-white/70 p-2">
+				<span class="text-2xl">🤖</span>
 			</div>
 			<div>
-				<h1 class="mb-1 text-3xl font-bold text-gray-800">AI Mentor Kamu</h1>
-				<p class="text-gray-600">Tanya apa saja tentang karir dan masa depan!</p>
+				<h1 class="text-sm font-bold text-gray-800">AI Mentor Kamu</h1>
+				<p class="text-[10px] text-gray-600">Tanya tentang karir!</p>
 			</div>
 		</div>
 	</div>
 
-	<!-- Chat Container dengan border soft -->
-	<div class="overflow-hidden rounded-3xl border-2 border-purple-200 bg-white shadow-xl">
+	<!-- Chat Container - COMPACT -->
+	<div class="overflow-hidden rounded-2xl border-2 border-purple-200 bg-white shadow-lg">
 		<!-- Chat Messages -->
 		<div
 			bind:this={chatContainer}
-			class="h-[520px] space-y-4 overflow-y-auto bg-gradient-to-b from-purple-50/30 to-pink-50/30 p-6"
+			class="h-[400px] space-y-2 overflow-y-auto bg-gradient-to-b from-purple-50/30 to-pink-50/30 p-3"
 		>
 			{#each messages as message, idx (idx)}
 				<div
-					class="flex items-start space-x-3 {message.type === 'user'
+					class="flex items-start space-x-2 {message.type === 'user'
 						? 'flex-row-reverse space-x-reverse'
 						: ''}"
 				>
 					{#if message.type === 'bot'}
 						<div
-							class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-300 to-pink-300 text-sm font-bold text-white shadow-md"
+							class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-300 to-pink-300 text-[9px] font-bold text-white shadow-sm"
 						>
 							AI
 						</div>
 					{/if}
 					<div
-						class="max-w-sm rounded-2xl border-2 px-5 py-3.5 shadow-sm {message.type === 'user'
+						class="max-w-[75%] rounded-xl border-2 px-3 py-2 shadow-sm {message.type === 'user'
 							? 'border-purple-200 bg-gradient-to-r from-purple-100 to-pink-100 text-gray-800'
 							: 'border-gray-200 bg-white text-gray-800'}"
 					>
-						<p class="text-sm leading-relaxed whitespace-pre-line">{message.text}</p>
+						<p class="text-[11px] leading-relaxed whitespace-pre-line">{message.text}</p>
 					</div>
 					{#if message.type === 'user'}
 						<div
-							class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-pink-300 to-purple-300 text-xs font-bold text-white shadow-md"
+							class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-pink-300 to-purple-300 text-[9px] font-bold text-white shadow-sm"
 						>
 							You
 						</div>
@@ -231,24 +231,24 @@
 
 			<!-- Typing Indicator -->
 			{#if isTyping}
-				<div class="flex items-start space-x-3">
+				<div class="flex items-start space-x-2">
 					<div
-						class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-300 to-pink-300 text-sm font-bold text-white shadow-md"
+						class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-300 to-pink-300 text-[9px] font-bold text-white shadow-sm"
 					>
 						AI
 					</div>
-					<div class="rounded-2xl border-2 border-gray-200 bg-white px-5 py-3.5 shadow-sm">
-						<div class="flex space-x-1.5">
+					<div class="rounded-xl border-2 border-gray-200 bg-white px-3 py-2 shadow-sm">
+						<div class="flex space-x-1">
 							<div
-								class="h-2 w-2 animate-bounce rounded-full bg-purple-400"
+								class="h-1.5 w-1.5 animate-bounce rounded-full bg-purple-400"
 								style="animation-delay: 0ms"
 							></div>
 							<div
-								class="h-2 w-2 animate-bounce rounded-full bg-pink-400"
+								class="h-1.5 w-1.5 animate-bounce rounded-full bg-pink-400"
 								style="animation-delay: 150ms"
 							></div>
 							<div
-								class="h-2 w-2 animate-bounce rounded-full bg-blue-400"
+								class="h-1.5 w-1.5 animate-bounce rounded-full bg-blue-400"
 								style="animation-delay: 300ms"
 							></div>
 						</div>
@@ -257,54 +257,54 @@
 			{/if}
 		</div>
 
-		<!-- Input Area -->
-		<div class="border-t-2 border-purple-100 bg-white p-5">
-			<div class="flex space-x-3">
+		<!-- Input Area - COMPACT -->
+		<div class="border-t-2 border-purple-100 bg-white p-2">
+			<div class="flex space-x-2">
 				<input
 					type="text"
 					bind:value={inputText}
 					onkeypress={handleKeyPress}
-					placeholder="Ketik pertanyaanmu di sini..."
-					class="flex-1 rounded-2xl border-2 border-purple-200 px-5 py-3.5 text-sm transition-all focus:border-purple-400 focus:ring-4 focus:ring-purple-100 focus:outline-none"
+					placeholder="Ketik pertanyaanmu..."
+					class="flex-1 rounded-xl border-2 border-purple-200 px-3 py-2 text-xs transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
 				/>
 				<button
 					onclick={sendMessage}
 					disabled={inputText.trim().length === 0}
-					class="rounded-2xl bg-gradient-to-r from-purple-400 to-pink-400 px-7 py-3.5 font-bold text-white shadow-md transition-all hover:scale-[1.02] hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
+					class="rounded-xl bg-gradient-to-r from-purple-400 to-pink-400 px-4 py-2 text-xs font-bold text-white shadow-sm transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
 				>
 					Kirim
 				</button>
 			</div>
 
-			<!-- Quick Questions -->
-			<div class="mt-4 flex flex-wrap gap-2">
+			<!-- Quick Questions - COMPACT -->
+			<div class="mt-2 flex flex-wrap gap-1.5">
 				<button
 					onclick={() => quickQuestion('Apa itu programmer?')}
-					class="rounded-full border-2 border-purple-200 bg-purple-50 px-4 py-2 text-xs font-medium text-purple-600 transition-all hover:border-purple-300 hover:bg-purple-100"
+					class="rounded-full border-2 border-purple-200 bg-purple-50 px-2.5 py-1 text-[10px] font-medium text-purple-600 transition-all active:scale-95"
 				>
-					Apa itu programmer?
+					Programmer?
 				</button>
 				<button
 					onclick={() => quickQuestion('Bagaimana cara mulai belajar coding?')}
-					class="rounded-full border-2 border-pink-200 bg-pink-50 px-4 py-2 text-xs font-medium text-pink-600 transition-all hover:border-pink-300 hover:bg-pink-100"
+					class="rounded-full border-2 border-pink-200 bg-pink-50 px-2.5 py-1 text-[10px] font-medium text-pink-600 transition-all active:scale-95"
 				>
-					Cara mulai coding?
+					Cara coding?
 				</button>
 				<button
 					onclick={() => quickQuestion('Butuh motivasi')}
-					class="rounded-full border-2 border-blue-200 bg-blue-50 px-4 py-2 text-xs font-medium text-blue-600 transition-all hover:border-blue-300 hover:bg-blue-100"
+					class="rounded-full border-2 border-blue-200 bg-blue-50 px-2.5 py-1 text-[10px] font-medium text-blue-600 transition-all active:scale-95"
 				>
-					Butuh motivasi
+					Motivasi
 				</button>
 				<button
 					onclick={() => quickQuestion('Tips belajar efektif')}
-					class="rounded-full border-2 border-green-200 bg-green-50 px-4 py-2 text-xs font-medium text-green-600 transition-all hover:border-green-300 hover:bg-green-100"
+					class="rounded-full border-2 border-green-200 bg-green-50 px-2.5 py-1 text-[10px] font-medium text-green-600 transition-all active:scale-95"
 				>
 					Tips belajar
 				</button>
 				<button
 					onclick={() => quickQuestion('Teknologi dalam Islam')}
-					class="rounded-full border-2 border-purple-200 bg-purple-50 px-4 py-2 text-xs font-medium text-purple-600 transition-all hover:border-purple-300 hover:bg-purple-100"
+					class="rounded-full border-2 border-purple-200 bg-purple-50 px-2.5 py-1 text-[10px] font-medium text-purple-600 transition-all active:scale-95"
 				>
 					Tech & Islam
 				</button>
@@ -312,11 +312,10 @@
 		</div>
 	</div>
 
-	<!-- Tips -->
-	<div class="rounded-2xl border-2 border-dashed border-purple-200 bg-purple-50/50 p-5 text-center">
-		<p class="text-sm text-purple-600">
-			💡 <strong>Tips:</strong> AI Mentor bisa menjawab tentang karir, tips belajar, motivasi, dan nilai
-			Islam dalam teknologi!
+	<!-- Tips - COMPACT -->
+	<div class="rounded-lg border-2 border-dashed border-purple-200 bg-purple-50/50 p-2 text-center">
+		<p class="text-[10px] text-purple-600">
+			💡 AI Mentor bisa jawab tentang karir, tips, motivasi & Islam!
 		</p>
 	</div>
 </div>
