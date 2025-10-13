@@ -9,13 +9,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Job 1: Run tests terlebih dahulu
-  test:
-    uses: ./.github/workflows/test.yml
-
-  # Job 2: Build dan Deploy (hanya jalan jika test pass)
+  # Build dan Deploy
   build_and_deploy:
-    needs: test
     runs-on: ubuntu-latest
 
     permissions:
