@@ -2,12 +2,12 @@
 -- Created: 2025-10-13
 -- Description: Create all tables for We Will Shine application
 
--- Enable UUID extension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- Enable UUID extension (Gen Random UUID is built-in for Postgres 13+)
+-- No extension needed for gen_random_uuid()
 
 -- Students Table
 CREATE TABLE IF NOT EXISTS students (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_code VARCHAR(50) UNIQUE NOT NULL,
     student_name VARCHAR(255) NOT NULL,
     points INTEGER DEFAULT 0,
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS students (
 
 -- Chat Messages Table
 CREATE TABLE IF NOT EXISTS chat_messages (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID REFERENCES students(id) ON DELETE CASCADE,
     type VARCHAR(10) NOT NULL CHECK (type IN ('user', 'bot')),
     message TEXT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS chat_messages (
 
 -- Student Insights Table (Analytics)
 CREATE TABLE IF NOT EXISTS student_insights (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID REFERENCES students(id) ON DELETE CASCADE UNIQUE,
     topics JSONB DEFAULT '{}'::jsonb,
     learning_style VARCHAR(20) CHECK (learning_style IN ('visual', 'auditory', 'kinesthetic')),
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS student_insights (
 
 -- Achievements Table
 CREATE TABLE IF NOT EXISTS achievements (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID REFERENCES students(id) ON DELETE CASCADE,
     achievement_id VARCHAR(50) NOT NULL,
     unlocked_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS achievements (
 
 -- Study Sessions Table
 CREATE TABLE IF NOT EXISTS study_sessions (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID REFERENCES students(id) ON DELETE CASCADE,
     subject VARCHAR(100) NOT NULL,
     duration_minutes INTEGER NOT NULL,
