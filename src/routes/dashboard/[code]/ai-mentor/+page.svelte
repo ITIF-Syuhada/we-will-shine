@@ -177,21 +177,6 @@
 </svelte:head>
 
 <div class="space-y-3">
-	<!-- Header - COMPACT -->
-	<div
-		class="rounded-2xl border-2 border-purple-200 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 p-3 shadow-md"
-	>
-		<div class="flex items-center gap-2">
-			<div class="rounded-full bg-white/70 p-2">
-				<span class="text-2xl">🤖</span>
-			</div>
-			<div>
-				<h1 class="text-sm font-bold text-gray-800">AI Mentor Kamu</h1>
-				<p class="text-[10px] text-gray-600">Tanya tentang karir!</p>
-			</div>
-		</div>
-	</div>
-
 	<!-- Chat Container - COMPACT -->
 	<div class="overflow-hidden rounded-2xl border-2 border-purple-200 bg-white shadow-lg">
 		<!-- Chat Messages -->

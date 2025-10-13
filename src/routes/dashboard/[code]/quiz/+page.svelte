@@ -149,24 +149,17 @@
 {:else}
 	<!-- Quiz Questions - COMPACT -->
 	<div class="space-y-3">
-		<!-- Header - COMPACT -->
-		<div
-			class="rounded-2xl border-2 border-purple-200 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 p-2 shadow-md"
-		>
-			<div class="mb-2 flex items-center justify-between">
-				<div class="flex items-center gap-2">
-					<div class="rounded-full bg-white/70 p-1.5">
-						<span class="text-xl">🧠</span>
-					</div>
-					<h1 class="text-sm font-bold text-gray-800">Kenali Dirimu</h1>
-				</div>
+		<!-- Progress Bar - Minimal -->
+		<div class="rounded-lg border-2 border-purple-100 bg-white p-2 shadow-sm">
+			<div class="mb-1.5 flex items-center justify-between">
+				<span class="text-[10px] font-semibold text-purple-600">Pertanyaan</span>
 				<span
-					class="rounded-full border-2 border-purple-200 bg-white px-2 py-1 text-[10px] font-bold text-purple-600"
+					class="rounded-full border-2 border-purple-200 bg-purple-50 px-2 py-0.5 text-[10px] font-bold text-purple-600"
 				>
 					{currentQuestion + 1}/{questionnaire.length}
 				</span>
 			</div>
-			<div class="h-2 overflow-hidden rounded-full bg-white/60">
+			<div class="h-2 overflow-hidden rounded-full bg-purple-100">
 				<div
 					class="h-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-300"
 					style="width: {progress}%"

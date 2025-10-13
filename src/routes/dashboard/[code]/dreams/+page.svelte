@@ -57,19 +57,6 @@
 </svelte:head>
 
 <div class="space-y-3">
-	<!-- Header - COMPACT -->
-	<div
-		class="rounded-2xl border-2 border-purple-200 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 p-3 shadow-md"
-	>
-		<div class="flex items-center gap-2">
-			<span class="text-2xl">✨</span>
-			<div>
-				<h1 class="text-sm font-bold text-gray-800">Dream Board</h1>
-				<p class="text-[10px] text-gray-600">Tuliskan impian masa depanmu!</p>
-			</div>
-		</div>
-	</div>
-
 	<!-- Add Dream Form - COMPACT -->
 	<div class="rounded-xl border-2 border-purple-200 bg-white p-3 shadow-sm">
 		<h2 class="mb-2 flex items-center gap-1.5 text-xs font-bold text-gray-800">

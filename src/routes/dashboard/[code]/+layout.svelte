@@ -53,6 +53,25 @@
 	const points = $derived($userProgress?.points || 0);
 	const level = $derived($userProgress?.level || 1);
 	const progress = $derived($levelProgress * 100);
+
+	// Dynamic page title based on route
+	const pageInfo = $derived.by(() => {
+		const currentPath = $page.url.pathname;
+		const basePath = `${base}/dashboard/${$page.params.code}`;
+
+		if (currentPath.startsWith(`${basePath}/careers`)) {
+			return { icon: '🎯', title: 'Jelajah Karir Teknologi', desc: 'Explore 8 profesi tech!' };
+		} else if (currentPath.startsWith(`${basePath}/ai-mentor`)) {
+			return { icon: '🤖', title: 'AI Mentor Kamu', desc: 'Tanya tentang karir!' };
+		} else if (currentPath.startsWith(`${basePath}/quiz`)) {
+			return { icon: '🧠', title: 'Kenali Dirimu', desc: 'Quiz kepribadian!' };
+		} else if (currentPath.startsWith(`${basePath}/achievements`)) {
+			return { icon: '🏆', title: 'Pencapaian & Trophy', desc: 'Kumpulkan trophy!' };
+		} else if (currentPath.startsWith(`${basePath}/dreams`)) {
+			return { icon: '✨', title: 'Dream Board', desc: 'Tuliskan impianmu!' };
+		}
+		return null; // Home page - no dynamic title
+	});
 </script>
 
 <div class="min-h-screen pb-20">
@@ -107,6 +126,23 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- Dynamic Page Title (when not home) -->
+		{#if pageInfo}
+			<div
+				class="border-t border-purple-100 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100"
+			>
+				<div class="mx-auto max-w-7xl px-3 py-2">
+					<div class="flex items-center gap-2">
+						<span class="text-xl">{pageInfo.icon}</span>
+						<div>
+							<h2 class="text-xs font-bold text-gray-800">{pageInfo.title}</h2>
+							<p class="text-[9px] text-gray-600">{pageInfo.desc}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
 	</header>
 
 	<!-- Main Content -->

@@ -12,19 +12,6 @@
 </svelte:head>
 
 <div class="space-y-3">
-	<!-- Header - COMPACT -->
-	<div
-		class="rounded-2xl border-2 border-yellow-200 bg-gradient-to-r from-yellow-100 via-orange-100 to-amber-100 p-3 shadow-md"
-	>
-		<div class="flex items-center gap-2">
-			<span class="text-2xl">🏆</span>
-			<div>
-				<h1 class="text-sm font-bold text-gray-800">Pencapaian & Trophy</h1>
-				<p class="text-[10px] text-gray-600">Kumpulkan semua trophy!</p>
-			</div>
-		</div>
-	</div>
-
 	<!-- Stats Grid - COMPACT -->
 	<div class="grid grid-cols-3 gap-2">
 		<div

@@ -33,31 +33,22 @@
 </svelte:head>
 
 <div class="space-y-3">
-	<!-- Header - COMPACT -->
+	<!-- Progress Bar - Minimal -->
 	<div
-		class="rounded-2xl border-2 border-purple-200 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 p-3 shadow-md"
+		class="flex items-center space-x-2 rounded-lg border-2 border-purple-100 bg-white p-2 shadow-sm"
 	>
-		<div class="mb-2 flex items-center gap-2">
-			<span class="text-2xl">🎯</span>
-			<div>
-				<h1 class="text-sm font-bold text-gray-800">Jelajah Karir Teknologi</h1>
-				<p class="text-[10px] text-gray-600">8 profesi tech dengan perspektif Islam!</p>
-			</div>
+		<div class="flex-1 overflow-hidden rounded-full bg-purple-100">
+			<div
+				class="h-2 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-500"
+				style="width: {(exploredCareerIds.length / careers.length) * 100}%"
+			></div>
 		</div>
-		<div class="flex items-center space-x-2">
-			<div class="flex-1 overflow-hidden rounded-full bg-white/60">
-				<div
-					class="h-2 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-500"
-					style="width: {(exploredCareerIds.length / careers.length) * 100}%"
-				></div>
-			</div>
-			<span class="text-[10px] font-bold text-purple-600">
-				{exploredCareerIds.length}/{careers.length}
-			</span>
-		</div>
+		<span class="text-[10px] font-bold text-purple-600">
+			{exploredCareerIds.length}/{careers.length}
+		</span>
 	</div>
 
-	<!-- Careers Grid - COMPACT (4 columns on mobile) -->
+	<!-- Careers Grid - COMPACT (2 columns on mobile) -->
 	<div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
 		{#each careers as career (career.id)}
 			{@const isExplored = exploredCareerIds.includes(career.id)}
