@@ -153,6 +153,23 @@ Tambahkan badges berikut ke `README.md`:
 
 ## 🛠️ Troubleshooting
 
+### Warning: "base will be overridden by SvelteKit"
+
+**Pesan:**
+
+```
+[WebServer] The following Vite config options will be overridden by SvelteKit:
+[WebServer]   - base
+```
+
+**Status:** ✅ **NORMAL** - Ini bukan error!
+
+**Penjelasan:**
+
+- SvelteKit menghandle base path via `svelte.config.js`
+- Preview command menggunakan `--base=/we-will-shine/` flag untuk override
+- Warning ini expected dan tidak mempengaruhi functionality
+
 ### Tests Gagal di CI tapi Berhasil di Local
 
 **Kemungkinan penyebab:**
