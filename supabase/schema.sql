@@ -4,6 +4,18 @@
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- Admins Table (for admin portal)
+CREATE TABLE IF NOT EXISTS admins (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('super_admin', 'admin', 'teacher')),
+    permissions JSONB DEFAULT '[]'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Students Table
 CREATE TABLE IF NOT EXISTS students (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -69,6 +81,7 @@ CREATE TABLE IF NOT EXISTS study_sessions (
 );
 
 -- Indexes for better performance
+CREATE INDEX IF NOT EXISTS idx_admins_email ON admins(email);
 CREATE INDEX IF NOT EXISTS idx_students_code ON students(student_code);
 CREATE INDEX IF NOT EXISTS idx_chat_student ON chat_messages(student_id);
 CREATE INDEX IF NOT EXISTS idx_chat_created ON chat_messages(created_at);
@@ -77,11 +90,15 @@ CREATE INDEX IF NOT EXISTS idx_achievements_student ON achievements(student_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_student ON study_sessions(student_id);
 
 -- Row Level Security (RLS) Policies
+ALTER TABLE admins ENABLE ROW LEVEL SECURITY;
 ALTER TABLE students ENABLE ROW LEVEL SECURITY;
 ALTER TABLE chat_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE student_insights ENABLE ROW LEVEL SECURITY;
 ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
 ALTER TABLE study_sessions ENABLE ROW LEVEL SECURITY;
+
+-- Admin policies (read-only for login)
+CREATE POLICY "Public read admins" ON admins FOR SELECT USING (true);
 
 -- Public read access (for static site)
 CREATE POLICY "Public read students" ON students FOR SELECT USING (true);
@@ -118,9 +135,19 @@ CREATE TRIGGER update_students_updated_at BEFORE UPDATE ON students
 CREATE TRIGGER update_insights_updated_at BEFORE UPDATE ON student_insights
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+-- Triggers for admins
+CREATE TRIGGER update_admins_updated_at BEFORE UPDATE ON admins
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
 -- Sample data (for testing)
 -- Uncomment to insert sample data
 /*
+-- Sample Admin (password: admin123)
+INSERT INTO admins (email, password_hash, name, role, permissions) VALUES
+    ('admin@wewillshine.id', 'admin123', 'Super Admin', 'super_admin', 
+     '["all"]'::jsonb);
+
+-- Sample Students
 INSERT INTO students (student_code, student_name, points, level) VALUES
     ('INSPIRE2025AS', 'Ahmad Syahid', 150, 3),
     ('INSPIRE2025FZ', 'Fatimah Zahra', 200, 4);

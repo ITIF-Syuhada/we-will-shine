@@ -1,168 +1,208 @@
 <script lang="ts">
+	import { adminStore } from '$lib/stores/admin';
+	import { db } from '$lib/supabase';
+	import type { Student } from '$lib/supabase';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
-	import { students } from '$lib/data/students';
 
-	let isAuthenticated = $state(false);
+	let students = $state<Student[]>([]);
+	let loading = $state(true);
+	let searchQuery = $state('');
 
-	onMount(() => {
-		if (browser) {
-			const authStatus = localStorage.getItem('admin-auth');
-			if (authStatus !== 'true') {
-				goto(`${base}/admin`);
-			} else {
-				isAuthenticated = true;
-			}
+	// Filtered students
+	const filteredStudents = $derived(
+		students.filter(
+			(s) =>
+				s.student_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				s.student_code.toLowerCase().includes(searchQuery.toLowerCase())
+		)
+	);
+
+	// Stats
+	const totalStudents = $derived(students.length);
+	const totalPoints = $derived(students.reduce((sum, s) => sum + s.points, 0));
+	const avgLevel = $derived(
+		students.length > 0
+			? (students.reduce((sum, s) => sum + s.level, 0) / students.length).toFixed(1)
+			: 0
+	);
+
+	onMount(async () => {
+		// Check if admin is logged in
+		if (!$adminStore) {
+			goto(`${base}/admin/login`);
+			return;
+		}
+
+		try {
+			// Load all students
+			const data = await db.getAllStudents();
+			students = data;
+		} catch (error) {
+			console.error('Failed to load students:', error);
+		} finally {
+			loading = false;
 		}
 	});
 
 	function handleLogout() {
-		if (browser) {
-			localStorage.removeItem('admin-auth');
+		if (confirm('Yakin ingin logout?')) {
+			adminStore.logout();
+			goto(`${base}/admin/login`);
 		}
-		goto(`${base}/admin`);
 	}
 
-	// Get analytics from localStorage (aggregate all students data)
-	let totalStudentsLoggedIn = $state(0);
-	let totalPoints = $state(0);
-	let totalCareersExplored = $state(0);
-	let totalQuizCompleted = $state(0);
-
-	onMount(() => {
-		if (browser) {
-			// This is a simple approach - in production, use Supabase
-			let loggedIn = 0;
-			let points = 0;
-			let careers = 0;
-			let quizzes = 0;
-
-			students.forEach((student) => {
-				const key = `we-will-shine-progress`;
-				const stored = localStorage.getItem(key);
-				if (stored) {
-					try {
-						const data = JSON.parse(stored);
-						if (data.studentCode === student.code) {
-							loggedIn++;
-							points += data.points || 0;
-							careers += (data.exploredCareers || []).length;
-							if (data.quizCompleted) quizzes++;
-						}
-					} catch {
-						// ignore
-					}
-				}
-			});
-
-			totalStudentsLoggedIn = loggedIn;
-			totalPoints = points;
-			totalCareersExplored = careers;
-			totalQuizCompleted = quizzes;
-		}
-	});
+	function viewStudent(studentId: string) {
+		goto(`${base}/admin/students/${studentId}`);
+	}
 </script>
 
 <svelte:head>
 	<title>Admin Dashboard - We Will Shine</title>
 </svelte:head>
 
-{#if isAuthenticated}
-	<div class="min-h-screen bg-gray-50 p-4">
-		<!-- Header -->
-		<header class="mb-6 rounded-2xl border border-purple-200 bg-white p-6 shadow-lg">
+<div class="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+	<!-- Header -->
+	<header class="border-b-2 border-purple-200 bg-white shadow-md">
+		<div class="mx-auto max-w-7xl px-4 py-4">
 			<div class="flex items-center justify-between">
 				<div class="flex items-center gap-3">
-					<div class="rounded-full bg-gradient-to-br from-purple-200 to-pink-200 p-3">
-						<span class="text-3xl">🎓</span>
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-2xl"
+					>
+						🌟
 					</div>
 					<div>
-						<h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
-						<p class="text-sm text-gray-600">We Will Shine - Career Quest</p>
+						<h1 class="text-xl font-bold text-gray-800">Admin Dashboard</h1>
+						<p class="text-xs text-gray-600">Welcome, {$adminStore?.name || 'Admin'}</p>
 					</div>
 				</div>
-				<button
-					onclick={handleLogout}
-					class="rounded-xl border-2 border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-all hover:bg-gray-50"
+
+				<div class="flex items-center gap-3">
+					<div class="rounded-lg bg-purple-100 px-3 py-2">
+						<p class="text-xs text-purple-600">
+							Role: <span class="font-bold capitalize">{$adminStore?.role}</span>
+						</p>
+					</div>
+					<button
+						onclick={handleLogout}
+						class="rounded-lg border-2 border-gray-300 bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-700 transition-all hover:bg-gray-200 active:scale-95"
+					>
+						🚪 Logout
+					</button>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- Main Content -->
+	<main class="mx-auto max-w-7xl px-4 py-6">
+		{#if loading}
+			<!-- Loading State -->
+			<div class="grid gap-6 sm:grid-cols-3">
+				{#each Array.from({ length: 3 }, (_, i) => i) as idx (idx)}
+					<div class="animate-pulse rounded-2xl border-2 border-gray-200 bg-white p-6">
+						<div class="mb-2 h-4 w-1/2 rounded bg-gray-300"></div>
+						<div class="h-8 w-3/4 rounded bg-gray-300"></div>
+					</div>
+				{/each}
+			</div>
+		{:else}
+			<!-- Stats Cards -->
+			<div class="mb-6 grid gap-6 sm:grid-cols-3">
+				<!-- Total Students -->
+				<div
+					class="rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-100 to-pink-100 p-6 shadow-lg"
 				>
-					🚪 Logout
-				</button>
-			</div>
-		</header>
+					<p class="text-sm font-semibold text-purple-700">Total Students</p>
+					<p class="mt-2 text-4xl font-bold text-purple-800">{totalStudents}</p>
+				</div>
 
-		<!-- Quick Stats -->
-		<div class="mb-6 grid gap-4 md:grid-cols-4">
-			<div class="rounded-xl border border-purple-100 bg-white p-6 shadow-md">
-				<div class="mb-2 text-3xl">👥</div>
-				<div class="text-3xl font-bold text-purple-600">{totalStudentsLoggedIn}</div>
-				<div class="text-sm text-gray-600">Siswa Login</div>
-			</div>
-			<div class="rounded-xl border border-blue-100 bg-white p-6 shadow-md">
-				<div class="mb-2 text-3xl">⭐</div>
-				<div class="text-3xl font-bold text-blue-600">{totalPoints}</div>
-				<div class="text-sm text-gray-600">Total Points</div>
-			</div>
-			<div class="rounded-xl border border-green-100 bg-white p-6 shadow-md">
-				<div class="mb-2 text-3xl">🎯</div>
-				<div class="text-3xl font-bold text-green-600">{totalCareersExplored}</div>
-				<div class="text-sm text-gray-600">Karir Explored</div>
-			</div>
-			<div class="rounded-xl border border-yellow-100 bg-white p-6 shadow-md">
-				<div class="mb-2 text-3xl">🧠</div>
-				<div class="text-3xl font-bold text-yellow-600">{totalQuizCompleted}</div>
-				<div class="text-sm text-gray-600">Quiz Completed</div>
-			</div>
-		</div>
+				<!-- Total Points -->
+				<div
+					class="rounded-2xl border-2 border-yellow-200 bg-gradient-to-br from-yellow-100 to-orange-100 p-6 shadow-lg"
+				>
+					<p class="text-sm font-semibold text-yellow-700">Total Points</p>
+					<p class="mt-2 text-4xl font-bold text-yellow-800">{totalPoints}</p>
+				</div>
 
-		<!-- Navigation Cards -->
-		<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-			<a
-				href="{base}/admin/students"
-				class="group rounded-2xl border-2 border-purple-200 bg-white p-6 shadow-md transition-all hover:scale-105 hover:shadow-xl"
-			>
-				<div class="mb-4 text-5xl transition-transform group-hover:scale-110">👥</div>
-				<h3 class="mb-2 text-lg font-bold text-gray-800">Manage Students</h3>
-				<p class="text-sm text-gray-600">Lihat daftar siswa & progress mereka</p>
-			</a>
+				<!-- Average Level -->
+				<div
+					class="rounded-2xl border-2 border-blue-200 bg-gradient-to-br from-blue-100 to-cyan-100 p-6 shadow-lg"
+				>
+					<p class="text-sm font-semibold text-blue-700">Average Level</p>
+					<p class="mt-2 text-4xl font-bold text-blue-800">{avgLevel}</p>
+				</div>
+			</div>
 
-			<a
-				href="{base}/admin/analytics"
-				class="group rounded-2xl border-2 border-blue-200 bg-white p-6 shadow-md transition-all hover:scale-105 hover:shadow-xl"
-			>
-				<div class="mb-4 text-5xl transition-transform group-hover:scale-110">📊</div>
-				<h3 class="mb-2 text-lg font-bold text-gray-800">Analytics</h3>
-				<p class="text-sm text-gray-600">Lihat statistik penggunaan aplikasi</p>
-			</a>
+			<!-- Search & Filter -->
+			<div class="mb-6 rounded-2xl border-2 border-purple-200 bg-white p-4 shadow-lg">
+				<input
+					type="text"
+					bind:value={searchQuery}
+					placeholder="🔍 Search by name or code..."
+					class="w-full rounded-lg border-2 border-purple-200 px-4 py-3 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
+				/>
+			</div>
 
-			<a
-				href="{base}/admin/qr-generator"
-				class="group rounded-2xl border-2 border-green-200 bg-white p-6 shadow-md transition-all hover:scale-105 hover:shadow-xl"
-			>
-				<div class="mb-4 text-5xl transition-transform group-hover:scale-110">📱</div>
-				<h3 class="mb-2 text-lg font-bold text-gray-800">QR Generator</h3>
-				<p class="text-sm text-gray-600">Generate QR codes untuk sticker coklat</p>
-			</a>
-		</div>
+			<!-- Students Table -->
+			<div class="rounded-2xl border-2 border-purple-200 bg-white shadow-lg">
+				<div class="border-b-2 border-purple-100 p-4">
+					<h2 class="text-lg font-bold text-gray-800">
+						📚 Students ({filteredStudents.length})
+					</h2>
+				</div>
 
-		<!-- Info Section -->
-		<div
-			class="mt-6 rounded-2xl border border-purple-100 bg-gradient-to-r from-purple-50 to-pink-50 p-6"
-		>
-			<h3 class="mb-2 text-lg font-bold text-purple-600">ℹ️ Informasi</h3>
-			<ul class="space-y-2 text-sm text-gray-700">
-				<li>✅ Total Siswa Terdaftar: <strong>{students.length} siswa</strong></li>
-				<li>✅ Kelas yang Didukung: <strong>Semua kelas SMP IT Masjid Syuhada</strong></li>
-				<li>✅ Fitur: 8 Karir, Quiz, AI Mentor, Dream Board, Achievements</li>
-			</ul>
-		</div>
-	</div>
-{:else}
-	<div class="flex min-h-screen items-center justify-center">
-		<div class="text-center">
-			<div class="mb-4 text-6xl">⏳</div>
-			<p class="text-gray-600">Loading...</p>
-		</div>
-	</div>
-{/if}
+				<div class="overflow-x-auto">
+					<table class="w-full">
+						<thead class="bg-purple-50">
+							<tr>
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Code</th>
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Name</th>
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Points</th>
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Level</th>
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Joined</th>
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each filteredStudents as student (student.id)}
+								<tr class="border-b border-purple-50 transition-colors hover:bg-purple-50">
+									<td class="px-4 py-3 text-sm font-medium text-gray-800">{student.student_code}</td
+									>
+									<td class="px-4 py-3 text-sm text-gray-700">{student.student_name}</td>
+									<td class="px-4 py-3 text-sm font-bold text-yellow-600">{student.points}</td>
+									<td class="px-4 py-3 text-sm font-bold text-purple-600">Lv.{student.level}</td>
+									<td class="px-4 py-3 text-xs text-gray-500">
+										{new Date(student.created_at).toLocaleDateString('id-ID', {
+											day: 'numeric',
+											month: 'short',
+											year: 'numeric'
+										})}
+									</td>
+									<td class="px-4 py-3">
+										<button
+											onclick={() => viewStudent(student.id)}
+											class="rounded-lg bg-purple-500 px-3 py-1 text-xs font-bold text-white transition-all hover:bg-purple-600 active:scale-95"
+										>
+											View Details
+										</button>
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+
+					{#if filteredStudents.length === 0}
+						<div class="py-12 text-center">
+							<p class="text-sm text-gray-500">
+								{searchQuery ? 'No students found' : 'No students yet'}
+							</p>
+						</div>
+					{/if}
+				</div>
+			</div>
+		{/if}
+	</main>
+</div>

@@ -63,6 +63,15 @@ export interface Achievement {
 	unlocked_at: string;
 }
 
+export interface Admin {
+	id: string;
+	email: string;
+	name: string;
+	role: 'super_admin' | 'admin' | 'teacher';
+	permissions: string[];
+	created_at: string;
+}
+
 // Helper functions
 export const db = {
 	// Students
@@ -201,5 +210,70 @@ export const db = {
 
 		if (error) throw error;
 		return data;
+	},
+
+	// Admin Authentication
+	async adminLogin(email: string, password: string) {
+		const { data, error } = await supabase
+			.from('admins')
+			.select('*')
+			.eq('email', email)
+			.eq('password_hash', password) // In production, use proper password hashing
+			.single();
+
+		if (error) {
+			if (error.code === 'PGRST116') return null; // Not found
+			throw error;
+		}
+		return data as Admin;
+	},
+
+	async getAdmin(id: string) {
+		const { data, error } = await supabase.from('admins').select('*').eq('id', id).single();
+
+		if (error) throw error;
+		return data as Admin;
+	},
+
+	async createAdmin(admin: {
+		email: string;
+		password_hash: string;
+		name: string;
+		role: 'super_admin' | 'admin' | 'teacher';
+		permissions: string[];
+	}) {
+		const { data, error } = await supabase.from('admins').insert(admin).select().single();
+
+		if (error) throw error;
+		return data as Admin;
+	},
+
+	// Admin Analytics
+	async getAllStudents() {
+		const { data, error } = await supabase
+			.from('students')
+			.select('*')
+			.order('created_at', { ascending: false });
+
+		if (error) throw error;
+		return data as Student[];
+	},
+
+	async getStudentAnalytics(studentId: string) {
+		const [student, insights, chats, achievements, sessions] = await Promise.all([
+			this.getStudent(studentId),
+			this.getInsights(studentId),
+			this.getChatHistory(studentId, 100),
+			this.getAchievements(studentId),
+			this.getStudySessions(studentId, 30)
+		]);
+
+		return {
+			student,
+			insights,
+			chats,
+			achievements,
+			sessions
+		};
 	}
 };
