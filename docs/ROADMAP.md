@@ -910,6 +910,305 @@ Roadmap ini adalah panduan strategis pengembangan aplikasi **We Will Shine** unt
 
 ---
 
+## 🧠 Phase 7: Mental Health & Wellbeing Support (12-18 Bulan)
+
+**Timeline:** 2027-2028  
+**Focus:** Student mental health support & Guru BK empowerment
+
+### **7.1. AI Curhat & Emotional Support**
+
+**Priority: HIGH**
+
+- [ ] **Safe Space Chatbot**
+  - Empathetic AI responses
+  - Islamic counseling perspective
+  - Crisis detection system
+  - Sentiment analysis
+  - Topic extraction & categorization
+
+- [ ] **Mental Health Features**
+  - Daily mood check-in (emoji scale)
+  - Private journaling with AI insights
+  - Breathing exercises (Islamic dzikir)
+  - Positive daily affirmations
+  - Anonymous peer support forum
+
+- [ ] **Crisis Management**
+  - Keyword detection (suicide, bullying, abuse)
+  - Immediate BK alert system
+  - Emergency contact display
+  - Referral to professional help
+  - 24/7 hotline integration (119, 1500-454)
+
+### **7.2. Guru BK Dashboard & Analytics**
+
+**Priority: HIGH**
+
+- [ ] **Psychological Profiling**
+  - Student personality analysis
+  - Strengths & concerns tracking
+  - Risk level assessment (low/medium/high)
+  - Behavioral pattern recognition
+  - Intervention recommendations
+
+- [ ] **Real-time Monitoring**
+  - Live crisis alerts
+  - Mood trend visualization
+  - Class-wide emotional health score
+  - At-risk student identification
+  - Early warning system
+
+- [ ] **Data-Driven Insights**
+  - School environment health metrics
+  - Common concerns analysis
+  - Topic clustering (academic, social, family)
+  - Intervention effectiveness tracking
+  - Comparative class analytics
+
+- [ ] **Action Tools**
+  - One-click appointment booking
+  - Pre-filled parent communication
+  - Group therapy planning
+  - Student progress notes
+  - Case management system
+
+### **7.3. Privacy & Ethics Framework**
+
+**Priority: CRITICAL**
+
+- [ ] **Consent Management**
+  - Anonymous mode (default)
+  - Semi-anonymous (stats only)
+  - Full access (with parent consent)
+  - Revocable anytime
+  - Annual consent renewal
+
+- [ ] **Data Protection**
+  - End-to-end encryption
+  - Role-based access control
+  - Audit logs (who accessed what)
+  - Auto-delete policy (6 months)
+  - UU PDP compliance
+  - GDPR-ready
+
+- [ ] **Ethical AI**
+  - No diagnosis (AI is not a psychologist)
+  - Transparent limitations
+  - Human oversight (psikolog review)
+  - No data selling
+  - No training on student data
+  - Bias detection & mitigation
+
+### **7.4. Professional Integration**
+
+**Priority: MEDIUM**
+
+- [ ] **Collaboration Tools**
+  - Psikolog consultation module
+  - Case review system
+  - Professional development resources
+  - Best practices library
+  - Peer counselor network
+
+- [ ] **Safety Protocols**
+  - Crisis response flowchart
+  - Escalation procedures
+  - Professional referral system
+  - Parent notification triggers
+  - Legal compliance checklist
+
+---
+
+## 🌍 Phase 8: Open Source & National Movement (18-24 Bulan)
+
+**Timeline:** 2028+  
+**Focus:** Free for all schools, community-driven development
+
+### **8.1. Open Source Release**
+
+**Priority: HIGH**
+
+- [ ] **Public Repository**
+  - MIT License (most permissive)
+  - Complete source code
+  - Comprehensive documentation
+  - Setup automation scripts
+  - Docker/Kubernetes configs
+
+- [ ] **Developer Resources**
+  - Contributing guidelines
+  - Code of conduct
+  - Architecture documentation
+  - API reference
+  - Video tutorials
+
+- [ ] **Deployment Options**
+  - 1-click cloud deploy (Vercel, Railway)
+  - Self-hosted (Docker Compose)
+  - Kubernetes for scale
+  - Free tier optimized (Supabase, Firebase)
+  - Offline-capable PWA
+
+### **8.2. Community Building**
+
+**Priority: HIGH**
+
+- [ ] **Community Platform**
+  - GitHub Discussions forum
+  - Discord/Telegram support group
+  - Monthly contributor calls
+  - Feature voting system
+  - School showcase gallery
+
+- [ ] **Support Ecosystem**
+  - Documentation website
+  - FAQ & troubleshooting wiki
+  - Video tutorial series
+  - Webinar schedule
+  - Train-the-trainer program
+
+- [ ] **Contribution Model**
+  - Core maintainer team
+  - School contributor network
+  - Feature bounty program
+  - Bug reporting system
+  - Translation volunteers
+
+### **8.3. Sustainability Model**
+
+**Priority: MEDIUM**
+
+- [ ] **Free Forever Strategy**
+  - Grant applications (education innovation)
+  - NGO partnerships (UNICEF, Save the Children)
+  - Corporate CSR programs
+  - Government education budget
+  - Open Collective funding
+
+- [ ] **Sponsorship (No Ads)**
+  - Infrastructure sponsors (hosting credits)
+  - AI API credits from providers
+  - Developer GitHub Sponsors
+  - "Powered by" attribution
+  - Adopt-a-school program
+
+- [ ] **Resource Optimization**
+  - Free AI tiers (Gemini, Groq)
+  - Self-hosted AI option (Ollama)
+  - Efficient database design
+  - CDN optimization
+  - Cost monitoring dashboard
+
+### **8.4. National Adoption**
+
+**Priority: HIGH**
+
+- [ ] **School Onboarding**
+  - Simplified setup wizard
+  - Bahasa Indonesia documentation
+  - Regional workshops
+  - Peer school mentoring
+  - Success story publication
+
+- [ ] **Partnership Programs**
+  - Kemendikbud collaboration
+  - University research partnerships
+  - Teacher training integration
+  - Education NGO alliances
+  - Tech company sponsorships
+
+- [ ] **Scale & Impact**
+  - 100+ schools target (Year 1)
+  - 1000+ schools target (Year 3)
+  - Multi-province deployment
+  - Impact measurement framework
+  - Research paper publication
+
+### **8.5. Advanced Features**
+
+**Priority: MEDIUM**
+
+- [ ] **AI Innovation**
+  - Local AI models (Ollama)
+  - Hybrid cloud/local architecture
+  - Multilingual support (regional languages)
+  - Voice-based interaction
+  - Predictive intervention
+
+- [ ] **Parent Portal**
+  - Child wellbeing overview
+  - Communication with BK
+  - Resource library
+  - Workshop registration
+  - Progress reports
+
+- [ ] **Integration Ecosystem**
+  - School management systems
+  - LMS integration (Google Classroom, Moodle)
+  - PPDB integration
+  - Ministry reporting tools
+  - Third-party wellness apps
+
+---
+
+## 🎯 Vision 2030: National Mental Health Platform
+
+**We Will Shine will become:**
+
+### **Indonesia's Leading Student Wellbeing Platform:**
+
+- 🏫 **10,000+ schools** across Indonesia
+- 💝 **1 Million+ students** with safe space to share
+- 🎓 **50,000+ Guru BK** empowered with data insights
+- 🤖 **AI that truly cares** - ethical, empathetic, effective
+- 🌍 **Open source model** adopted regionally (ASEAN)
+- 🏆 **UNESCO recognition** for education innovation
+- 📊 **Measurable impact** - reduced bullying, early intervention
+- ☪️ **Islamic values** integrated in mental health support
+
+### **Social Impact Goals:**
+
+**For Students:**
+
+- ✅ Every student has a safe space to express feelings
+- ✅ Mental health support accessible 24/7
+- ✅ Reduced stigma around seeking help
+- ✅ Early detection of mental health issues
+- ✅ Improved overall wellbeing & academic performance
+
+**For Schools:**
+
+- ✅ Data-driven student support
+- ✅ Proactive intervention (not reactive)
+- ✅ Better teacher-student relationships
+- ✅ Healthier school environment
+- ✅ Measurable wellbeing improvement
+
+**For Society:**
+
+- ✅ Mental health awareness in education
+- ✅ Reduced youth suicide rates
+- ✅ Stronger support systems
+- ✅ Empowered educators
+- ✅ Research-backed interventions
+
+---
+
+## 📚 Additional Documentation
+
+**New docs to be created:**
+
+- `docs/OPEN-SOURCE-VISION.md` - Open source strategy & philosophy
+- `docs/ETHICS-FRAMEWORK.md` - Privacy, consent, and ethical AI
+- `docs/MENTAL-HEALTH-GUIDE.md` - Implementation guide for schools
+- `docs/BK-HANDBOOK.md` - How Guru BK can use the platform
+- `docs/CRISIS-PROTOCOL.md` - Emergency response procedures
+- `docs/DEPLOYMENT-GUIDE.md` - Self-hosted setup instructions
+- `docs/CONTRIBUTING.md` - How to contribute to the project
+- `docs/RESEARCH-FINDINGS.md` - Impact studies & results
+
+---
+
 ## 📈 Roadmap Updates
 
 **This roadmap is a living document.**

@@ -4,7 +4,7 @@ Aplikasi web interaktif untuk eksplorasi karir teknologi dengan perspektif Islam
 
 ## ✨ Tentang Project
 
-**We Will Shine** adalah aplikasi Career Quest yang membantu siswa:
+**We Will Shine** adalah platform career guidance & student wellbeing yang membantu siswa:
 
 - 🎯 Mengeksplorasi 8 karir teknologi masa depan
 - 🧠 Memahami kepribadian melalui quiz interaktif
@@ -14,6 +14,18 @@ Aplikasi web interaktif untuk eksplorasi karir teknologi dengan perspektif Islam
 - ☪️ Memahami nilai Islam dalam setiap profesi
 
 **Origin Story:** Hadiah balasan untuk siswa yang memberikan sepatu kepada guru - bukan hanya coklat manis, tapi juga aplikasi yang memberi nilai edukatif untuk masa depan mereka.
+
+### **🌍 Our Vision: Free & Open Source for All Schools**
+
+We Will Shine akan menjadi **platform open source** untuk membantu Guru BK di seluruh Indonesia:
+
+- 💝 Memberikan siswa **tempat aman untuk curhat**
+- 🤖 **AI yang peduli** sebagai teman bicara
+- 📊 **Data insights** untuk Guru BK (privacy-first)
+- 🏫 **100% gratis** untuk semua sekolah
+- 🌟 **Open source** - dikembangkan bersama komunitas
+
+→ Read full vision: [Open Source Vision](docs/OPEN-SOURCE-VISION.md) | [Ethics Framework](docs/ETHICS-FRAMEWORK.md)
 
 ---
 
@@ -195,7 +207,9 @@ Harus diubah menjadi client-side only:
 ### **Guides untuk Tim:**
 
 - 📖 [Development Journey](docs/DEVELOPMENT-JOURNEY.md) - Complete development timeline & decisions
-- 🗺️ [Project Roadmap](docs/ROADMAP.md) - **Future plans & feature ideas (Phase 2-6)**
+- 🗺️ [Project Roadmap](docs/ROADMAP.md) - **Future plans (Phase 2-8, Vision 2030)**
+- 🌍 [Open Source Vision](docs/OPEN-SOURCE-VISION.md) - **Free platform untuk semua sekolah**
+- 🔒 [Ethics Framework](docs/ETHICS-FRAMEWORK.md) - **Privacy & ethical AI guidelines**
 - 🎓 [Admin Guide](docs/ADMIN-GUIDE.md) - Panduan menggunakan admin dashboard
 - 📱 [Career Quest App](docs/CAREER-QUEST-APP.md) - Student app features & usage
 - 🔄 [Supabase Migration](docs/SUPABASE-MIGRATION-GUIDE.md) - Upgrade localStorage → Database
