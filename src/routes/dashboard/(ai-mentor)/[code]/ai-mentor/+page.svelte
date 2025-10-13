@@ -11,6 +11,7 @@
 	let inputText = $state('');
 	let isTyping = $state(false);
 	let chatContainer: HTMLDivElement;
+	let showQuickQuestions = $state(true);
 
 	const firstName = $derived($userProgress?.studentName.split(' ')[0] || '');
 
@@ -172,17 +173,48 @@
 	}
 </script>
 
-<svelte:head>
-	<title>AI Mentor - We Will Shine</title>
-</svelte:head>
+<div class="flex h-full flex-col gap-2 p-2">
+	<!-- Playful Tips - At Top -->
+	<div
+		class="group/tips flex-shrink-0 rounded-xl border-2 border-dashed border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 p-2 text-center transition-all duration-300 hover:scale-[1.02] hover:border-purple-300 hover:shadow-md"
+	>
+		<p
+			class="text-[10px] font-medium text-purple-600 transition-all duration-300 group-hover/tips:scale-105 group-hover/tips:text-purple-700"
+		>
+			<span class="inline-block animate-pulse group-hover/tips:animate-bounce">💡</span>
+			<span class="transition-all group-hover/tips:font-bold">AI Mentor bisa jawab tentang</span>
+			<span
+				class="inline-block transition-all group-hover/tips:scale-110 group-hover/tips:text-pink-600"
+				>karir</span
+			>,
+			<span
+				class="inline-block transition-all group-hover/tips:scale-110 group-hover/tips:text-blue-600"
+				>tips</span
+			>,
+			<span
+				class="inline-block transition-all group-hover/tips:scale-110 group-hover/tips:text-purple-600"
+				>motivasi</span
+			>
+			&
+			<span
+				class="inline-block transition-all group-hover/tips:scale-110 group-hover/tips:text-green-600"
+				>Islam</span
+			>!
+			<span
+				class="inline-block animate-pulse opacity-0 transition-opacity group-hover/tips:opacity-100"
+				>✨</span
+			>
+		</p>
+	</div>
 
-<div class="space-y-3">
-	<!-- Chat Container - COMPACT -->
-	<div class="overflow-hidden rounded-2xl border-2 border-purple-200 bg-white shadow-lg">
-		<!-- Chat Messages -->
+	<!-- Chat Container - Full Screen -->
+	<div
+		class="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border-2 border-purple-200 bg-white shadow-lg"
+	>
+		<!-- Chat Messages - Scrollable -->
 		<div
 			bind:this={chatContainer}
-			class="h-[400px] space-y-2 overflow-y-auto bg-gradient-to-b from-purple-50/30 to-pink-50/30 p-3"
+			class="flex-1 space-y-2 overflow-y-auto bg-gradient-to-b from-purple-50/30 to-pink-50/30 p-3"
 		>
 			{#each messages as message, idx (idx)}
 				<div
@@ -242,8 +274,8 @@
 			{/if}
 		</div>
 
-		<!-- Input Area - COMPACT -->
-		<div class="border-t-2 border-purple-100 bg-white p-2">
+		<!-- Input Area - Fixed at Bottom -->
+		<div class="flex-shrink-0 border-t-2 border-purple-100 bg-white p-2">
 			<div class="flex space-x-2">
 				<input
 					type="text"
@@ -261,46 +293,59 @@
 				</button>
 			</div>
 
-			<!-- Quick Questions - COMPACT -->
-			<div class="mt-2 flex flex-wrap gap-1.5">
+			<!-- Quick Questions - Toggle Button -->
+			<div class="mt-2">
 				<button
-					onclick={() => quickQuestion('Apa itu programmer?')}
-					class="rounded-full border-2 border-purple-200 bg-purple-50 px-2.5 py-1 text-[10px] font-medium text-purple-600 transition-all active:scale-95"
+					onclick={() => (showQuickQuestions = !showQuickQuestions)}
+					class="group/toggle flex w-full items-center justify-between rounded-lg border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 px-3 py-1.5 text-[10px] font-semibold text-purple-600 transition-all hover:border-purple-300 hover:shadow-md active:scale-95"
 				>
-					Programmer?
+					<span class="flex items-center gap-1">
+						<span class="transition-transform group-hover/toggle:scale-110">💬</span>
+						<span>Pertanyaan Cepat</span>
+					</span>
+					<span class="transition-transform duration-300 {showQuickQuestions ? 'rotate-180' : ''}">
+						{showQuickQuestions ? '▲' : '▼'}
+					</span>
 				</button>
-				<button
-					onclick={() => quickQuestion('Bagaimana cara mulai belajar coding?')}
-					class="rounded-full border-2 border-pink-200 bg-pink-50 px-2.5 py-1 text-[10px] font-medium text-pink-600 transition-all active:scale-95"
-				>
-					Cara coding?
-				</button>
-				<button
-					onclick={() => quickQuestion('Butuh motivasi')}
-					class="rounded-full border-2 border-blue-200 bg-blue-50 px-2.5 py-1 text-[10px] font-medium text-blue-600 transition-all active:scale-95"
-				>
-					Motivasi
-				</button>
-				<button
-					onclick={() => quickQuestion('Tips belajar efektif')}
-					class="rounded-full border-2 border-green-200 bg-green-50 px-2.5 py-1 text-[10px] font-medium text-green-600 transition-all active:scale-95"
-				>
-					Tips belajar
-				</button>
-				<button
-					onclick={() => quickQuestion('Teknologi dalam Islam')}
-					class="rounded-full border-2 border-purple-200 bg-purple-50 px-2.5 py-1 text-[10px] font-medium text-purple-600 transition-all active:scale-95"
-				>
-					Tech & Islam
-				</button>
+
+				<!-- Quick Questions List - Collapsible -->
+				{#if showQuickQuestions}
+					<div
+						class="animate-in fade-in slide-in-from-top-2 mt-2 flex flex-wrap gap-1.5 duration-300"
+					>
+						<button
+							onclick={() => quickQuestion('Apa itu programmer?')}
+							class="group/q rounded-full border-2 border-purple-200 bg-purple-50 px-2.5 py-1 text-[10px] font-medium text-purple-600 transition-all hover:scale-105 hover:border-purple-300 hover:shadow-md active:scale-95"
+						>
+							<span class="group-hover/q:font-bold">Programmer?</span>
+						</button>
+						<button
+							onclick={() => quickQuestion('Bagaimana cara mulai belajar coding?')}
+							class="group/q rounded-full border-2 border-pink-200 bg-pink-50 px-2.5 py-1 text-[10px] font-medium text-pink-600 transition-all hover:scale-105 hover:border-pink-300 hover:shadow-md active:scale-95"
+						>
+							<span class="group-hover/q:font-bold">Cara coding?</span>
+						</button>
+						<button
+							onclick={() => quickQuestion('Butuh motivasi')}
+							class="group/q rounded-full border-2 border-blue-200 bg-blue-50 px-2.5 py-1 text-[10px] font-medium text-blue-600 transition-all hover:scale-105 hover:border-blue-300 hover:shadow-md active:scale-95"
+						>
+							<span class="group-hover/q:font-bold">Motivasi</span>
+						</button>
+						<button
+							onclick={() => quickQuestion('Tips belajar efektif')}
+							class="group/q rounded-full border-2 border-green-200 bg-green-50 px-2.5 py-1 text-[10px] font-medium text-green-600 transition-all hover:scale-105 hover:border-green-300 hover:shadow-md active:scale-95"
+						>
+							<span class="group-hover/q:font-bold">Tips belajar</span>
+						</button>
+						<button
+							onclick={() => quickQuestion('Teknologi dalam Islam')}
+							class="group/q rounded-full border-2 border-purple-200 bg-purple-50 px-2.5 py-1 text-[10px] font-medium text-purple-600 transition-all hover:scale-105 hover:border-purple-300 hover:shadow-md active:scale-95"
+						>
+							<span class="group-hover/q:font-bold">Tech & Islam</span>
+						</button>
+					</div>
+				{/if}
 			</div>
 		</div>
-	</div>
-
-	<!-- Tips - COMPACT -->
-	<div class="rounded-lg border-2 border-dashed border-purple-200 bg-purple-50/50 p-2 text-center">
-		<p class="text-[10px] text-purple-600">
-			💡 AI Mentor bisa jawab tentang karir, tips, motivasi & Islam!
-		</p>
 	</div>
 </div>
