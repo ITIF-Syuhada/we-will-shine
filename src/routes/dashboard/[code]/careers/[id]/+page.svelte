@@ -4,7 +4,7 @@
 	import { base } from '$app/paths';
 	import { getCareerById } from '$lib/data/careers';
 
-	const careerId = $derived(parseInt($page.params.id));
+	const careerId = $derived(parseInt($page.params.id || '0'));
 	const career = $derived(getCareerById(careerId));
 
 	function goBack() {

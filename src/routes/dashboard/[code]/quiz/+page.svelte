@@ -53,6 +53,7 @@
 	}
 
 	const progress = $derived(((currentQuestion + 1) / questionnaire.length) * 100);
+	const currentQuestionData = $derived(questionnaire[currentQuestion]);
 </script>
 
 <svelte:head>
@@ -167,14 +168,13 @@
 		</div>
 
 		<!-- Question Card -->
-		{@const question = questionnaire[currentQuestion]}
 		<div class="animate-slide-in rounded-2xl bg-white p-8 shadow-xl">
 			<h2 class="mb-6 text-xl font-semibold text-gray-800">
-				{question.question}
+				{currentQuestionData.question}
 			</h2>
 
 			<div class="space-y-3">
-				{#each question.options as option (option.value)}
+				{#each currentQuestionData.options as option (option.value)}
 					<button
 						onclick={() => handleAnswer(option.value)}
 						class="w-full transform rounded-xl border-2 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50 p-4 text-left transition-all hover:scale-105 hover:border-purple-400 hover:from-purple-100 hover:to-pink-100 hover:shadow-lg"
