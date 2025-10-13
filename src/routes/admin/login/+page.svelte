@@ -27,7 +27,7 @@
 				adminStore.login(admin);
 
 				// Redirect to admin dashboard
-				goto(`${base}/admin/dashboard`);
+				goto(`${base}/admin`);
 			} else {
 				error = 'Email atau password salah!';
 			}
