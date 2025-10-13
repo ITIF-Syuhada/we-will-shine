@@ -4,17 +4,17 @@ on:
   # Trigger otomatis pada pull request
   pull_request:
     branches: [main]
-  
+
   # Trigger manual via GitHub UI
   workflow_dispatch:
-  
+
   # Bisa dipanggil oleh workflow lain
   workflow_call:
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,4 +60,3 @@ jobs:
           name: test-screenshots
           path: test-results/
           retention-days: 7
-

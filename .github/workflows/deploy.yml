@@ -4,7 +4,7 @@ on:
   # Trigger otomatis pada push ke main
   push:
     branches: [main]
-  
+
   # Trigger manual via GitHub UI
   workflow_dispatch:
 
@@ -17,16 +17,16 @@ jobs:
   build_and_deploy:
     needs: test
     runs-on: ubuntu-latest
-    
+
     permissions:
       pages: write
       id-token: write
       contents: read
-    
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
