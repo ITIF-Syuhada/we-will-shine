@@ -1,11 +1,7 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import { students } from '$lib/data/students';
-
-	let isAuthenticated = $state(false);
 	interface StudentData {
 		id: string;
 		name: string;
@@ -23,15 +19,7 @@
 	let searchQuery = $state('');
 
 	onMount(() => {
-		if (browser) {
-			const authStatus = localStorage.getItem('admin-auth');
-			if (authStatus !== 'true') {
-				goto(`${base}/admin`);
-			} else {
-				isAuthenticated = true;
-				loadStudentsData();
-			}
-		}
+		loadStudentsData();
 	});
 
 	function loadStudentsData() {

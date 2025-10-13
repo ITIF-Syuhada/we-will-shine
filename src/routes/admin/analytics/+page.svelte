@@ -1,12 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import { students } from '$lib/data/students';
 	import { careers } from '$lib/data/careers';
-
-	let isAuthenticated = $state(false);
 	let analyticsData = $state({
 		totalStudents: students.length,
 		activeStudents: 0,
@@ -26,15 +22,7 @@
 	});
 
 	onMount(() => {
-		if (browser) {
-			const authStatus = localStorage.getItem('admin-auth');
-			if (authStatus !== 'true') {
-				goto(`${base}/admin`);
-			} else {
-				isAuthenticated = true;
-				calculateAnalytics();
-			}
-		}
+		calculateAnalytics();
 	});
 
 	function calculateAnalytics() {

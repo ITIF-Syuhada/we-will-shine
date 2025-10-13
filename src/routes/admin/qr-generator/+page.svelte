@@ -1,12 +1,6 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
-	import { browser } from '$app/environment';
-	import { onMount } from 'svelte';
 	import { students } from '$lib/data/students';
 	import QRCode from 'qrcode';
-
-	let isAuthenticated = $state(false);
 	interface QRCodeData {
 		student: { id: string; name: string; code: string };
 		qrDataUrl: string;
@@ -18,16 +12,7 @@
 
 	const appUrl = 'https://itif-syuhada.github.io/we-will-shine/unlock';
 
-	onMount(() => {
-		if (browser) {
-			const authStatus = localStorage.getItem('admin-auth');
-			if (authStatus !== 'true') {
-				goto(`${base}/admin`);
-			} else {
-				isAuthenticated = true;
-			}
-		}
-	});
+	// No auth check needed - handled by layout
 
 	async function generateQRCodes() {
 		isGenerating = true;
