@@ -131,7 +131,8 @@ All notable changes to We Will Shine - Career Quest project.
 - `docs/ADMIN-GUIDE.md` - Admin panel documentation
 - `docs/CAREER-QUEST-APP.md` - Application features
 - `docs/DEVELOPMENT-JOURNEY.md` - Development process & timeline
-- `docs/SUPABASE-MIGRATION-GUIDE.md` - **Upgrade localStorage → Supabase Database**
+- `docs/ROADMAP.md` - **Future development roadmap (Phase 2-6, Vision 2027)**
+- `docs/SUPABASE-MIGRATION-GUIDE.md` - Upgrade localStorage → Supabase Database
 - `docs/FIX-SVERDLE-404.md` - Technical fix details
 - `docs/TESTING-GUIDE.md` - Testing guidelines
 - `docs/WORKFLOWS-GUIDE.md` - GitHub Actions guide

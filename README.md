@@ -195,9 +195,10 @@ Harus diubah menjadi client-side only:
 ### **Guides untuk Tim:**
 
 - 📖 [Development Journey](docs/DEVELOPMENT-JOURNEY.md) - Complete development timeline & decisions
+- 🗺️ [Project Roadmap](docs/ROADMAP.md) - **Future plans & feature ideas (Phase 2-6)**
 - 🎓 [Admin Guide](docs/ADMIN-GUIDE.md) - Panduan menggunakan admin dashboard
 - 📱 [Career Quest App](docs/CAREER-QUEST-APP.md) - Student app features & usage
-- 🔄 [Supabase Migration](docs/SUPABASE-MIGRATION-GUIDE.md) - **Upgrade localStorage → Database**
+- 🔄 [Supabase Migration](docs/SUPABASE-MIGRATION-GUIDE.md) - Upgrade localStorage → Database
 - 🧪 [Testing Guide](docs/TESTING-GUIDE.md) - Playwright E2E testing
 - 🔧 [Fix Sverdle 404](docs/FIX-SVERDLE-404.md) - Technical fix documentation
 - ⚙️ [Workflows Guide](docs/WORKFLOWS-GUIDE.md) - GitHub Actions & CI/CD
