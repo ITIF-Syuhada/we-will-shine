@@ -1,0 +1,8 @@
+
+> we-will-shine@0.0.1 build /home/dev/web/koneksi/we-will-shine
+> vite build
+
+vite v7.1.9 building SSR bundle for production...
+transforming...
+✓ 14 modules transformed.
+ ELIFECYCLE  Command failed with exit code 1.
