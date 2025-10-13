@@ -190,8 +190,21 @@ Harus diubah menjadi client-side only:
 
 **Contoh**: Halaman Sverdle sudah diperbaiki dari server-side (cookies) menjadi client-side (localStorage). Lihat `CHANGELOG.md` untuk detail.
 
-## 📚 Dokumentasi
+## 📚 Dokumentasi Project
+
+### **Guides untuk Tim:**
+
+- 📖 [Development Journey](docs/DEVELOPMENT-JOURNEY.md) - Complete development timeline & decisions
+- 🎓 [Admin Guide](docs/ADMIN-GUIDE.md) - Panduan menggunakan admin dashboard
+- 📱 [Career Quest App](docs/CAREER-QUEST-APP.md) - Student app features & usage
+- 🔄 [Supabase Migration](docs/SUPABASE-MIGRATION-GUIDE.md) - **Upgrade localStorage → Database**
+- 🧪 [Testing Guide](docs/TESTING-GUIDE.md) - Playwright E2E testing
+- 🔧 [Fix Sverdle 404](docs/FIX-SVERDLE-404.md) - Technical fix documentation
+- ⚙️ [Workflows Guide](docs/WORKFLOWS-GUIDE.md) - GitHub Actions & CI/CD
+
+### **External Docs:**
 
 - [SvelteKit](https://kit.svelte.dev/)
 - [adapter-static](https://kit.svelte.dev/docs/adapter-static)
 - [GitHub Pages](https://docs.github.com/en/pages)
+- [Supabase](https://supabase.com/docs)
