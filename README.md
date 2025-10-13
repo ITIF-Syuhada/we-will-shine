@@ -1,4 +1,44 @@
-# We Will Shine
+# 🌟 We Will Shine - Career Quest
+
+Aplikasi web interaktif untuk eksplorasi karir teknologi dengan perspektif Islam, dibuat sebagai hadiah penuh cinta dari Ustadz & Ustadzah untuk siswa-siswi SMP IT Masjid Syuhada.
+
+## ✨ Tentang Project
+
+**We Will Shine** adalah aplikasi Career Quest yang membantu siswa:
+
+- 🎯 Mengeksplorasi 8 karir teknologi masa depan
+- 🧠 Memahami kepribadian melalui quiz interaktif
+- 🤖 Belajar dengan AI Mentor
+- ✨ Merencanakan impian melalui Dream Board
+- 🏆 Termotivasi dengan gamifikasi (points, levels, achievements)
+- ☪️ Memahami nilai Islam dalam setiap profesi
+
+**Origin Story:** Hadiah balasan untuk siswa yang memberikan sepatu kepada guru - bukan hanya coklat manis, tapi juga aplikasi yang memberi nilai edukatif untuk masa depan mereka.
+
+---
+
+## 🎯 Features
+
+### **Student App:**
+
+- ✅ **Unlock System** - Login dengan kode unik dari coklat
+- ✅ **8 Karir Teknologi** - Software Dev, UI/UX, Data Analyst, AI/ML, dll
+- ✅ **Personality Quiz** - 6 pertanyaan dengan motivasi personal 300+ kata
+- ✅ **AI Mentor** - Chat interaktif untuk guidance
+- ✅ **Dream Board** - Tulis & track impian masa depan
+- ✅ **Gamifikasi** - Points, levels, 8 achievements
+- ✅ **Mobile-Optimized** - Bottom navbar, compact layout
+
+### **Admin Panel:**
+
+- ✅ **Students Management** - Track 22 siswa & progress
+- ✅ **Analytics** - Engagement, leaderboard, career popularity
+- ✅ **QR Generator** - Generate QR codes untuk sticker coklat
+- ✅ **Export Data** - Download CSV untuk reporting
+
+---
+
+## 🚀 Quick Start
 
 Project SvelteKit yang dikonfigurasi untuk deployment ke GitHub Pages.
 
