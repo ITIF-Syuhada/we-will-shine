@@ -30,9 +30,16 @@
 	];
 
 	function isActive(path: string): boolean {
+		const currentPath = $page.url.pathname;
 		const basePath = `${base}/dashboard/${$page.params.code}`;
-		const fullPath = path ? `${basePath}${path}` : basePath;
-		return $page.url.pathname === fullPath;
+
+		if (path === '') {
+			// Home is active only if exact match
+			return currentPath === basePath || currentPath === `${basePath}/`;
+		} else {
+			// Other paths are active if they start with the path
+			return currentPath.startsWith(`${basePath}${path}`);
+		}
 	}
 
 	function handleLogout() {
@@ -49,30 +56,31 @@
 </script>
 
 <div class="min-h-screen pb-20">
-	<!-- Compact Header -->
+	<!-- Super Compact Header -->
 	<header
 		class="sticky top-0 z-50 border-b border-purple-100 bg-white/95 shadow-sm backdrop-blur-md"
 	>
-		<div class="mx-auto max-w-7xl px-4 py-3">
+		<div class="mx-auto max-w-7xl px-3 py-2">
 			<div class="flex items-center justify-between">
-				<!-- Greeting -->
+				<!-- Greeting - More Compact -->
 				<div class="flex items-center space-x-2">
-					<div class="rounded-full bg-gradient-to-br from-purple-200 to-pink-200 p-2">
-						<span class="text-xl">🌟</span>
+					<div class="rounded-full bg-gradient-to-br from-purple-200 to-pink-200 p-1.5">
+						<span class="text-lg">🌟</span>
 					</div>
-					<div>
-						<h1 class="text-sm font-bold text-gray-800">{firstName}</h1>
-						<p class="text-xs text-gray-500">Level {level}</p>
+					<div class="hidden sm:block">
+						<h1 class="text-xs font-bold text-gray-800">{firstName}</h1>
+						<p class="text-[10px] text-gray-500">Lv.{level}</p>
 					</div>
 				</div>
 
-				<!-- Stats -->
-				<div class="flex items-center space-x-2">
-					<!-- Level Progress Bar (Desktop) -->
+				<!-- Compact Stats -->
+				<div class="flex items-center space-x-1.5">
+					<!-- Level (Desktop Only) -->
 					<div
-						class="hidden items-center space-x-2 rounded-full border border-purple-200 bg-purple-50 px-3 py-1.5 md:flex"
+						class="hidden items-center space-x-1.5 rounded-full border border-purple-200 bg-purple-50 px-2.5 py-1 md:flex"
 					>
-						<div class="h-2 w-20 overflow-hidden rounded-full bg-purple-200">
+						<span class="text-[10px] font-semibold text-purple-600">Lv.{level}</span>
+						<div class="h-1.5 w-16 overflow-hidden rounded-full bg-purple-200">
 							<div
 								class="h-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-500"
 								style="width: {progress}%"
@@ -80,21 +88,21 @@
 						</div>
 					</div>
 
-					<!-- Points -->
+					<!-- Points - Compact -->
 					<div
-						class="flex items-center space-x-1.5 rounded-full border border-yellow-200 bg-yellow-50 px-3 py-1.5"
+						class="flex items-center space-x-1 rounded-full border border-yellow-200 bg-yellow-50 px-2.5 py-1"
 					>
-						<span class="text-sm">⭐</span>
-						<span class="text-sm font-bold text-yellow-700">{points}</span>
+						<span class="text-xs">⭐</span>
+						<span class="text-xs font-bold text-yellow-700">{points}</span>
 					</div>
 
-					<!-- Logout -->
+					<!-- Logout - Compact -->
 					<button
 						onclick={handleLogout}
-						class="rounded-full border border-gray-200 bg-gray-50 p-1.5 transition-all hover:bg-gray-100"
+						class="rounded-full border border-gray-200 bg-gray-50 p-1 transition-all hover:bg-gray-100"
 						title="Keluar"
 					>
-						<span class="text-sm">🚪</span>
+						<span class="text-xs">🚪</span>
 					</button>
 				</div>
 			</div>
