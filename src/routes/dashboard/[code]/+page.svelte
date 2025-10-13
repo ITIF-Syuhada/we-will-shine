@@ -36,7 +36,21 @@
 </svelte:head>
 
 <div class="space-y-3">
-	<!-- Welcome + Quote - 1 Baris (2 kolom) -->
+	<!-- Quote Hari Ini - FULL WIDTH -->
+	<button
+		onclick={getNewQuote}
+		class="group w-full rounded-xl border-2 border-purple-100 bg-gradient-to-r from-purple-50 to-pink-50 p-3 text-left shadow-sm transition-all active:scale-[0.99]"
+	>
+		<div class="flex items-start gap-2">
+			<div class="flex-shrink-0 text-2xl transition-transform group-active:scale-110">🌅</div>
+			<div class="min-w-0 flex-1">
+				<h3 class="mb-1 text-xs font-bold text-purple-600">Quote Hari Ini</h3>
+				<p class="text-[10px] leading-relaxed text-gray-700 italic">"{currentQuote}"</p>
+			</div>
+		</div>
+	</button>
+
+	<!-- Selamat Datang + Mood - 1 Baris (2 kolom) -->
 	<div class="grid grid-cols-2 gap-2">
 		<!-- Selamat Datang - Compact -->
 		<div
@@ -48,43 +62,6 @@
 				<p class="text-[9px] text-gray-600">Explore karir!</p>
 			</div>
 		</div>
-
-		<!-- Quote Hari Ini - Compact -->
-		<button
-			onclick={getNewQuote}
-			class="group rounded-xl border-2 border-purple-100 bg-gradient-to-r from-purple-50 to-pink-50 p-3 text-left shadow-sm transition-all active:scale-95"
-		>
-			<div class="flex items-start gap-2">
-				<div class="flex-shrink-0 text-xl transition-transform group-active:scale-110">🌅</div>
-				<div class="min-w-0 flex-1">
-					<h3 class="mb-0.5 text-[10px] font-bold text-purple-600">Quote Hari Ini</h3>
-					<p class="line-clamp-2 text-[9px] leading-relaxed text-gray-700 italic">
-						"{currentQuote}"
-					</p>
-				</div>
-			</div>
-		</button>
-	</div>
-
-	<!-- Karir, Mood, Impian - 1 Baris (3 kolom) -->
-	<div class="grid grid-cols-3 gap-2">
-		<!-- Career Progress - Compact -->
-		<button
-			onclick={() => goto(`${base}/dashboard/${$page.params.code}/careers`)}
-			class="group rounded-xl border-2 border-green-100 bg-gradient-to-br from-green-50 to-emerald-50 p-3 text-center shadow-sm transition-all active:scale-95"
-		>
-			<div class="mb-1 text-2xl transition-transform group-active:scale-110">🎯</div>
-			<h3 class="mb-1 text-[10px] font-bold text-green-600">Karir</h3>
-			<div class="mb-1 text-lg font-bold text-green-700">
-				{exploredCount}/{totalCareers}
-			</div>
-			<div class="mx-auto h-1 w-full max-w-[60px] overflow-hidden rounded-full bg-green-200">
-				<div
-					class="h-full rounded-full bg-green-400 transition-all"
-					style="width: {(exploredCount / totalCareers) * 100}%"
-				></div>
-			</div>
-		</button>
 
 		<!-- Mood Tracker - Compact -->
 		<div
@@ -104,6 +81,27 @@
 				</button>
 			</div>
 		</div>
+	</div>
+
+	<!-- Karir + Impian - 1 Baris (2 kolom) -->
+	<div class="grid grid-cols-2 gap-2">
+		<!-- Career Progress - Compact -->
+		<button
+			onclick={() => goto(`${base}/dashboard/${$page.params.code}/careers`)}
+			class="group rounded-xl border-2 border-green-100 bg-gradient-to-br from-green-50 to-emerald-50 p-3 text-center shadow-sm transition-all active:scale-95"
+		>
+			<div class="mb-1 text-2xl transition-transform group-active:scale-110">🎯</div>
+			<h3 class="mb-1 text-[10px] font-bold text-green-600">Karir</h3>
+			<div class="mb-1 text-lg font-bold text-green-700">
+				{exploredCount}/{totalCareers}
+			</div>
+			<div class="mx-auto h-1 w-full max-w-[60px] overflow-hidden rounded-full bg-green-200">
+				<div
+					class="h-full rounded-full bg-green-400 transition-all"
+					style="width: {(exploredCount / totalCareers) * 100}%"
+				></div>
+			</div>
+		</button>
 
 		<!-- Dreams Count - Compact -->
 		<button
