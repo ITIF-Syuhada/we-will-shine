@@ -80,10 +80,10 @@ export const db = {
 			.from('students')
 			.select('*')
 			.eq('student_code', code)
-			.single();
+			.maybeSingle();
 
 		if (error) throw error;
-		return data as Student;
+		return data as Student | null;
 	},
 
 	async createStudent(student: Omit<Student, 'id' | 'created_at' | 'updated_at'>) {
@@ -219,13 +219,13 @@ export const db = {
 			.select('*')
 			.eq('email', email)
 			.eq('password_hash', password) // In production, use proper password hashing
-			.single();
+			.maybeSingle();
 
 		if (error) {
-			if (error.code === 'PGRST116') return null; // Not found
+			console.error('Admin login error:', error);
 			throw error;
 		}
-		return data as Admin;
+		return data as Admin | null;
 	},
 
 	async getAdmin(id: string) {
