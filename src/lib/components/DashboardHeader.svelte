@@ -76,6 +76,12 @@
 				title: 'Dreams',
 				desc: 'Your aspirations'
 			};
+		} else if (currentPath.includes('/analytics')) {
+			return {
+				icon: '📊',
+				title: 'Analytics',
+				desc: 'Your progress insights'
+			};
 		}
 		return null; // Home page - no dynamic title
 	});

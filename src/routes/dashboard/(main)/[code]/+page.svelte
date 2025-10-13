@@ -167,6 +167,25 @@
 				💬 Mulai Chat
 			</a>
 		</div>
+
+		<!-- Analytics Card - NEW -->
+		<div class="rounded-xl border-2 border-purple-100 bg-white p-3 shadow-sm">
+			<div class="mb-2 flex items-center gap-2">
+				<div class="rounded-lg bg-purple-100 p-1">
+					<span class="text-lg">📊</span>
+				</div>
+				<h3 class="text-xs font-bold text-gray-800">Analytics</h3>
+			</div>
+			<p class="mb-2 text-[11px] leading-relaxed text-gray-600">
+				Lihat progress belajar dan pola minatmu!
+			</p>
+			<a
+				href="{base}/dashboard/{$page.params.code}/analytics"
+				class="block w-full rounded-lg border-2 border-purple-400 bg-white py-2 text-center text-xs font-bold text-purple-600 shadow-sm transition-all active:scale-95"
+			>
+				📈 Lihat Progress
+			</a>
+		</div>
 	</div>
 
 	<!-- Compact Message from Teachers -->

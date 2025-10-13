@@ -176,5 +176,30 @@ export const db = {
 
 		if (error) throw error;
 		return data as Achievement;
+	},
+
+	// Study Sessions
+	async getStudySessions(studentId: string, limit = 30) {
+		const { data, error } = await supabase
+			.from('study_sessions')
+			.select('*')
+			.eq('student_id', studentId)
+			.order('started_at', { ascending: false })
+			.limit(limit);
+
+		if (error) throw error;
+		return data;
+	},
+
+	async createStudySession(session: {
+		student_id: string;
+		subject: string;
+		duration_minutes: number;
+		started_at: string;
+	}) {
+		const { data, error } = await supabase.from('study_sessions').insert(session).select().single();
+
+		if (error) throw error;
+		return data;
 	}
 };

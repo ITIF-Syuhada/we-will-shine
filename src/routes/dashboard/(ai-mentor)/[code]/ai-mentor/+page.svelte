@@ -12,7 +12,7 @@
 	let inputText = $state('');
 	let isTyping = $state(false);
 	let chatContainer: HTMLDivElement;
-	let showQuickQuestions = $state(true);
+	let showQuickQuestions = $state(false);
 
 	const firstName = $derived($userProgress?.studentName.split(' ')[0] || '');
 
