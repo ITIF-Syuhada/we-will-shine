@@ -2,8 +2,9 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { userProgress, levelProgress } from '$lib/stores/user';
+	import { userProgress } from '$lib/stores/user';
 	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 
 	let { children } = $props();
 
@@ -52,7 +53,9 @@
 	const firstName = $derived($userProgress?.studentName.split(' ')[0] || '');
 	const points = $derived($userProgress?.points || 0);
 	const level = $derived($userProgress?.level || 1);
-	const progress = $derived($levelProgress * 100);
+
+	// Check if current page is AI Mentor (hide header completely)
+	const isAIMentorPage = $derived($page.url.pathname.includes('/ai-mentor'));
 
 	// Dynamic page title based on route
 	const pageInfo = $derived.by(() => {
@@ -75,104 +78,107 @@
 </script>
 
 <div class="min-h-screen pb-20">
-	<!-- Super Compact Header -->
-	<header
-		class="sticky top-0 z-50 border-b border-purple-100 bg-white/95 shadow-sm backdrop-blur-md"
-	>
-		<div class="mx-auto max-w-7xl px-3 py-2">
-			<div class="flex items-center justify-between">
-				<!-- Greeting - More Compact -->
-				<div class="flex items-center space-x-2">
-					<div class="rounded-full bg-gradient-to-br from-purple-200 to-pink-200 p-1.5">
-						<span class="text-lg">🌟</span>
-					</div>
-					<div class="hidden sm:block">
-						<h1 class="text-xs font-bold text-gray-800">{firstName}</h1>
-						<p class="text-[10px] text-gray-500">Lv.{level}</p>
-					</div>
-				</div>
-
-				<!-- Compact Stats -->
-				<div class="flex items-center space-x-1.5">
-					<!-- Level (Desktop Only) -->
-					<div
-						class="hidden items-center space-x-1.5 rounded-full border border-purple-200 bg-purple-50 px-2.5 py-1 md:flex"
-					>
-						<span class="text-[10px] font-semibold text-purple-600">Lv.{level}</span>
-						<div class="h-1.5 w-16 overflow-hidden rounded-full bg-purple-200">
-							<div
-								class="h-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400 transition-all duration-500"
-								style="width: {progress}%"
-							></div>
+	<!-- Super Compact Header - Hidden on AI Mentor page -->
+	{#if !isAIMentorPage}
+		<header
+			transition:slide={{ duration: 300, axis: 'y' }}
+			class="sticky top-0 z-50 border-b-2 border-purple-100/50 bg-gradient-to-r from-white via-purple-50/30 to-pink-50/30 shadow-sm backdrop-blur-md"
+		>
+			<div class="mx-auto max-w-7xl px-3 py-2">
+				<div class="flex items-center justify-between gap-2">
+					<!-- Left: Name + Level + Page Title (with soft separator) -->
+					<div class="flex min-w-0 flex-1 items-center gap-2">
+						<!-- Name + Level - Compact Card -->
+						<div class="flex items-center gap-1 rounded-lg bg-white/60 px-1.5 py-1 shadow-sm">
+							<div class="min-w-0">
+								<div class="truncate text-[18px] leading-tight font-bold text-gray-800">
+									{firstName}
+								</div>
+								<div class="text-[8px] leading-tight font-semibold text-purple-600">Lv.{level}</div>
+							</div>
 						</div>
+
+						<!-- Soft Separator + Page Title (if not home) -->
+						{#if pageInfo}
+							<!-- Separator: Soft dots -->
+							<div class="flex items-center gap-0.5 opacity-40">
+								<div class="h-1 w-1 rounded-full bg-purple-300"></div>
+								<div class="h-1 w-1 rounded-full bg-pink-300"></div>
+								<div class="h-1 w-1 rounded-full bg-purple-300"></div>
+							</div>
+
+							<!-- Page Title - Always Visible -->
+							<div class="flex min-w-0 flex-1 items-center gap-1.5">
+								<div class="rounded-lg bg-white/60 p-1 shadow-sm">
+									<span class="text-sm">{pageInfo.icon}</span>
+								</div>
+								<div class="min-w-0 flex-1">
+									<div class="truncate text-[10px] leading-tight font-bold text-gray-800">
+										{pageInfo.title}
+									</div>
+									<div class="truncate text-[8px] leading-tight text-gray-600">{pageInfo.desc}</div>
+								</div>
+							</div>
+						{/if}
 					</div>
 
-					<!-- Points - Compact -->
-					<div
-						class="flex items-center space-x-1 rounded-full border border-yellow-200 bg-yellow-50 px-2.5 py-1"
-					>
-						<span class="text-xs">⭐</span>
-						<span class="text-xs font-bold text-yellow-700">{points}</span>
-					</div>
+					<!-- Right: Points + Logout -->
+					<div class="flex flex-shrink-0 items-center gap-1.5">
+						<!-- Points - Soft Card -->
+						<div
+							class="flex items-center gap-1 rounded-lg border border-yellow-200/50 bg-gradient-to-r from-yellow-50 to-orange-50/50 px-2 py-1 shadow-sm"
+						>
+							<span class="text-xs">⭐</span>
+							<span class="text-[11px] font-bold text-yellow-700">{points}</span>
+						</div>
 
-					<!-- Logout - Compact -->
-					<button
-						onclick={handleLogout}
-						class="rounded-full border border-gray-200 bg-gray-50 p-1 transition-all hover:bg-gray-100"
-						title="Keluar"
-					>
-						<span class="text-xs">🚪</span>
-					</button>
+						<!-- Logout - With Text -->
+						<button
+							onclick={handleLogout}
+							class="flex items-center gap-1 rounded-lg border border-gray-200/50 bg-gray-50/50 px-2 py-1 transition-all hover:bg-gray-100 active:scale-95"
+							title="Keluar"
+						>
+							<span class="text-[10px]">🚪</span>
+							<span class="text-[9px] font-semibold text-gray-700">Logout</span>
+						</button>
+					</div>
 				</div>
 			</div>
-		</div>
-
-		<!-- Dynamic Page Title (when not home) -->
-		{#if pageInfo}
-			<div
-				class="border-t border-purple-100 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100"
-			>
-				<div class="mx-auto max-w-7xl px-3 py-2">
-					<div class="flex items-center gap-2">
-						<span class="text-xl">{pageInfo.icon}</span>
-						<div>
-							<h2 class="text-xs font-bold text-gray-800">{pageInfo.title}</h2>
-							<p class="text-[9px] text-gray-600">{pageInfo.desc}</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		{/if}
-	</header>
+		</header>
+	{/if}
 
 	<!-- Main Content -->
 	<main class="mx-auto max-w-7xl px-4 py-4">
 		{@render children()}
 	</main>
 
-	<!-- Bottom Navigation (Mobile-Friendly) -->
-	<nav
-		class="fixed right-0 bottom-0 left-0 z-50 border-t border-purple-100 bg-white/95 shadow-2xl backdrop-blur-md"
-	>
-		<div class="mx-auto grid max-w-md grid-cols-5 gap-1 px-2 py-2">
-			{#each navItems as item (item.path)}
-				{@const active = isActive(item.path)}
-				<a
-					href="{base}/dashboard/{$page.params.code}{item.path}"
-					class="group flex flex-col items-center justify-center space-y-1 rounded-xl px-2 py-2.5 transition-all {active
-						? 'bg-gradient-to-br from-purple-100 to-pink-100'
-						: 'hover:bg-purple-50'}"
-				>
-					<span
-						class="text-2xl transition-transform group-hover:scale-110 {active ? '' : 'opacity-60'}"
+	<!-- Bottom Navigation - Rounded top only -->
+	<nav class="fixed right-0 bottom-0 left-0 z-50 flex justify-center">
+		<div
+			class="w-full rounded-t-2xl border-2 border-b-0 border-purple-200/50 bg-white/95 shadow-2xl backdrop-blur-md sm:w-auto sm:max-w-2xl"
+		>
+			<div class="mx-auto grid grid-cols-5 gap-1 px-2 py-2 sm:gap-2 sm:px-4">
+				{#each navItems as item (item.path)}
+					{@const active = isActive(item.path)}
+					<a
+						href="{base}/dashboard/{$page.params.code}{item.path}"
+						class="group flex flex-col items-center justify-center space-y-0.5 rounded-xl px-3 py-2 transition-all {active
+							? 'bg-gradient-to-br from-purple-100 to-pink-100 shadow-sm'
+							: 'hover:bg-purple-50'}"
 					>
-						{item.icon}
-					</span>
-					<span class="text-xs font-semibold {active ? 'text-purple-600' : 'text-gray-500'}">
-						{item.label}
-					</span>
-				</a>
-			{/each}
+						<span
+							class="text-xl transition-transform group-hover:scale-110 {active
+								? ''
+								: 'opacity-60'}"
+						>
+							{item.icon}
+						</span>
+						<span class="text-[9px] font-semibold {active ? 'text-purple-600' : 'text-gray-500'}">
+							{item.label}
+						</span>
+					</a>
+				{/each}
+			</div>
 		</div>
 	</nav>
 
