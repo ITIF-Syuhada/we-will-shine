@@ -191,7 +191,8 @@
 			<!-- Right: Points + Logout -->
 			<div class="flex flex-shrink-0 items-center gap-2">
 				<!-- Points - Super Playful Card with Sprinkle Effect -->
-				<div
+				<button
+					type="button"
 					onclick={createSprinkleEffect}
 					class="group/points flex h-8 cursor-pointer items-center gap-1.5 rounded-xl border-2 border-yellow-300/60 bg-gradient-to-r from-yellow-100 to-orange-100 px-3 py-1.5 shadow-md transition-all duration-300 select-none hover:scale-110 hover:rotate-3 hover:border-yellow-400 hover:from-yellow-200 hover:to-orange-200 hover:shadow-2xl active:scale-95"
 				>
@@ -207,7 +208,7 @@
 						class="animate-pulse text-xs opacity-0 transition-opacity group-hover/points:opacity-100"
 						>💰</span
 					>
-				</div>
+				</button>
 
 				<!-- Logout - Super Playful Button -->
 				<button
