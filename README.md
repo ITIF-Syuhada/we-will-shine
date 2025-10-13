@@ -217,9 +217,146 @@ Harus diubah menjadi client-side only:
 - 🔧 [Fix Sverdle 404](docs/FIX-SVERDLE-404.md) - Technical fix documentation
 - ⚙️ [Workflows Guide](docs/WORKFLOWS-GUIDE.md) - GitHub Actions & CI/CD
 
+### **Contributing:**
+
+- 🤝 [Contributing Guide](CONTRIBUTING.md) - **How to contribute to this project**
+- 📜 [Code of Conduct](CODE_OF_CONDUCT.md) - Community guidelines
+- 🔒 [Security Policy](SECURITY.md) - Report vulnerabilities
+- 📄 [License](LICENSE) - MIT License
+
 ### **External Docs:**
 
 - [SvelteKit](https://kit.svelte.dev/)
 - [adapter-static](https://kit.svelte.dev/docs/adapter-static)
 - [GitHub Pages](https://docs.github.com/en/pages)
 - [Supabase](https://supabase.com/docs)
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from everyone! Whether you're a developer, designer, educator, or student - there's a way for you to help.
+
+**Ways to Contribute:**
+
+- 💻 Code (features, bug fixes, improvements)
+- 📚 Documentation (guides, translations)
+- 🎨 Design (UI/UX, accessibility)
+- 🧪 Testing (bug reports, QA)
+- 💬 Community (support, discussions)
+
+**Quick Start:**
+
+```bash
+# Fork & clone the repo
+git clone https://github.com/YOUR_USERNAME/we-will-shine.git
+
+# Install dependencies
+pnpm install
+
+# Start development
+pnpm run dev
+
+# Run tests
+pnpm run test
+```
+
+→ Read full guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+
+---
+
+## 👥 Contributors
+
+This project exists thanks to all the people who contribute.
+
+<!-- ALL-CONTRIBUTORS-LIST:START -->
+<!-- This will be auto-generated -->
+
+**Core Team:**
+
+- [@ITIF-Syuhada](https://github.com/ITIF-Syuhada) - Creator & Lead Developer
+
+**Want to be listed here?** Make a contribution and you'll be added automatically!
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+---
+
+## 📜 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+**What this means:**
+
+- ✅ Free to use for any purpose
+- ✅ Free to modify and distribute
+- ✅ Free for commercial use
+- ✅ Just keep the license notice
+
+---
+
+## 🙏 Acknowledgments
+
+**Special Thanks:**
+
+- 💝 Siswa-siswi 7D Putri (untuk inspirasi)
+- 🎓 SMP IT Masjid Syuhada
+- 👨‍💻 All contributors & supporters
+- 🌟 Open source community
+
+**Built with:**
+
+- [SvelteKit](https://kit.svelte.dev/) - Framework
+- [TailwindCSS](https://tailwindcss.com/) - Styling
+- [Supabase](https://supabase.com/) - Backend (planned)
+- [Gemini AI](https://deepmind.google/technologies/gemini/) - AI (planned)
+
+---
+
+## 📞 Contact & Support
+
+**For Schools:**
+
+- 📧 Email: schools@wewillshine.dev
+- 📅 Book Demo: [calendly.com/wewillshine](https://calendly.com/wewillshine)
+
+**For Contributors:**
+
+- 💬 GitHub Discussions
+- 🐛 GitHub Issues
+- 📧 Email: hello@wewillshine.dev
+
+**For Partnerships:**
+
+- 🤝 Email: partnerships@wewillshine.dev
+- 💰 Sponsorship: [wewillshine.dev/sponsor](https://wewillshine.dev/sponsor)
+
+**Security:**
+
+- 🔒 Email: security@wewillshine.dev
+- 📋 See: [SECURITY.md](SECURITY.md)
+
+---
+
+## ⭐ Star This Repo!
+
+If you find this project useful, please consider giving it a star! It helps us reach more schools and contributors.
+
+[![GitHub stars](https://img.shields.io/github/stars/ITIF-Syuhada/we-will-shine?style=social)](https://github.com/ITIF-Syuhada/we-will-shine/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/ITIF-Syuhada/we-will-shine?style=social)](https://github.com/ITIF-Syuhada/we-will-shine/network/members)
+
+---
+
+## 🚀 Roadmap
+
+**Current:** v1.0 - Career Quest (MVP)  
+**Next:** v2.0 - Mental Health & BK Dashboard  
+**Future:** Open Source National Platform
+
+→ See full roadmap: [ROADMAP.md](docs/ROADMAP.md)
+
+---
+
+**We Will Shine - Inspiring Tomorrow's Tech Leaders, Supporting Mental Health Today** 🌟💝
+
+_"Built with ❤️ for students, by people who care"_
