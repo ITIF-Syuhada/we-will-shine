@@ -13,7 +13,11 @@ Aplikasi web interaktif untuk eksplorasi karir teknologi dengan perspektif Islam
 - 🏆 Termotivasi dengan gamifikasi (points, levels, achievements)
 - ☪️ Memahami nilai Islam dalam setiap profesi
 
-**Origin Story:** Hadiah balasan untuk siswa yang memberikan sepatu kepada guru - bukan hanya coklat manis, tapi juga aplikasi yang memberi nilai edukatif untuk masa depan mereka.
+### **Origin Story:**
+
+Project ini **diinisiasi dan digagas oleh [sandikodev](https://github.com/sandikodev)** atas rasa syukur telah mendapat kesempatan untuk mengajar anak-anak SMP IT Masjid Syuhada yang soleh dan solehah.
+
+Berawal dari hadiah sepatu yang diberikan siswa kepada guru, project ini menjadi hadiah balasan - bukan hanya coklat manis, tapi aplikasi yang memberi nilai edukatif untuk masa depan mereka. Sebuah bentuk terima kasih yang berbuah manfaat berkelanjutan. 💝
 
 ### **🌍 Our Vision: Free & Open Source for All Schools**
 
@@ -272,9 +276,13 @@ This project exists thanks to all the people who contribute.
 <!-- ALL-CONTRIBUTORS-LIST:START -->
 <!-- This will be auto-generated -->
 
+**Founder & Creator:**
+
+- [@sandikodev](https://github.com/sandikodev) - Founder, Creator & Lead Developer
+
 **Core Team:**
 
-- [@ITIF-Syuhada](https://github.com/ITIF-Syuhada) - Creator & Lead Developer
+- [@ITIF-Syuhada](https://github.com/ITIF-Syuhada) - Organization Account
 
 **Want to be listed here?** Make a contribution and you'll be added automatically!
 
@@ -297,10 +305,16 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 🙏 Acknowledgments
 
+**Created by:**
+
+- 💻 [@sandikodev](https://github.com/sandikodev) - Founder & Creator
+  - _"Atas rasa syukur telah mendapat kesempatan mengajar anak-anak SMP IT Masjid Syuhada yang soleh dan solehah"_
+
 **Special Thanks:**
 
-- 💝 Siswa-siswi 7D Putri (untuk inspirasi)
-- 🎓 SMP IT Masjid Syuhada
+- 💝 Siswa-siswi 7D Putri (untuk inspirasi hadiah sepatu & menjadi pilot users)
+- 🎓 SMP IT Masjid Syuhada (untuk kepercayaan dan dukungan)
+- 👨‍🏫 Ustadz & Ustadzah (untuk guidance dan feedback)
 - 👨‍💻 All contributors & supporters
 - 🌟 Open source community
 

@@ -527,6 +527,13 @@ Activities:
 
 ## 🙏 Acknowledgments
 
+**Founded by:**
+
+- 💻 **sandikodev** ([@sandikodev](https://github.com/sandikodev))
+  - Creator & Lead Developer
+  - Guru di SMP IT Masjid Syuhada
+  - _"Atas rasa syukur telah mendapat kesempatan mengajar anak-anak yang soleh dan solehah"_
+
 **This vision is inspired by:**
 
 - 💝 The courage of students who share their struggles
@@ -534,6 +541,7 @@ Activities:
 - 👨‍👩‍👧‍👦 The trust of parents in our mission
 - 🌟 The open source community's collaborative spirit
 - 🇮🇩 Indonesia's potential to lead in ethical EdTech
+- 🎁 The gift of shoes from 7D Putri students - a simple act that sparked a movement
 
 ---
 

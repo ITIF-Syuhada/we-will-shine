@@ -1225,10 +1225,18 @@ Roadmap ini adalah panduan strategis pengembangan aplikasi **We Will Shine** unt
 
 ## 🙏 Acknowledgments
 
+**Founded by:**
+
+- 💻 **sandikodev** ([@sandikodev](https://github.com/sandikodev))
+  - Founder, Creator & Lead Developer
+  - Guru di SMP IT Masjid Syuhada
+  - _"Atas rasa syukur telah mendapat kesempatan mengajar anak-anak yang soleh dan solehah"_
+
 **Terima kasih kepada:**
 
-- 💝 Siswa-siswi 7D Putri (inspirasi awal)
-- 🎓 SMP IT Masjid Syuhada
+- 💝 Siswa-siswi 7D Putri (inspirasi hadiah sepatu & pilot users)
+- 🎓 SMP IT Masjid Syuhada (kepercayaan dan dukungan)
+- 👨‍🏫 Ustadz & Ustadzah (guidance dan feedback)
 - 👨‍💻 Development team
 - 🤝 Beta testers & early adopters
 - 🌟 Open source community

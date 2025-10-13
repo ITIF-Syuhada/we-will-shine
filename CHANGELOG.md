@@ -2,6 +2,11 @@
 
 All notable changes to We Will Shine - Career Quest project.
 
+**Created by:** [@sandikodev](https://github.com/sandikodev)  
+_"Atas rasa syukur telah mendapat kesempatan mengajar anak-anak SMP IT Masjid Syuhada yang soleh dan solehah"_
+
+---
+
 ## [1.0.0] - 2025-10-13
 
 ### 🎉 Initial Release - Complete Application

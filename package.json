@@ -1,7 +1,29 @@
 {
 	"name": "we-will-shine",
-	"private": true,
-	"version": "0.0.1",
+	"version": "1.0.0",
+	"description": "Open source platform for student career guidance & wellbeing support with AI mentor - Built with love for Indonesian schools",
+	"author": "sandikodev <https://github.com/sandikodev>",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ITIF-Syuhada/we-will-shine.git"
+	},
+	"homepage": "https://itif-syuhada.github.io/we-will-shine/",
+	"bugs": {
+		"url": "https://github.com/ITIF-Syuhada/we-will-shine/issues"
+	},
+	"keywords": [
+		"education",
+		"career-guidance",
+		"mental-health",
+		"student-wellbeing",
+		"open-source",
+		"indonesia",
+		"islamic-education",
+		"sveltekit",
+		"tailwindcss",
+		"ai-chatbot"
+	],
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
