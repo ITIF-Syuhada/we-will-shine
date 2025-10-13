@@ -36,37 +36,35 @@
 </svelte:head>
 
 <div class="space-y-3">
-	<!-- Compact Welcome Banner -->
-	<div
-		class="rounded-xl border-2 border-purple-200 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 p-3 shadow-sm"
-	>
-		<div class="flex items-center gap-2">
-			<span class="text-2xl">👋</span>
-			<div>
-				<h2 class="text-sm font-bold text-gray-800">Selamat Datang!</h2>
-				<p class="text-[10px] text-gray-600">Jelajahi karir teknologi masa depanmu</p>
+	<!-- Welcome + Quote - 1 Baris (2 kolom) -->
+	<div class="grid grid-cols-2 gap-2">
+		<!-- Selamat Datang - Compact -->
+		<div
+			class="rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-100 to-pink-100 p-3 shadow-sm"
+		>
+			<div class="text-center">
+				<span class="mb-1 block text-2xl">👋</span>
+				<h2 class="text-xs font-bold text-gray-800">Selamat Datang!</h2>
+				<p class="text-[9px] text-gray-600">Explore karir!</p>
 			</div>
 		</div>
-	</div>
 
-	<!-- Quote Hari Ini - Full Width Compact -->
-	<button
-		onclick={getNewQuote}
-		class="group w-full rounded-xl border-2 border-purple-100 bg-gradient-to-r from-purple-50 to-pink-50 p-3 text-left shadow-sm transition-all active:scale-[0.98]"
-	>
-		<div class="flex items-start gap-3">
-			<div class="flex-shrink-0 text-2xl transition-transform group-active:scale-110">🌅</div>
-			<div class="min-w-0 flex-1">
-				<h3 class="mb-1 text-xs font-bold text-purple-600">Quote Hari Ini</h3>
-				<p class="line-clamp-2 text-[11px] leading-relaxed text-gray-700 italic">
-					"{currentQuote}"
-				</p>
-				<span class="mt-1 inline-block text-[9px] font-semibold text-purple-500"
-					>Tap untuk refresh! ✨</span
-				>
+		<!-- Quote Hari Ini - Compact -->
+		<button
+			onclick={getNewQuote}
+			class="group rounded-xl border-2 border-purple-100 bg-gradient-to-r from-purple-50 to-pink-50 p-3 text-left shadow-sm transition-all active:scale-95"
+		>
+			<div class="flex items-start gap-2">
+				<div class="flex-shrink-0 text-xl transition-transform group-active:scale-110">🌅</div>
+				<div class="min-w-0 flex-1">
+					<h3 class="mb-0.5 text-[10px] font-bold text-purple-600">Quote Hari Ini</h3>
+					<p class="line-clamp-2 text-[9px] leading-relaxed text-gray-700 italic">
+						"{currentQuote}"
+					</p>
+				</div>
 			</div>
-		</div>
-	</button>
+		</button>
+	</div>
 
 	<!-- Karir, Mood, Impian - 1 Baris (3 kolom) -->
 	<div class="grid grid-cols-3 gap-2">
