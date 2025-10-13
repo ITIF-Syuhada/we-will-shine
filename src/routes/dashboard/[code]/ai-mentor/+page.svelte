@@ -177,40 +177,51 @@
 </svelte:head>
 
 <div class="space-y-6">
-	<!-- Header -->
-	<div class="rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 p-6 text-white shadow-lg">
-		<div class="flex items-center gap-3">
-			<span class="text-4xl">🤖</span>
+	<!-- Header dengan design soft -->
+	<div
+		class="rounded-3xl border-2 border-purple-200 bg-gradient-to-r from-purple-100 via-pink-100 to-blue-100 p-8 shadow-lg"
+	>
+		<div class="flex items-center gap-4">
+			<div class="rounded-full bg-white/70 p-4">
+				<span class="text-5xl">🤖</span>
+			</div>
 			<div>
-				<h1 class="text-2xl font-bold">AI Mentor Kamu</h1>
-				<p class="text-sm opacity-90">Tanya apa saja tentang karir dan masa depan!</p>
+				<h1 class="mb-1 text-3xl font-bold text-gray-800">AI Mentor Kamu</h1>
+				<p class="text-gray-600">Tanya apa saja tentang karir dan masa depan!</p>
 			</div>
 		</div>
 	</div>
 
-	<!-- Chat Container -->
-	<div class="overflow-hidden rounded-2xl bg-white shadow-xl">
+	<!-- Chat Container dengan border soft -->
+	<div class="overflow-hidden rounded-3xl border-2 border-purple-200 bg-white shadow-xl">
 		<!-- Chat Messages -->
-		<div bind:this={chatContainer} class="h-[500px] space-y-4 overflow-y-auto bg-gray-50 p-4">
+		<div
+			bind:this={chatContainer}
+			class="h-[520px] space-y-4 overflow-y-auto bg-gradient-to-b from-purple-50/30 to-pink-50/30 p-6"
+		>
 			{#each messages as message, idx (idx)}
-				<div class="flex items-start space-x-2 {message.type === 'user' ? 'justify-end' : ''}">
+				<div
+					class="flex items-start space-x-3 {message.type === 'user'
+						? 'flex-row-reverse space-x-reverse'
+						: ''}"
+				>
 					{#if message.type === 'bot'}
 						<div
-							class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-purple-500 text-sm font-bold text-white"
+							class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-300 to-pink-300 text-sm font-bold text-white shadow-md"
 						>
 							AI
 						</div>
 					{/if}
 					<div
-						class="max-w-xs rounded-2xl px-4 py-3 {message.type === 'user'
-							? 'bg-purple-500 text-white'
-							: 'bg-white text-gray-800 shadow-sm'}"
+						class="max-w-sm rounded-2xl border-2 px-5 py-3.5 shadow-sm {message.type === 'user'
+							? 'border-purple-200 bg-gradient-to-r from-purple-100 to-pink-100 text-gray-800'
+							: 'border-gray-200 bg-white text-gray-800'}"
 					>
-						<p class="text-sm whitespace-pre-line">{message.text}</p>
+						<p class="text-sm leading-relaxed whitespace-pre-line">{message.text}</p>
 					</div>
 					{#if message.type === 'user'}
 						<div
-							class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-pink-500 text-xs font-bold text-white"
+							class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-pink-300 to-purple-300 text-xs font-bold text-white shadow-md"
 						>
 							You
 						</div>
@@ -220,24 +231,24 @@
 
 			<!-- Typing Indicator -->
 			{#if isTyping}
-				<div class="flex items-start space-x-2">
+				<div class="flex items-start space-x-3">
 					<div
-						class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-purple-500 text-sm font-bold text-white"
+						class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-purple-300 to-pink-300 text-sm font-bold text-white shadow-md"
 					>
 						AI
 					</div>
-					<div class="rounded-2xl bg-white px-4 py-3 shadow-sm">
-						<div class="flex space-x-1">
+					<div class="rounded-2xl border-2 border-gray-200 bg-white px-5 py-3.5 shadow-sm">
+						<div class="flex space-x-1.5">
 							<div
-								class="h-2 w-2 animate-bounce rounded-full bg-purple-500"
+								class="h-2 w-2 animate-bounce rounded-full bg-purple-400"
 								style="animation-delay: 0ms"
 							></div>
 							<div
-								class="h-2 w-2 animate-bounce rounded-full bg-purple-500"
+								class="h-2 w-2 animate-bounce rounded-full bg-pink-400"
 								style="animation-delay: 150ms"
 							></div>
 							<div
-								class="h-2 w-2 animate-bounce rounded-full bg-purple-500"
+								class="h-2 w-2 animate-bounce rounded-full bg-blue-400"
 								style="animation-delay: 300ms"
 							></div>
 						</div>
@@ -247,53 +258,53 @@
 		</div>
 
 		<!-- Input Area -->
-		<div class="border-t bg-white p-4">
-			<div class="flex space-x-2">
+		<div class="border-t-2 border-purple-100 bg-white p-5">
+			<div class="flex space-x-3">
 				<input
 					type="text"
 					bind:value={inputText}
 					onkeypress={handleKeyPress}
 					placeholder="Ketik pertanyaanmu di sini..."
-					class="flex-1 rounded-xl border-2 border-gray-300 px-4 py-3 text-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-200 focus:outline-none"
+					class="flex-1 rounded-2xl border-2 border-purple-200 px-5 py-3.5 text-sm transition-all focus:border-purple-400 focus:ring-4 focus:ring-purple-100 focus:outline-none"
 				/>
 				<button
 					onclick={sendMessage}
 					disabled={inputText.trim().length === 0}
-					class="rounded-xl bg-purple-500 px-6 py-3 font-semibold text-white transition-all hover:bg-purple-600 disabled:cursor-not-allowed disabled:opacity-50"
+					class="rounded-2xl bg-gradient-to-r from-purple-400 to-pink-400 px-7 py-3.5 font-bold text-white shadow-md transition-all hover:scale-[1.02] hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
 				>
 					Kirim
 				</button>
 			</div>
 
 			<!-- Quick Questions -->
-			<div class="mt-3 flex flex-wrap gap-2">
+			<div class="mt-4 flex flex-wrap gap-2">
 				<button
 					onclick={() => quickQuestion('Apa itu programmer?')}
-					class="rounded-full bg-purple-100 px-3 py-1 text-xs text-purple-700 transition-colors hover:bg-purple-200"
+					class="rounded-full border-2 border-purple-200 bg-purple-50 px-4 py-2 text-xs font-medium text-purple-600 transition-all hover:border-purple-300 hover:bg-purple-100"
 				>
 					Apa itu programmer?
 				</button>
 				<button
 					onclick={() => quickQuestion('Bagaimana cara mulai belajar coding?')}
-					class="rounded-full bg-purple-100 px-3 py-1 text-xs text-purple-700 transition-colors hover:bg-purple-200"
+					class="rounded-full border-2 border-pink-200 bg-pink-50 px-4 py-2 text-xs font-medium text-pink-600 transition-all hover:border-pink-300 hover:bg-pink-100"
 				>
 					Cara mulai coding?
 				</button>
 				<button
 					onclick={() => quickQuestion('Butuh motivasi')}
-					class="rounded-full bg-purple-100 px-3 py-1 text-xs text-purple-700 transition-colors hover:bg-purple-200"
+					class="rounded-full border-2 border-blue-200 bg-blue-50 px-4 py-2 text-xs font-medium text-blue-600 transition-all hover:border-blue-300 hover:bg-blue-100"
 				>
 					Butuh motivasi
 				</button>
 				<button
 					onclick={() => quickQuestion('Tips belajar efektif')}
-					class="rounded-full bg-purple-100 px-3 py-1 text-xs text-purple-700 transition-colors hover:bg-purple-200"
+					class="rounded-full border-2 border-green-200 bg-green-50 px-4 py-2 text-xs font-medium text-green-600 transition-all hover:border-green-300 hover:bg-green-100"
 				>
 					Tips belajar
 				</button>
 				<button
 					onclick={() => quickQuestion('Teknologi dalam Islam')}
-					class="rounded-full bg-purple-100 px-3 py-1 text-xs text-purple-700 transition-colors hover:bg-purple-200"
+					class="rounded-full border-2 border-purple-200 bg-purple-50 px-4 py-2 text-xs font-medium text-purple-600 transition-all hover:border-purple-300 hover:bg-purple-100"
 				>
 					Tech & Islam
 				</button>
@@ -302,8 +313,8 @@
 	</div>
 
 	<!-- Tips -->
-	<div class="rounded-2xl border-2 border-dashed border-purple-300 bg-purple-50 p-4">
-		<p class="text-center text-sm text-purple-800">
+	<div class="rounded-2xl border-2 border-dashed border-purple-200 bg-purple-50/50 p-5 text-center">
+		<p class="text-sm text-purple-600">
 			💡 <strong>Tips:</strong> AI Mentor bisa menjawab tentang karir, tips belajar, motivasi, dan nilai
 			Islam dalam teknologi!
 		</p>

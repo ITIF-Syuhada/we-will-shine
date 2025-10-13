@@ -17,64 +17,76 @@
 	<meta name="description" content="Aplikasi eksplorasi karir untuk masa depan cerah" />
 </svelte:head>
 
-<div
-	class="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-500 via-pink-400 to-teal-400 p-4"
->
-	<div class="w-full max-w-lg text-center">
-		<!-- Logo/Icon dengan animasi float -->
-		<div class="mb-8 animate-bounce">
+<div class="flex min-h-screen items-center justify-center p-4">
+	<div class="w-full max-w-md">
+		<!-- Logo Section -->
+		<div class="mb-8 text-center">
 			<div
-				class="mx-auto mb-4 inline-block rounded-full bg-gradient-to-br from-purple-600 to-pink-600 p-6 shadow-2xl"
+				class="animate-float mx-auto mb-4 inline-block rounded-full bg-gradient-to-br from-purple-200 to-pink-200 p-8 shadow-xl"
 			>
-				<span class="text-6xl">🌟</span>
+				<span class="text-6xl drop-shadow-sm">🌟</span>
 			</div>
 			<h1
-				class="mb-2 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-5xl font-bold text-transparent drop-shadow-lg"
+				class="mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-5xl font-bold text-transparent"
 			>
 				We Will Shine
 			</h1>
-			<p class="text-xl font-semibold text-white drop-shadow-md">Jelajah Karir Masa Depan</p>
+			<p class="text-lg font-semibold text-purple-500">Jelajah Karir Masa Depan</p>
 		</div>
 
-		<!-- Welcome Card -->
-		<div class="mb-6 rounded-3xl bg-white/90 p-8 shadow-2xl backdrop-blur-sm">
-			<div class="mb-4 text-4xl">🎁</div>
-			<h2 class="mb-2 text-2xl font-bold text-purple-900">Hadiah Spesial untuk Kamu!</h2>
-			<p class="mb-6 text-gray-700">
-				Selamat datang di aplikasi Career Quest - hadiah dari Bu Guru untuk kelas 7D Putri. Yuk
+		<!-- Main Card -->
+		<div
+			class="mb-4 rounded-3xl border border-purple-100 bg-white/95 p-6 shadow-2xl backdrop-blur-md"
+		>
+			<div class="mb-4 text-center text-5xl">🎁</div>
+			<h2 class="mb-3 text-center text-xl font-bold text-gray-800">Hadiah Spesial!</h2>
+			<p class="mb-5 text-center text-sm leading-relaxed text-gray-600">
+				Selamat datang di aplikasi Career Quest - hadiah penuh cinta dari Ustadz & Ustadzah. Yuk
 				jelajahi dunia karir teknologi dan temukan passionmu! ✨
 			</p>
 
-			<div class="space-y-4">
-				<div class="rounded-2xl bg-gradient-to-r from-purple-100 to-pink-100 p-4">
-					<p class="text-sm font-semibold text-purple-900">Yang kamu akan dapatkan:</p>
-					<ul class="mt-2 space-y-1 text-left text-sm text-gray-700">
-						<li>✅ 8 Profesi Teknologi dengan Nilai Islam</li>
-						<li>✅ AI Mentor untuk membimbing karirmu</li>
-						<li>✅ Quiz Kepribadian & Motivasi Personal</li>
-						<li>✅ Dream Board untuk merencanakan impian</li>
-						<li>✅ Gamifikasi dengan Points & Achievements</li>
-					</ul>
+			<!-- Features List -->
+			<div class="mb-5 space-y-2 text-sm text-gray-700">
+				<div class="flex items-center gap-3 rounded-xl bg-purple-50 p-3">
+					<span class="text-xl">💻</span>
+					<span>8 Profesi Teknologi Islam</span>
 				</div>
-
-				<a
-					href="{base}/unlock"
-					class="block w-full transform rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 py-4 text-lg font-bold text-white shadow-lg transition-all hover:scale-105 hover:from-purple-600 hover:to-pink-600 active:scale-95"
-				>
-					🚀 Mulai Petualangan!
-				</a>
-
-				<p class="text-xs text-white drop-shadow">
-					Punya kode dari coklat? Klik tombol di atas untuk unlock! 🍫
-				</p>
+				<div class="flex items-center gap-3 rounded-xl bg-pink-50 p-3">
+					<span class="text-xl">🤖</span>
+					<span>AI Mentor Interaktif</span>
+				</div>
+				<div class="flex items-center gap-3 rounded-xl bg-blue-50 p-3">
+					<span class="text-xl">🧠</span>
+					<span>Quiz & Motivasi Personal</span>
+				</div>
+				<div class="flex items-center gap-3 rounded-xl bg-green-50 p-3">
+					<span class="text-xl">🏆</span>
+					<span>Points & Achievements</span>
+				</div>
 			</div>
+
+			<!-- CTA Button -->
+			<a
+				href="{base}/unlock"
+				class="group block w-full transform rounded-2xl bg-gradient-to-r from-purple-400 to-pink-400 py-4 text-center text-lg font-bold text-white shadow-lg transition-all hover:scale-[1.02] hover:shadow-xl active:scale-[0.98]"
+			>
+				<span class="flex items-center justify-center gap-2">
+					<span class="text-xl">🚀</span>
+					<span>Mulai Petualangan!</span>
+					<span class="transition-transform group-hover:translate-x-1">→</span>
+				</span>
+			</a>
+
+			<p class="mt-3 text-center text-xs text-gray-500">
+				Scan QR atau masukkan kode dari coklat 🍫
+			</p>
 		</div>
 
-		<!-- Footer Message -->
-		<div class="rounded-2xl bg-white/20 p-4 backdrop-blur-sm">
-			<p class="text-sm text-white drop-shadow">
-				Dengan ❤️ dari Bu Guru untuk masa depan cerah kalian
-			</p>
+		<!-- Footer -->
+		<div
+			class="rounded-2xl border border-purple-100 bg-white/80 p-4 text-center shadow-lg backdrop-blur-md"
+		>
+			<p class="text-sm font-medium text-gray-600">Dengan ❤️ dari Ustadz & Ustadzah</p>
 		</div>
 	</div>
 </div>
@@ -83,10 +95,17 @@
 	@keyframes float {
 		0%,
 		100% {
-			transform: translateY(0px);
+			transform: translateY(0px) rotate(0deg);
 		}
-		50% {
-			transform: translateY(-10px);
+		33% {
+			transform: translateY(-12px) rotate(3deg);
 		}
+		66% {
+			transform: translateY(-6px) rotate(-3deg);
+		}
+	}
+
+	.animate-float {
+		animation: float 6s ease-in-out infinite;
 	}
 </style>

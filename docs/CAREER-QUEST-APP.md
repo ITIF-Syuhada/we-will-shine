@@ -197,7 +197,7 @@ Login (+50 points)
 - [ ] Career roadmap generator
 - [ ] Resource library (courses, books, articles)
 
-## 📝 Notes for Bu Guru
+## 📝 Notes for Ustadz & Ustadzah
 
 Aplikasi ini dirancang dengan cinta dan harapan agar murid-murid:
 
@@ -218,5 +218,5 @@ Barakallahu fiikum! 🌟💝"
 
 ---
 
-**Created with ❤️ by Bu Guru for 7D Putri**
+**Created with ❤️ by Ustadz & Ustadzah**
 **October 2025**

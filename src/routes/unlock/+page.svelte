@@ -72,9 +72,17 @@
 					dekat ke mimpi besarmu!
 				</p>
 			</div>
-			<div class="flex items-center justify-center space-x-2 text-sm text-gray-500">
-				<div class="h-2 w-2 animate-pulse rounded-full bg-purple-500"></div>
-				<span>Loading aplikasi...</span>
+			<div class="flex items-center justify-center space-x-2 text-sm text-purple-500">
+				<div class="h-2 w-2 animate-pulse rounded-full bg-purple-400"></div>
+				<div
+					class="h-2 w-2 animate-pulse rounded-full bg-pink-400"
+					style="animation-delay: 0.2s"
+				></div>
+				<div
+					class="h-2 w-2 animate-pulse rounded-full bg-blue-400"
+					style="animation-delay: 0.4s"
+				></div>
+				<span class="ml-2 font-medium">Loading aplikasi...</span>
 			</div>
 		</div>
 	</div>
@@ -167,7 +175,7 @@
 
 			<!-- Footer -->
 			<div class="mt-4 text-center">
-				<p class="text-sm text-white drop-shadow">Dengan ❤️ dari Bu Guru</p>
+				<p class="text-sm text-white drop-shadow">Dengan ❤️ dari Ustadz & Ustadzah</p>
 			</div>
 		</div>
 	</div>
