@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { userProgress } from '$lib/stores/user';
+	import { db } from '$lib/supabase';
 	import { onMount } from 'svelte';
 
 	interface Message {
@@ -15,14 +16,36 @@
 
 	const firstName = $derived($userProgress?.studentName.split(' ')[0] || '');
 
-	onMount(() => {
-		// Welcome message
-		messages = [
-			{
-				type: 'bot',
-				text: `Assalamualaikum ${firstName}! 🌟 Aku adalah AI Mentor yang siap membantu menjawab pertanyaanmu tentang karir dan masa depan. Tanya apa saja ya! ✨`
+	onMount(async () => {
+		// Load chat history from Supabase
+		if ($userProgress?.studentId) {
+			try {
+				const chatHistory = await db.getChatHistory($userProgress.studentId, 20);
+				if (chatHistory.length > 0) {
+					messages = chatHistory.map((msg) => ({
+						type: msg.type,
+						text: msg.message
+					}));
+				} else {
+					// Welcome message
+					messages = [
+						{
+							type: 'bot',
+							text: `Assalamualaikum ${firstName}! 🌟 Aku adalah AI Mentor yang siap membantu menjawab pertanyaanmu tentang karir dan masa depan. Tanya apa saja ya! ✨`
+						}
+					];
+				}
+			} catch (error) {
+				console.error('Failed to load chat history:', error);
+				// Fallback to welcome message
+				messages = [
+					{
+						type: 'bot',
+						text: `Assalamualaikum ${firstName}! 🌟 Aku adalah AI Mentor yang siap membantu menjawab pertanyaanmu tentang karir dan masa depan. Tanya apa saja ya! ✨`
+					}
+				];
 			}
-		];
+		}
 	});
 
 	const responses: Record<string, string> = {
@@ -119,13 +142,22 @@
 		}
 	}
 
-	function sendMessage() {
+	async function sendMessage() {
 		const text = inputText.trim();
 		if (text.length === 0) return;
 
 		// Add user message
 		messages = [...messages, { type: 'user', text }];
 		inputText = '';
+
+		// Save user message to Supabase
+		if ($userProgress?.studentId) {
+			db.saveChatMessage({
+				student_id: $userProgress.studentId,
+				type: 'user',
+				message: text
+			}).catch((error) => console.error('Failed to save user message:', error));
+		}
 
 		// Add points
 		userProgress.addPoints(10);
@@ -148,6 +180,16 @@
 				const response = getResponse(text);
 				messages = [...messages, { type: 'bot', text: response }];
 				isTyping = false;
+
+				// Save bot response to Supabase
+				if ($userProgress?.studentId) {
+					db.saveChatMessage({
+						student_id: $userProgress.studentId,
+						type: 'bot',
+						message: response
+					}).catch((error) => console.error('Failed to save bot message:', error));
+				}
+
 				setTimeout(() => scrollToBottom(), 100);
 			},
 			1000 + Math.random() * 1000

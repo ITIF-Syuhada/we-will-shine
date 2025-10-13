@@ -3,6 +3,7 @@ import { browser } from '$app/environment';
 import type { Student } from '$lib/data/students';
 import type { Achievement } from '$lib/data/achievements';
 import { initialAchievements } from '$lib/data/achievements';
+import { db } from '$lib/supabase';
 
 export interface Dream {
 	id: number;
@@ -50,25 +51,63 @@ function createUserStore() {
 		subscribe,
 		set,
 		update,
-		login: (student: Student) => {
-			const progress: UserProgress = {
-				studentCode: student.code,
-				studentId: student.id,
-				studentName: student.name,
-				points: 0,
-				level: 1,
-				exploredCareers: [],
-				achievements: initialAchievements,
-				dreams: [],
-				quoteCount: 0,
-				chatCount: 0,
-				quizCompleted: false,
-				quizAnswers: [],
-				personalMotivation: ''
-			};
-			set(progress);
-			if (browser) {
-				localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+		login: async (student: Student) => {
+			try {
+				// Try to get existing student from Supabase
+				let dbStudent = await db.getStudent(student.code).catch(() => null);
+
+				// If student doesn't exist, create new one
+				if (!dbStudent) {
+					dbStudent = await db.createStudent({
+						student_code: student.code,
+						student_name: student.name,
+						points: 0,
+						level: 1
+					});
+				}
+
+				const progress: UserProgress = {
+					studentCode: dbStudent.student_code,
+					studentId: dbStudent.id,
+					studentName: dbStudent.student_name,
+					points: dbStudent.points,
+					level: dbStudent.level,
+					exploredCareers: [],
+					achievements: initialAchievements,
+					dreams: [],
+					quoteCount: 0,
+					chatCount: 0,
+					quizCompleted: false,
+					quizAnswers: [],
+					personalMotivation: ''
+				};
+
+				set(progress);
+				if (browser) {
+					localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+				}
+			} catch (error) {
+				console.error('Login error:', error);
+				// Fallback to local-only mode
+				const progress: UserProgress = {
+					studentCode: student.code,
+					studentId: student.id,
+					studentName: student.name,
+					points: 0,
+					level: 1,
+					exploredCareers: [],
+					achievements: initialAchievements,
+					dreams: [],
+					quoteCount: 0,
+					chatCount: 0,
+					quizCompleted: false,
+					quizAnswers: [],
+					personalMotivation: ''
+				};
+				set(progress);
+				if (browser) {
+					localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+				}
 			}
 		},
 		logout: () => {
@@ -77,7 +116,7 @@ function createUserStore() {
 				localStorage.removeItem(STORAGE_KEY);
 			}
 		},
-		addPoints: (points: number) => {
+		addPoints: async (points: number) => {
 			update((progress) => {
 				if (!progress) return progress;
 				const newPoints = progress.points + points;
@@ -87,6 +126,13 @@ function createUserStore() {
 					points: newPoints,
 					level: newLevel
 				};
+
+				// Sync to Supabase
+				db.updateStudent(progress.studentId, {
+					points: newPoints,
+					level: newLevel
+				}).catch((error) => console.error('Failed to sync points:', error));
+
 				if (browser) {
 					localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
 				}
@@ -106,7 +152,7 @@ function createUserStore() {
 				return updated;
 			});
 		},
-		unlockAchievement: (achievementId: string) => {
+		unlockAchievement: async (achievementId: string) => {
 			update((progress) => {
 				if (!progress) return progress;
 				const achievements = progress.achievements.map((a) =>
@@ -116,6 +162,12 @@ function createUserStore() {
 					...progress,
 					achievements
 				};
+
+				// Sync to Supabase
+				db.unlockAchievement(progress.studentId, achievementId).catch((error) =>
+					console.error('Failed to sync achievement:', error)
+				);
+
 				if (browser) {
 					localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
 				}
