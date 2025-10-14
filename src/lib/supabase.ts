@@ -1,11 +1,32 @@
 import { createClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { env } from '$env/dynamic/public';
+import { browser } from '$app/environment';
 
-// Create Supabase client with fallback for local development
-const supabaseUrl = env.PUBLIC_SUPABASE_URL || '';
-const supabaseKey = env.PUBLIC_SUPABASE_ANON_KEY || '';
+// Singleton pattern to prevent multiple instances
+let supabaseInstance: SupabaseClient | null = null;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+function getSupabaseClient(): SupabaseClient {
+	if (supabaseInstance) {
+		return supabaseInstance;
+	}
+
+	const supabaseUrl = env.PUBLIC_SUPABASE_URL || '';
+	const supabaseKey = env.PUBLIC_SUPABASE_ANON_KEY || '';
+
+	supabaseInstance = createClient(supabaseUrl, supabaseKey, {
+		auth: {
+			persistSession: browser,
+			storageKey: 'we-will-shine-auth',
+			autoRefreshToken: true,
+			detectSessionInUrl: false
+		}
+	});
+
+	return supabaseInstance;
+}
+
+export const supabase = getSupabaseClient();
 
 // Database types (will be updated with actual schema)
 export interface Student {

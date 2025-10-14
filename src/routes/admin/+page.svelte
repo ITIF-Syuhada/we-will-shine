@@ -110,6 +110,21 @@
 			<h3 class="mb-2 text-xl font-bold text-red-800">Auth Management</h3>
 			<p class="text-sm text-gray-600">Manage admin accounts</p>
 		</a>
+
+		<!-- Migrate Codes -->
+		<a
+			href="{base}/admin/migrate-codes"
+			class="group rounded-2xl border-2 border-orange-200 bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+		>
+			<div class="mb-4 flex items-center justify-between">
+				<div class="rounded-full bg-orange-100 p-4 transition-transform group-hover:scale-110">
+					<span class="text-3xl">🔧</span>
+				</div>
+				<span class="text-sm text-orange-600">→</span>
+			</div>
+			<h3 class="mb-2 text-xl font-bold text-orange-800">Migrate Codes</h3>
+			<p class="text-sm text-gray-600">Update student code formats</p>
+		</a>
 	</div>
 
 	<!-- Quick Stats -->
