@@ -1,5 +1,6 @@
 <script lang="ts">
-	import type { Student } from '$lib/supabase';
+	import type { Student, StudentSession, StudentActivityLog } from '$lib/supabase';
+	import { db } from '$lib/supabase';
 	import { browser } from '$app/environment';
 
 	interface Props {
@@ -10,58 +11,36 @@
 
 	let { student = $bindable(null), isOpen = $bindable(false), onClose }: Props = $props();
 
-	// Mock data for login logs (akan diganti dengan data real dari database)
-	const loginLogs = $state([
-		{
-			id: '1',
-			timestamp: new Date('2025-10-14T10:30:00'),
-			device: 'Chrome on Windows',
-			ip: '192.168.1.100',
-			action: 'Login',
-			status: 'Success'
-		},
-		{
-			id: '2',
-			timestamp: new Date('2025-10-13T15:20:00'),
-			device: 'Safari on iPhone',
-			ip: '192.168.1.101',
-			action: 'Login',
-			status: 'Success'
-		},
-		{
-			id: '3',
-			timestamp: new Date('2025-10-12T09:15:00'),
-			device: 'Firefox on macOS',
-			ip: '192.168.1.102',
-			action: 'Login',
-			status: 'Failed'
-		}
-	]);
+	// Real data from database
+	let sessions = $state<StudentSession[]>([]);
+	let activities = $state<StudentActivityLog[]>([]);
+	let loading = $state(false);
+	let error = $state<string | null>(null);
 
-	// Mock activity data
-	const recentActivities = $state([
-		{
-			id: '1',
-			timestamp: new Date('2025-10-14T11:00:00'),
-			activity: 'Completed Quiz',
-			details: 'Career Exploration Quiz - Score: 85%',
-			points: 10
-		},
-		{
-			id: '2',
-			timestamp: new Date('2025-10-14T10:45:00'),
-			activity: 'Chat with AI Mentor',
-			details: 'Discussion about Software Engineering career',
-			points: 5
-		},
-		{
-			id: '3',
-			timestamp: new Date('2025-10-13T16:30:00'),
-			activity: 'Achievement Unlocked',
-			details: 'First Quiz Master - Complete 5 quizzes',
-			points: 20
+	// Load data when student changes
+	$effect(() => {
+		if (student && isOpen) {
+			loadStudentData();
 		}
-	]);
+	});
+
+	async function loadStudentData() {
+		if (!student) return;
+
+		loading = true;
+		error = null;
+
+		try {
+			const data = await db.getStudentDetailData(student.id);
+			sessions = data.sessions;
+			activities = data.activities;
+		} catch (err) {
+			console.error('Failed to load student detail data:', err);
+			error = 'Gagal memuat data. Silakan coba lagi.';
+		} finally {
+			loading = false;
+		}
+	}
 
 	// Close modal on Escape key
 	$effect(() => {
@@ -233,70 +212,69 @@
 							<h3 class="text-lg font-bold text-indigo-800">🔐 Login History</h3>
 						</div>
 						<div class="p-4">
-							{#if loginLogs.length === 0}
+							{#if loading}
+								<div class="py-8 text-center text-gray-500">
+									<p class="text-sm">Loading...</p>
+								</div>
+							{:else if error}
+								<div class="py-8 text-center text-red-500">
+									<p class="text-sm">{error}</p>
+								</div>
+							{:else if sessions.length === 0}
 								<div class="py-8 text-center text-gray-500">
 									<p class="text-sm">Belum ada log login</p>
 								</div>
 							{:else}
 								<div class="space-y-3">
-									{#each loginLogs as log (log.id)}
+									{#each sessions as session (session.id)}
 										<div
 											class="flex items-start gap-4 rounded-lg border-2 border-gray-100 p-3 transition-all hover:border-indigo-200 hover:bg-indigo-50"
 										>
 											<div
-												class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full {log.status ===
-												'Success'
+												class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full {session.is_active
 													? 'bg-green-100 text-green-600'
-													: 'bg-red-100 text-red-600'}"
+													: 'bg-gray-100 text-gray-600'}"
 											>
-												{#if log.status === 'Success'}
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														class="h-5 w-5"
-														viewBox="0 0 20 20"
-														fill="currentColor"
-													>
-														<path
-															fill-rule="evenodd"
-															d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-															clip-rule="evenodd"
-														/>
-													</svg>
-												{:else}
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														class="h-5 w-5"
-														viewBox="0 0 20 20"
-														fill="currentColor"
-													>
-														<path
-															fill-rule="evenodd"
-															d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-															clip-rule="evenodd"
-														/>
-													</svg>
-												{/if}
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-5 w-5"
+													viewBox="0 0 20 20"
+													fill="currentColor"
+												>
+													<path
+														fill-rule="evenodd"
+														d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+														clip-rule="evenodd"
+													/>
+												</svg>
 											</div>
 											<div class="flex-1">
 												<div class="flex items-start justify-between">
 													<div>
-														<div class="text-sm font-semibold text-gray-800">
-															{log.action}
+														<div class="text-sm font-semibold text-gray-800">Login</div>
+														<div class="mt-1 text-xs text-gray-600">
+															{session.browser || 'Unknown Browser'} on {session.os || 'Unknown OS'}
 														</div>
-														<div class="mt-1 text-xs text-gray-600">{log.device}</div>
-														<div class="mt-1 text-xs text-gray-500">IP: {log.ip}</div>
+														{#if session.ip_address}
+															<div class="mt-1 text-xs text-gray-500">IP: {session.ip_address}</div>
+														{/if}
 													</div>
 													<div class="text-right">
 														<div
-															class="text-xs font-semibold {log.status === 'Success'
+															class="text-xs font-semibold {session.is_active
 																? 'text-green-600'
-																: 'text-red-600'}"
+																: 'text-gray-600'}"
 														>
-															{log.status}
+															{session.is_active ? 'Active' : 'Expired'}
 														</div>
 														<div class="mt-1 text-xs text-gray-500">
-															{formatDate(log.timestamp)}
+															{formatDate(new Date(session.login_at))}
 														</div>
+														{#if session.logout_at}
+															<div class="mt-1 text-xs text-gray-400">
+																Logout: {formatDate(new Date(session.logout_at))}
+															</div>
+														{/if}
 													</div>
 												</div>
 											</div>
@@ -313,25 +291,35 @@
 							<h3 class="text-lg font-bold text-purple-800">📝 Recent Activities</h3>
 						</div>
 						<div class="p-4">
-							{#if recentActivities.length === 0}
+							{#if loading}
+								<div class="py-8 text-center text-gray-500">
+									<p class="text-sm">Loading...</p>
+								</div>
+							{:else if error}
+								<div class="py-8 text-center text-red-500">
+									<p class="text-sm">{error}</p>
+								</div>
+							{:else if activities.length === 0}
 								<div class="py-8 text-center text-gray-500">
 									<p class="text-sm">Belum ada aktivitas</p>
 								</div>
 							{:else}
 								<div class="space-y-3">
-									{#each recentActivities as activity (activity.id)}
+									{#each activities as activity (activity.id)}
 										<div
 											class="flex items-start gap-4 rounded-lg border-2 border-gray-100 p-3 transition-all hover:border-purple-200 hover:bg-purple-50"
 										>
 											<div
 												class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-purple-100 text-xl"
 											>
-												{#if activity.activity.includes('Quiz')}
+												{#if activity.activity_type === 'quiz'}
 													📝
-												{:else if activity.activity.includes('Chat')}
+												{:else if activity.activity_type === 'chat'}
 													💬
-												{:else if activity.activity.includes('Achievement')}
+												{:else if activity.activity_type === 'achievement'}
 													🏆
+												{:else if activity.activity_type === 'login'}
+													🔐
 												{:else}
 													✨
 												{/if}
@@ -340,17 +328,32 @@
 												<div class="flex items-start justify-between">
 													<div>
 														<div class="text-sm font-semibold text-gray-800">
-															{activity.activity}
+															{activity.activity_type.charAt(0).toUpperCase() +
+																activity.activity_type.slice(1)}
 														</div>
-														<div class="mt-1 text-xs text-gray-600">{activity.details}</div>
+														{#if activity.page_url}
+															<div class="mt-1 text-xs text-gray-600">{activity.page_url}</div>
+														{/if}
+														{#if activity.activity_data && Object.keys(activity.activity_data).length > 0}
+															<div class="mt-1 text-xs text-gray-500">
+																{JSON.stringify(activity.activity_data)}
+															</div>
+														{/if}
 													</div>
 													<div class="text-right">
-														<div class="text-xs font-bold text-yellow-600">
-															+{activity.points} pts
-														</div>
+														{#if activity.activity_data?.points}
+															<div class="text-xs font-bold text-yellow-600">
+																+{activity.activity_data.points} pts
+															</div>
+														{/if}
 														<div class="mt-1 text-xs text-gray-500">
-															{formatDate(activity.timestamp)}
+															{formatDate(new Date(activity.created_at))}
 														</div>
+														{#if activity.duration_seconds}
+															<div class="mt-1 text-xs text-gray-400">
+																{Math.round(activity.duration_seconds / 60)}m
+															</div>
+														{/if}
 													</div>
 												</div>
 											</div>

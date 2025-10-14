@@ -5,6 +5,8 @@
 	import { getStudentByCode } from '$lib/data/students';
 	import { db } from '$lib/supabase';
 	import { motivationalQuotes } from '$lib/data/motivations';
+	import { getDeviceInfo } from '$lib/utils/deviceDetect';
+	import { browser } from '$app/environment';
 
 	let code = $state('');
 	let error = $state('');
@@ -39,6 +41,28 @@
 					await userProgress.login(student);
 					userProgress.addPoints(50); // Welcome points
 					userProgress.unlockAchievement('first-login');
+
+					// Create session in database for tracking
+					if (browser) {
+						try {
+							const deviceInfo = getDeviceInfo();
+							const session = await db.createStudentSession(dbStudent.id, deviceInfo);
+
+							// Store session ID in localStorage for activity tracking
+							localStorage.setItem('student_session_id', session.id);
+
+							// Log login activity
+							await db.logStudentActivity(
+								dbStudent.id,
+								session.id,
+								'login',
+								{ welcome_points: 50 },
+								window.location.href
+							);
+						} catch (err) {
+							console.error('Failed to create session:', err);
+						}
+					}
 
 					// Show welcome message
 					welcomeMessage =

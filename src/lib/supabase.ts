@@ -410,5 +410,144 @@ export const db = {
 			achievements,
 			sessions
 		};
+	},
+
+	// Student Activity Tracking Functions
+	async getStudentSessions(studentId: string, limit = 10) {
+		const { data, error } = await supabase
+			.from('student_sessions')
+			.select('*')
+			.eq('student_id', studentId)
+			.order('login_at', { ascending: false })
+			.limit(limit);
+
+		if (error) throw error;
+		return data as StudentSession[];
+	},
+
+	async getStudentActivities(studentId: string, limit = 10) {
+		const { data, error } = await supabase
+			.from('student_activity_log')
+			.select('*')
+			.eq('student_id', studentId)
+			.order('created_at', { ascending: false })
+			.limit(limit);
+
+		if (error) throw error;
+		return data as StudentActivityLog[];
+	},
+
+	async getStudentLoginStats(studentId: string) {
+		const { data, error } = await supabase
+			.from('student_login_stats')
+			.select('*')
+			.eq('student_id', studentId)
+			.single();
+
+		if (error) {
+			// Return default stats if not found
+			if (error.code === 'PGRST116') {
+				return null;
+			}
+			throw error;
+		}
+		return data as StudentLoginStats;
+	},
+
+	async getStudentDetailData(studentId: string) {
+		const [sessions, activities, stats] = await Promise.all([
+			this.getStudentSessions(studentId, 10),
+			this.getStudentActivities(studentId, 10),
+			this.getStudentLoginStats(studentId)
+		]);
+
+		return {
+			sessions,
+			activities,
+			stats
+		};
+	},
+
+	// Create new session when student logs in
+	async createStudentSession(
+		studentId: string,
+		deviceInfo?: {
+			browser?: string;
+			os?: string;
+			deviceType?: string;
+			ipAddress?: string;
+			userAgent?: string;
+		}
+	) {
+		const sessionToken = crypto.randomUUID();
+
+		const { data, error } = await supabase
+			.from('student_sessions')
+			.insert({
+				student_id: studentId,
+				session_token: sessionToken,
+				is_active: true,
+				device_type: deviceInfo?.deviceType,
+				browser: deviceInfo?.browser,
+				os: deviceInfo?.os,
+				ip_address: deviceInfo?.ipAddress,
+				user_agent: deviceInfo?.userAgent,
+				login_at: new Date().toISOString(),
+				last_activity_at: new Date().toISOString()
+			})
+			.select()
+			.single();
+
+		if (error) throw error;
+		return data as StudentSession;
+	},
+
+	// Log student activity
+	async logStudentActivity(
+		studentId: string,
+		sessionId: string,
+		activityType: string,
+		activityData?: Record<string, unknown>,
+		pageUrl?: string,
+		durationSeconds?: number
+	) {
+		const { data, error } = await supabase
+			.from('student_activity_log')
+			.insert({
+				student_id: studentId,
+				session_id: sessionId,
+				activity_type: activityType,
+				activity_data: activityData || {},
+				page_url: pageUrl,
+				duration_seconds: durationSeconds
+			})
+			.select()
+			.single();
+
+		if (error) throw error;
+		return data as StudentActivityLog;
+	},
+
+	// Update session activity timestamp
+	async updateSessionActivity(sessionId: string) {
+		const { error } = await supabase
+			.from('student_sessions')
+			.update({ last_activity_at: new Date().toISOString() })
+			.eq('id', sessionId);
+
+		if (error) throw error;
+	},
+
+	// Close session (logout)
+	async closeStudentSession(sessionId: string) {
+		const { error } = await supabase
+			.from('student_sessions')
+			.update({
+				is_active: false,
+				logout_at: new Date().toISOString()
+			})
+			.eq('id', sessionId);
+
+		if (error) throw error;
 	}
 };
