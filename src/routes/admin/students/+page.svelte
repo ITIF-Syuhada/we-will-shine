@@ -16,7 +16,7 @@
 
 	// Pagination states
 	let currentPage = $state(1);
-	let itemsPerPage = $state(40);
+	let itemsPerPage = $state(10);
 	let paginationMode = $state<'number' | 'kelas' | 'rombel'>('number');
 	const pageOptions = [10, 20, 30, 40, 50];
 
