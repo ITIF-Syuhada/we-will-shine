@@ -90,6 +90,23 @@
 		saveColumnSettings();
 	}
 
+	// Click outside handler to close column settings
+	function handleClickOutside(event: MouseEvent) {
+		const target = event.target as HTMLElement;
+		if (!target.closest('.column-settings-container')) {
+			showColumnSettings = false;
+		}
+	}
+
+	$effect(() => {
+		if (browser && showColumnSettings) {
+			document.addEventListener('click', handleClickOutside);
+			return () => {
+				document.removeEventListener('click', handleClickOutside);
+			};
+		}
+	});
+
 	async function loadUniqueValues() {
 		try {
 			const values = await db.getUniqueValues();
@@ -287,7 +304,7 @@
 
 			<div class="flex items-center gap-3">
 				<!-- Column Settings Button -->
-				<div class="relative">
+				<div class="column-settings-container relative">
 					<button
 						onclick={() => (showColumnSettings = !showColumnSettings)}
 						class="rounded-lg border-2 border-purple-200 bg-white px-3 py-2 text-sm font-semibold text-purple-700 transition-all hover:bg-purple-50 active:scale-95"
@@ -298,7 +315,7 @@
 
 					{#if showColumnSettings}
 						<div
-							class="absolute top-full right-0 z-10 mt-2 w-48 rounded-lg border-2 border-purple-200 bg-white p-3 shadow-xl"
+							class="absolute right-0 top-full z-10 mt-2 w-48 rounded-lg border-2 border-purple-200 bg-white p-3 shadow-xl"
 						>
 							<div class="mb-2 text-xs font-bold text-gray-700">Show/Hide Columns</div>
 							<div class="space-y-2">
