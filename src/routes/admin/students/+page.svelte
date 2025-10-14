@@ -4,10 +4,15 @@
 	import { db } from '$lib/supabase';
 	import type { Student } from '$lib/supabase';
 	import ImportStudents from '$lib/components/ImportStudents.svelte';
+	import StudentDetailModal from '$lib/components/StudentDetailModal.svelte';
 
 	let students = $state<Student[]>([]);
 	let totalStudents = $state(0);
 	let loading = $state(true);
+
+	// Modal states
+	let selectedStudent = $state<Student | null>(null);
+	let isModalOpen = $state(false);
 
 	// Filter states
 	let searchQuery = $state('');
@@ -179,6 +184,20 @@
 		} catch (err) {
 			console.error('Failed to copy:', err);
 		}
+	}
+
+	// Open student detail modal
+	function openStudentDetail(student: Student) {
+		selectedStudent = student;
+		isModalOpen = true;
+	}
+
+	// Close modal
+	function closeModal() {
+		isModalOpen = false;
+		setTimeout(() => {
+			selectedStudent = null;
+		}, 300); // Wait for modal animation
 	}
 
 	// Generate page numbers for pagination
@@ -547,6 +566,7 @@
 								{#if visibleColumns.actions}
 									<td class="px-4 py-3 text-center">
 										<button
+											onclick={() => openStudentDetail(student)}
 											class="rounded-lg border-2 border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 transition-all hover:bg-blue-100 active:scale-95"
 											title="Inspect student details"
 										>
@@ -606,3 +626,6 @@
 		</div>
 	{/if}
 </div>
+
+<!-- Student Detail Modal -->
+<StudentDetailModal student={selectedStudent} isOpen={isModalOpen} onClose={closeModal} />
