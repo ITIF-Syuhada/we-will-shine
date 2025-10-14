@@ -4,17 +4,18 @@
 </script>
 
 <svelte:head>
-	<title>Admin Dashboard - We Will Shine</title>
+	<title>Admin Dashboard</title>
 </svelte:head>
 
 <div class="space-y-6 pb-6">
-	<!-- Welcome Card -->
+	<!-- Page Header -->
 	<div
-		class="mb-6 rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-100 to-pink-100 p-8 shadow-lg"
+		class="rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-100 to-pink-100 p-6 shadow-lg"
 	>
-		<h2 class="mb-2 text-3xl font-bold text-purple-800">Welcome to Admin Portal! 👋</h2>
-		<p class="text-purple-600">
-			Role: <span class="font-bold capitalize">{$adminStore?.role || 'Admin'}</span>
+		<h1 class="text-2xl font-bold text-purple-800">🏠 Admin Dashboard</h1>
+		<p class="text-sm text-purple-600">
+			Welcome, <span class="font-bold">{$adminStore?.name || 'Admin'}</span> •
+			<span class="capitalize">{$adminStore?.role || 'admin'}</span>
 		</p>
 	</div>
 

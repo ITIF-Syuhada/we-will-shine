@@ -45,10 +45,18 @@
 </script>
 
 <svelte:head>
-	<title>Student Overview - Admin - We Will Shine</title>
+	<title>Student Overview - Admin</title>
 </svelte:head>
 
 <div class="space-y-6 pb-6">
+	<!-- Page Header -->
+	<div
+		class="rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-100 to-pink-100 p-6 shadow-lg"
+	>
+		<h1 class="text-2xl font-bold text-purple-800">📊 Student Overview</h1>
+		<p class="text-sm text-purple-600">Monitor student progress and statistics</p>
+	</div>
+
 	{#if loading}
 		<!-- Loading State -->
 		<div class="grid gap-6 sm:grid-cols-3">

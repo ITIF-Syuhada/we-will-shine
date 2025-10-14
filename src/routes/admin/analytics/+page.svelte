@@ -146,142 +146,123 @@
 	<title>Analytics - Admin</title>
 </svelte:head>
 
-{#if isAuthenticated}
-	<div class="min-h-screen bg-gray-50 p-4">
-		<!-- Header -->
-		<header class="mb-6 rounded-2xl border border-purple-200 bg-white p-6 shadow-lg">
-			<div class="flex items-center justify-between">
-				<div class="flex items-center gap-3">
-					<a
-						href="{base}/admin/dashboard"
-						class="rounded-full border-2 border-gray-200 bg-gray-50 p-2 transition-all hover:bg-gray-100"
-					>
-						<span>←</span>
-					</a>
-					<div>
-						<h1 class="text-2xl font-bold text-gray-800">Analytics & Reports</h1>
-						<p class="text-sm text-gray-600">Statistik penggunaan aplikasi</p>
-					</div>
-				</div>
-				<button
-					onclick={exportToCSV}
-					class="rounded-xl bg-green-500 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-green-600"
-				>
-					📥 Export CSV
-				</button>
-			</div>
-		</header>
+<div class="space-y-6 pb-6">
+	<!-- Page Header -->
+	<div
+		class="flex items-center justify-between rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-100 to-pink-100 p-6 shadow-lg"
+	>
+		<div>
+			<h1 class="text-2xl font-bold text-purple-800">📈 Analytics & Reports</h1>
+			<p class="text-sm text-purple-600">Statistik penggunaan aplikasi</p>
+		</div>
+		<button
+			onclick={exportToCSV}
+			class="rounded-xl bg-green-500 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-green-600 active:scale-95"
+		>
+			📥 Export CSV
+		</button>
+	</div>
 
-		<!-- Main Stats -->
-		<div class="mb-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-			<div class="rounded-xl border border-blue-100 bg-white p-6 shadow-md">
-				<div class="mb-2 text-3xl">👥</div>
-				<div class="text-3xl font-bold text-blue-600">
-					{analyticsData.activeStudents}/{analyticsData.totalStudents}
-				</div>
-				<div class="text-sm text-gray-600">Siswa Aktif</div>
-				<div class="mt-2 text-xs text-gray-500">
-					{Math.round((analyticsData.activeStudents / analyticsData.totalStudents) * 100)}%
-					engagement
-				</div>
+	<!-- Main Stats -->
+	<div class="mb-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+		<div class="rounded-xl border border-blue-100 bg-white p-6 shadow-md">
+			<div class="mb-2 text-3xl">👥</div>
+			<div class="text-3xl font-bold text-blue-600">
+				{analyticsData.activeStudents}/{analyticsData.totalStudents}
 			</div>
-
-			<div class="rounded-xl border border-purple-100 bg-white p-6 shadow-md">
-				<div class="mb-2 text-3xl">⭐</div>
-				<div class="text-3xl font-bold text-purple-600">{analyticsData.totalPoints}</div>
-				<div class="text-sm text-gray-600">Total Points</div>
-				<div class="mt-2 text-xs text-gray-500">Avg: {analyticsData.avgPoints} per siswa</div>
-			</div>
-
-			<div class="rounded-xl border border-green-100 bg-white p-6 shadow-md">
-				<div class="mb-2 text-3xl">🧠</div>
-				<div class="text-3xl font-bold text-green-600">{analyticsData.quizCompleted}</div>
-				<div class="text-sm text-gray-600">Quiz Completed</div>
-				<div class="mt-2 text-xs text-gray-500">
-					{analyticsData.activeStudents > 0
-						? Math.round((analyticsData.quizCompleted / analyticsData.activeStudents) * 100)
-						: 0}% completion
-				</div>
-			</div>
-
-			<div class="rounded-xl border border-yellow-100 bg-white p-6 shadow-md">
-				<div class="mb-2 text-3xl">🏆</div>
-				<div class="text-3xl font-bold text-yellow-600">{analyticsData.achievementsUnlocked}</div>
-				<div class="text-sm text-gray-600">Achievements</div>
-				<div class="mt-2 text-xs text-gray-500">Total unlocked</div>
+			<div class="text-sm text-gray-600">Siswa Aktif</div>
+			<div class="mt-2 text-xs text-gray-500">
+				{Math.round((analyticsData.activeStudents / analyticsData.totalStudents) * 100)}% engagement
 			</div>
 		</div>
 
-		<!-- Career Popularity -->
-		{#if analyticsData.careerPopularity.length > 0}
-			<div class="mb-6 rounded-2xl border border-purple-100 bg-white p-6 shadow-md">
-				<h3 class="mb-4 text-lg font-bold text-gray-800">🎯 Karir Paling Populer</h3>
-				<div class="space-y-3">
-					{#each analyticsData.careerPopularity as career, idx (career.careerId)}
-						<div class="flex items-center gap-3">
-							<div
-								class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-purple-100 text-sm font-bold text-purple-600"
-							>
-								{idx + 1}
-							</div>
-							<div class="flex-1">
-								<div class="mb-1 flex items-center justify-between">
-									<span class="text-sm font-semibold text-gray-800">{career.title}</span>
-									<span class="text-sm font-bold text-purple-600">{career.count} views</span>
-								</div>
-								<div class="h-2 overflow-hidden rounded-full bg-gray-100">
-									<div
-										class="h-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400"
-										style="width: {(career.count / analyticsData.activeStudents) * 100}%"
-									></div>
-								</div>
-							</div>
-						</div>
-					{/each}
-				</div>
-			</div>
-		{/if}
+		<div class="rounded-xl border border-purple-100 bg-white p-6 shadow-md">
+			<div class="mb-2 text-3xl">⭐</div>
+			<div class="text-3xl font-bold text-purple-600">{analyticsData.totalPoints}</div>
+			<div class="text-sm text-gray-600">Total Points</div>
+			<div class="mt-2 text-xs text-gray-500">Avg: {analyticsData.avgPoints} per siswa</div>
+		</div>
 
-		<!-- Top Students -->
-		{#if analyticsData.topStudents.length > 0}
-			<div class="rounded-2xl border border-purple-100 bg-white p-6 shadow-md">
-				<h3 class="mb-4 text-lg font-bold text-gray-800">🏆 Top Students</h3>
-				<div class="space-y-2">
-					{#each analyticsData.topStudents as student, idx (student.code)}
+		<div class="rounded-xl border border-green-100 bg-white p-6 shadow-md">
+			<div class="mb-2 text-3xl">🧠</div>
+			<div class="text-3xl font-bold text-green-600">{analyticsData.quizCompleted}</div>
+			<div class="text-sm text-gray-600">Quiz Completed</div>
+			<div class="mt-2 text-xs text-gray-500">
+				{analyticsData.activeStudents > 0
+					? Math.round((analyticsData.quizCompleted / analyticsData.activeStudents) * 100)
+					: 0}% completion
+			</div>
+		</div>
+
+		<div class="rounded-xl border border-yellow-100 bg-white p-6 shadow-md">
+			<div class="mb-2 text-3xl">🏆</div>
+			<div class="text-3xl font-bold text-yellow-600">{analyticsData.achievementsUnlocked}</div>
+			<div class="text-sm text-gray-600">Achievements</div>
+			<div class="mt-2 text-xs text-gray-500">Total unlocked</div>
+		</div>
+	</div>
+
+	<!-- Career Popularity -->
+	{#if analyticsData.careerPopularity.length > 0}
+		<div class="mb-6 rounded-2xl border border-purple-100 bg-white p-6 shadow-md">
+			<h3 class="mb-4 text-lg font-bold text-gray-800">🎯 Karir Paling Populer</h3>
+			<div class="space-y-3">
+				{#each analyticsData.careerPopularity as career, idx (career.careerId)}
+					<div class="flex items-center gap-3">
 						<div
-							class="flex items-center gap-3 rounded-lg border border-purple-100 bg-purple-50/30 p-3"
+							class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-purple-100 text-sm font-bold text-purple-600"
 						>
-							<div
-								class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full {idx ===
-								0
-									? 'bg-yellow-100 text-yellow-700'
-									: idx === 1
-										? 'bg-gray-200 text-gray-700'
-										: idx === 2
-											? 'bg-orange-100 text-orange-700'
-											: 'bg-purple-100 text-purple-600'} text-sm font-bold"
-							>
-								{idx + 1}
+							{idx + 1}
+						</div>
+						<div class="flex-1">
+							<div class="mb-1 flex items-center justify-between">
+								<span class="text-sm font-semibold text-gray-800">{career.title}</span>
+								<span class="text-sm font-bold text-purple-600">{career.count} views</span>
 							</div>
-							<div class="flex-1">
-								<div class="text-sm font-semibold text-gray-800">{student.name}</div>
-								<div class="text-xs text-gray-500">{student.code}</div>
-							</div>
-							<div class="text-right">
-								<div class="text-sm font-bold text-purple-600">{student.points} pts</div>
-								<div class="text-xs text-gray-500">Lv.{student.level}</div>
+							<div class="h-2 overflow-hidden rounded-full bg-gray-100">
+								<div
+									class="h-full rounded-full bg-gradient-to-r from-purple-400 to-pink-400"
+									style="width: {(career.count / analyticsData.activeStudents) * 100}%"
+								></div>
 							</div>
 						</div>
-					{/each}
-				</div>
+					</div>
+				{/each}
 			</div>
-		{/if}
-	</div>
-{:else}
-	<div class="flex min-h-screen items-center justify-center">
-		<div class="text-center">
-			<div class="mb-4 text-6xl">⏳</div>
-			<p class="text-gray-600">Loading...</p>
 		</div>
-	</div>
-{/if}
+	{/if}
+
+	<!-- Top Students -->
+	{#if analyticsData.topStudents.length > 0}
+		<div class="rounded-2xl border border-purple-100 bg-white p-6 shadow-md">
+			<h3 class="mb-4 text-lg font-bold text-gray-800">🏆 Top Students</h3>
+			<div class="space-y-2">
+				{#each analyticsData.topStudents as student, idx (student.code)}
+					<div
+						class="flex items-center gap-3 rounded-lg border border-purple-100 bg-purple-50/30 p-3"
+					>
+						<div
+							class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full {idx === 0
+								? 'bg-yellow-100 text-yellow-700'
+								: idx === 1
+									? 'bg-gray-200 text-gray-700'
+									: idx === 2
+										? 'bg-orange-100 text-orange-700'
+										: 'bg-purple-100 text-purple-600'} text-sm font-bold"
+						>
+							{idx + 1}
+						</div>
+						<div class="flex-1">
+							<div class="text-sm font-semibold text-gray-800">{student.name}</div>
+							<div class="text-xs text-gray-500">{student.code}</div>
+						</div>
+						<div class="text-right">
+							<div class="text-sm font-bold text-purple-600">{student.points} pts</div>
+							<div class="text-xs text-gray-500">Lv.{student.level}</div>
+						</div>
+					</div>
+				{/each}
+			</div>
+		</div>
+	{/if}
+</div>
