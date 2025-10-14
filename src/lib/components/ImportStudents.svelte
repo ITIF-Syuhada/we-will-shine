@@ -64,14 +64,28 @@
 
 		const words = cleanName.split(' ').filter((w) => w.length > 0);
 
-		// Take first 4 letters of first name
-		const firstName = words[0] || '';
-		const firstPart = firstName.substring(0, 4).padEnd(4, 'X');
+		// Build name code from first name + part of last name
+		let nameCode = '';
+		if (words.length === 1) {
+			// Single name: take first 6 chars
+			nameCode = words[0].substring(0, 6).padEnd(6, 'X');
+		} else if (words.length === 2) {
+			// Two names: first 4 + last 2
+			const firstName = words[0].substring(0, 4);
+			const lastName = words[1].substring(0, 2);
+			nameCode = (firstName + lastName).padEnd(6, 'X');
+		} else {
+			// Multiple names: first 3 + middle 1 + last 2
+			const firstName = words[0].substring(0, 3);
+			const middleName = words[1].substring(0, 1);
+			const lastName = words[words.length - 1].substring(0, 2);
+			nameCode = (firstName + middleName + lastName).padEnd(6, 'X');
+		}
 
 		// Format kelas+rombel (e.g., VII-D → VIID, X-A → XA)
 		const kelasCode = (kelas + rombel).replace(/[^A-Z0-9]/g, '').toUpperCase();
 
-		return `${firstPart}${kelasCode}${angkatan}`;
+		return `${nameCode}${kelasCode}${angkatan}`;
 	}
 
 	async function checkExistingCodes(codes: string[]): Promise<Set<string>> {
