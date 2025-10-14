@@ -15,17 +15,27 @@
 	let conflicts = $state<{ code: string; name: string; existing?: boolean }[]>([]);
 	let showConfirmation = $state(false);
 
-	// Computed: DB conflicts count
-	const dbConflictsCount = $derived(conflicts.filter((c) => c.existing).length);
-
 	// Computed: check if there are students that can be imported
-	const canImport = $derived(previewData.length > 0 && dbConflictsCount < previewData.length);
+	const canImport = $derived(() => {
+		if (previewData.length === 0) return false;
+
+		// Count conflicts that exist in DB (will be skipped)
+		const dbConflicts = conflicts.filter((c) => c.existing).length;
+
+		// If all students have DB conflicts, cannot import
+		if (dbConflicts >= previewData.length) return false;
+
+		return true;
+	});
 
 	// Computed: count valid students (not in DB)
-	const validStudentsCount = $derived(previewData.length - dbConflictsCount);
+	const validStudentsCount = $derived(() => {
+		const dbConflicts = conflicts.filter((c) => c.existing).length;
+		return previewData.length - dbConflicts;
+	});
 
 	// Computed: has conflicts (DB conflicts only)
-	const hasConflicts = $derived(dbConflictsCount > 0);
+	const hasConflicts = $derived(conflicts.filter((c) => c.existing).length > 0);
 
 	function handleFileSelect(event: Event) {
 		const input = event.target as HTMLInputElement;
@@ -38,29 +48,24 @@
 		}
 	}
 
-	function generateStudentCode(
-		name: string,
-		kelas: string = '',
-		rombel: string = '',
-		angkatan: string = '2025'
-	): string {
-		// Clean name: remove special chars and extra spaces
-		const cleanName = name
+	function generateStudentCode(name: string, angkatan: string = '2025'): string {
+		// Generate code from name initials + angkatan
+		const words = name
 			.trim()
 			.toUpperCase()
-			.replace(/[^A-Z\s]/g, '')
-			.replace(/\s+/g, ' ');
+			.split(' ')
+			.filter((w) => w.length > 0);
 
-		const words = cleanName.split(' ').filter((w) => w.length > 0);
+		let initials = '';
+		if (words.length === 1) {
+			// Single name: take first 2-3 chars
+			initials = words[0].substring(0, 3);
+		} else {
+			// Multiple words: take first letter of each
+			initials = words.map((w) => w[0]).join('');
+		}
 
-		// Take first 4 letters of first name
-		const firstName = words[0] || '';
-		const firstPart = firstName.substring(0, 4).padEnd(4, 'X');
-
-		// Format kelas+rombel (e.g., VII-D → VIID, X-A → XA)
-		const kelasCode = (kelas + rombel).replace(/[^A-Z0-9]/g, '').toUpperCase();
-
-		return `${firstPart}${kelasCode}${angkatan}`;
+		return `INSPIRE${angkatan}${initials}`;
 	}
 
 	async function checkExistingCodes(codes: string[]): Promise<Set<string>> {
@@ -118,8 +123,6 @@
 			if (!student.student_code && student.student_name) {
 				student.student_code = generateStudentCode(
 					student.student_name,
-					student.kelas || '',
-					student.rombel || '',
 					student.angkatan || '2025'
 				);
 			}
@@ -450,7 +453,7 @@ Citra Sari,X,B,2025,0,1`;
 				</div>
 
 				<!-- Warning if all students will be skipped -->
-				{#if !canImport && conflicts.length > 0}
+				{#if !canImport() && conflicts.length > 0}
 					<div class="rounded-xl border-2 border-red-200 bg-red-50 p-4">
 						<p class="font-bold text-red-800">❌ Cannot Import</p>
 						<p class="text-sm text-red-700">
@@ -460,11 +463,11 @@ Citra Sari,X,B,2025,0,1`;
 				{/if}
 
 				<!-- Info box if has conflicts but can still import -->
-				{#if hasConflicts && canImport}
+				{#if hasConflicts && canImport()}
 					<div class="rounded-xl border-2 border-blue-200 bg-blue-50 p-4">
 						<p class="font-bold text-blue-800">ℹ️ Import Summary</p>
 						<div class="mt-2 space-y-1 text-sm text-blue-700">
-							<p>✅ <strong>{validStudentsCount}</strong> siswa baru akan ditambahkan</p>
+							<p>✅ <strong>{validStudentsCount()}</strong> siswa baru akan ditambahkan</p>
 							<p>
 								⚠️ <strong>{conflicts.filter((c) => c.existing).length}</strong> siswa sudah ada (akan
 								di-skip)
@@ -478,7 +481,7 @@ Citra Sari,X,B,2025,0,1`;
 
 				<!-- Import Buttons -->
 				<div class="space-y-2">
-					{#if canImport && hasConflicts}
+					{#if canImport() && hasConflicts}
 						<!-- Button for importing only valid students -->
 						<button
 							onclick={handleImport}
@@ -488,7 +491,7 @@ Citra Sari,X,B,2025,0,1`;
 							{#if importing}
 								⏳ Importing...
 							{:else}
-								➕ Add {validStudentsCount} New Student{validStudentsCount > 1 ? 's' : ''} Only
+								➕ Add {validStudentsCount()} New Student{validStudentsCount() > 1 ? 's' : ''} Only
 							{/if}
 						</button>
 						<p class="text-center text-xs text-gray-500">
@@ -498,12 +501,12 @@ Citra Sari,X,B,2025,0,1`;
 						<!-- Normal import button -->
 						<button
 							onclick={handleImport}
-							disabled={importing || !canImport}
+							disabled={importing || !canImport()}
 							class="w-full rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-3 font-bold text-white shadow-lg transition-all hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
 						>
 							{#if importing}
 								⏳ Importing...
-							{:else if !canImport}
+							{:else if !canImport()}
 								🚫 Cannot Import (All Duplicates)
 							{:else}
 								✅ Confirm Import ({previewData.length} students)
