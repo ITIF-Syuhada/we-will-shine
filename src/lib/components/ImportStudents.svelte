@@ -12,6 +12,8 @@
 	let error = $state('');
 	let success = $state('');
 	let previewData = $state<Omit<Student, 'id' | 'created_at' | 'updated_at'>[]>([]);
+	let conflicts = $state<{ code: string; name: string; existing?: boolean }[]>([]);
+	let showConfirmation = $state(false);
 
 	function handleFileSelect(event: Event) {
 		const input = event.target as HTMLInputElement;
@@ -19,6 +21,43 @@
 			file = input.files[0];
 			error = '';
 			previewData = [];
+			conflicts = [];
+			showConfirmation = false;
+		}
+	}
+
+	function generateStudentCode(name: string, angkatan: string = '2025'): string {
+		// Generate code from name initials + angkatan
+		const words = name
+			.trim()
+			.toUpperCase()
+			.split(' ')
+			.filter((w) => w.length > 0);
+
+		let initials = '';
+		if (words.length === 1) {
+			// Single name: take first 2-3 chars
+			initials = words[0].substring(0, 3);
+		} else {
+			// Multiple words: take first letter of each
+			initials = words.map((w) => w[0]).join('');
+		}
+
+		return `INSPIRE${angkatan}${initials}`;
+	}
+
+	async function checkExistingCodes(codes: string[]): Promise<Set<string>> {
+		try {
+			// Check which codes already exist in database
+			const result = await db.getStudentsWithFilter({
+				limit: 1000 // Check up to 1000 existing students
+			});
+
+			const existingCodes = new Set(result.students.map((s) => s.student_code));
+			return new Set(codes.filter((code) => existingCodes.has(code)));
+		} catch (err) {
+			console.error('Failed to check existing codes:', err);
+			return new Set();
 		}
 	}
 
@@ -31,11 +70,9 @@
 		const headers = lines[0].split(',').map((h) => h.trim().toLowerCase());
 		const students: Omit<Student, 'id' | 'created_at' | 'updated_at'>[] = [];
 
-		// Validate headers
-		const requiredHeaders = ['student_code', 'student_name'];
-		const missingHeaders = requiredHeaders.filter((h) => !headers.includes(h));
-		if (missingHeaders.length > 0) {
-			throw new Error(`Header yang diperlukan tidak ditemukan: ${missingHeaders.join(', ')}`);
+		// Check if student_name exists (required)
+		if (!headers.includes('student_name')) {
+			throw new Error('Header "student_name" wajib ada dalam CSV');
 		}
 
 		for (let i = 1; i < lines.length; i++) {
@@ -60,6 +97,14 @@
 				else if (header === 'level') student.level = parseInt(value) || 1;
 			});
 
+			// Auto-generate student_code if not provided
+			if (!student.student_code && student.student_name) {
+				student.student_code = generateStudentCode(
+					student.student_name,
+					student.angkatan || '2025'
+				);
+			}
+
 			if (student.student_code && student.student_name) {
 				students.push(student);
 			}
@@ -80,11 +125,49 @@
 		try {
 			const text = await file.text();
 			const students = await parseCSV(text);
+
+			// Check for conflicts in database
+			const studentCodes = students.map((s) => s.student_code);
+			const existingCodes = await checkExistingCodes(studentCodes);
+
+			// Check for duplicates within CSV itself
+			const codeCount = new Map<string, number>();
+			studentCodes.forEach((code) => {
+				codeCount.set(code, (codeCount.get(code) || 0) + 1);
+			});
+			const duplicatesInCSV = Array.from(codeCount.entries())
+				.filter(([, count]) => count > 1)
+				.map(([code]) => code);
+
+			// Prepare conflicts list
+			conflicts = [];
+			students.forEach((student) => {
+				if (existingCodes.has(student.student_code)) {
+					conflicts.push({
+						code: student.student_code,
+						name: student.student_name,
+						existing: true
+					});
+				} else if (duplicatesInCSV.includes(student.student_code)) {
+					conflicts.push({
+						code: student.student_code,
+						name: student.student_name,
+						existing: false
+					});
+				}
+			});
+
 			previewData = students.slice(0, 10); // Show first 10 for preview
-			success = `Ditemukan ${students.length} siswa. Preview 10 data pertama.`;
+
+			if (conflicts.length > 0) {
+				success = `⚠️ Ditemukan ${students.length} siswa, ${conflicts.length} conflict/duplicate!`;
+			} else {
+				success = `✅ Ditemukan ${students.length} siswa, siap import!`;
+			}
 		} catch (err) {
 			error = err instanceof Error ? err.message : 'Gagal membaca file';
 			previewData = [];
+			conflicts = [];
 		} finally {
 			importing = false;
 		}
@@ -96,6 +179,12 @@
 			return;
 		}
 
+		// Show confirmation if there are conflicts
+		if (conflicts.length > 0 && !showConfirmation) {
+			showConfirmation = true;
+			return;
+		}
+
 		error = '';
 		success = '';
 		importing = true;
@@ -104,12 +193,30 @@
 			const text = await file.text();
 			const students = await parseCSV(text);
 
-			// Import to Supabase
-			await db.bulkCreateStudents(students);
+			// Filter out conflicting students if user didn't confirm
+			const conflictCodes = new Set(conflicts.filter((c) => c.existing).map((c) => c.code));
+			const studentsToImport = students.filter((s) => !conflictCodes.has(s.student_code));
 
-			success = `✅ Berhasil import ${students.length} siswa!`;
+			if (studentsToImport.length === 0) {
+				error = 'Tidak ada siswa yang bisa diimport setelah menghapus conflicts';
+				importing = false;
+				return;
+			}
+
+			// Import to Supabase
+			await db.bulkCreateStudents(studentsToImport);
+
+			const skipped = students.length - studentsToImport.length;
+			if (skipped > 0) {
+				success = `✅ Berhasil import ${studentsToImport.length} siswa! (${skipped} dilewati karena sudah ada)`;
+			} else {
+				success = `✅ Berhasil import ${studentsToImport.length} siswa!`;
+			}
+
 			file = null;
 			previewData = [];
+			conflicts = [];
+			showConfirmation = false;
 
 			// Close modal after 2 seconds
 			setTimeout(() => {
@@ -135,6 +242,21 @@ INSPIRE2025CS,Citra Sari,X,B,2025,0,1`;
 		const a = document.createElement('a');
 		a.href = url;
 		a.download = 'template_import_siswa.csv';
+		a.click();
+		URL.revokeObjectURL(url);
+	}
+
+	function downloadTemplateAutoCode() {
+		const csv = `student_name,kelas,rombel,angkatan,points,level
+Ahmad Syahid,X,A,2025,0,1
+Budi Santoso,X,A,2025,0,1
+Citra Sari,X,B,2025,0,1`;
+
+		const blob = new Blob([csv], { type: 'text/csv' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = 'template_auto_code.csv';
 		a.click();
 		URL.revokeObjectURL(url);
 	}
@@ -176,17 +298,29 @@ INSPIRE2025CS,Citra Sari,X,B,2025,0,1`;
 			<div class="mb-6 rounded-xl border-2 border-blue-200 bg-blue-50 p-4">
 				<h3 class="mb-2 font-bold text-blue-800">📋 Format CSV:</h3>
 				<ul class="space-y-1 text-sm text-blue-700">
-					<li>• <strong>Required:</strong> student_code, student_name</li>
-					<li>• <strong>Optional:</strong> kelas, rombel, angkatan, points, level</li>
+					<li>• <strong>Required:</strong> student_name</li>
+					<li>
+						• <strong>Optional:</strong> student_code (auto-generate jika kosong), kelas, rombel, angkatan,
+						points, level
+					</li>
 					<li>• Gunakan koma (,) sebagai separator</li>
 					<li>• Header harus di baris pertama</li>
+					<li>• Student code akan di-generate otomatis jika tidak disediakan</li>
 				</ul>
-				<button
-					onclick={downloadTemplate}
-					class="mt-3 rounded-lg border-2 border-blue-300 bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 transition-all hover:bg-blue-200 active:scale-95"
-				>
-					📄 Download Template
-				</button>
+				<div class="mt-3 flex gap-2">
+					<button
+						onclick={downloadTemplate}
+						class="rounded-lg border-2 border-blue-300 bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 transition-all hover:bg-blue-200 active:scale-95"
+					>
+						📄 Template (With Code)
+					</button>
+					<button
+						onclick={downloadTemplateAutoCode}
+						class="rounded-lg border-2 border-green-300 bg-green-100 px-4 py-2 text-sm font-semibold text-green-700 transition-all hover:bg-green-200 active:scale-95"
+					>
+						🤖 Template (Auto Code)
+					</button>
+				</div>
 			</div>
 
 			<!-- File Upload -->
@@ -228,6 +362,35 @@ INSPIRE2025CS,Citra Sari,X,B,2025,0,1`;
 				</div>
 			{/if}
 
+			<!-- Conflicts Warning -->
+			{#if conflicts.length > 0}
+				<div class="mb-6 rounded-xl border-2 border-yellow-200 bg-yellow-50 p-4">
+					<h3 class="mb-2 font-bold text-yellow-800">
+						⚠️ Conflicts/Duplicates Detected ({conflicts.length})
+					</h3>
+					<div class="max-h-48 overflow-y-auto rounded-lg border-2 border-yellow-200 bg-white p-3">
+						{#each conflicts as conflict (conflict.code)}
+							<div
+								class="mb-2 flex items-center justify-between rounded-lg bg-yellow-50 p-2 text-sm"
+							>
+								<div>
+									<span class="font-bold text-yellow-800">{conflict.code}</span>
+									<span class="text-yellow-700"> - {conflict.name}</span>
+								</div>
+								<span
+									class="rounded-full bg-yellow-200 px-2 py-1 text-xs font-semibold text-yellow-800"
+								>
+									{conflict.existing ? '🔄 Already in DB' : '🔁 Duplicate in CSV'}
+								</span>
+							</div>
+						{/each}
+					</div>
+					<p class="mt-2 text-xs text-yellow-700">
+						❗ Siswa dengan conflict akan <strong>dilewati</strong> saat import
+					</p>
+				</div>
+			{/if}
+
 			<!-- Preview Table -->
 			{#if previewData.length > 0}
 				<div class="mb-6 overflow-x-auto rounded-xl border-2 border-purple-200">
@@ -243,8 +406,19 @@ INSPIRE2025CS,Citra Sari,X,B,2025,0,1`;
 						</thead>
 						<tbody>
 							{#each previewData as student (student.student_code)}
-								<tr class="border-b border-purple-100">
-									<td class="px-4 py-2 text-sm">{student.student_code}</td>
+								<tr
+									class="border-b border-purple-100 {conflicts.some(
+										(c) => c.code === student.student_code
+									)
+										? 'bg-yellow-50 opacity-50'
+										: ''}"
+								>
+									<td class="px-4 py-2 text-sm font-medium">
+										{student.student_code}
+										{#if conflicts.some((c) => c.code === student.student_code)}
+											<span class="ml-1 text-xs text-yellow-600">⚠️</span>
+										{/if}
+									</td>
 									<td class="px-4 py-2 text-sm">{student.student_name}</td>
 									<td class="px-4 py-2 text-sm">{student.kelas || '-'}</td>
 									<td class="px-4 py-2 text-sm">{student.rombel || '-'}</td>

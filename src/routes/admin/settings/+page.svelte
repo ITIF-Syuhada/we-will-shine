@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { appSettings } from '$lib/stores/settings';
+	import { supabase } from '$lib/supabase';
+	import { env } from '$env/dynamic/public';
 
 	let saved = $state(false);
+	let dbTesting = $state(false);
+	let dbTestResult = $state<{ success: boolean; message: string } | null>(null);
 
 	// Local state untuk form
 	let provider = $state($appSettings.ai.provider);
@@ -53,8 +57,47 @@
 		}
 	}
 
-	function testConnection() {
-		alert('🧪 Test connection feature coming soon!');
+	async function testDatabaseConnection() {
+		dbTesting = true;
+		dbTestResult = null;
+
+		try {
+			// Test 1: Check environment variables
+			const supabaseUrl = env.PUBLIC_SUPABASE_URL;
+			const supabaseKey = env.PUBLIC_SUPABASE_ANON_KEY;
+
+			if (!supabaseUrl || !supabaseKey) {
+				dbTestResult = {
+					success: false,
+					message: '❌ Environment variables not configured! Check .env file.'
+				};
+				return;
+			}
+
+			// Test 2: Try to connect to Supabase and check tables
+			const { error: tableError } = await supabase.from('students').select('id').limit(1);
+
+			if (tableError) {
+				dbTestResult = {
+					success: false,
+					message: `⚠️ Database error: ${tableError.message}. Check if migrations are run.`
+				};
+				return;
+			}
+
+			// Success!
+			dbTestResult = {
+				success: true,
+				message: '✅ Database connection successful! All tables accessible.'
+			};
+		} catch (err) {
+			dbTestResult = {
+				success: false,
+				message: `❌ Unexpected error: ${err instanceof Error ? err.message : 'Unknown error'}`
+			};
+		} finally {
+			dbTesting = false;
+		}
 	}
 </script>
 
@@ -263,6 +306,112 @@
 			>
 				🧪 Test Connection
 			</button>
+		</div>
+	</div>
+
+	<!-- Database Configuration -->
+	<div class="rounded-2xl border-2 border-green-200 bg-white p-6 shadow-lg">
+		<h2 class="mb-4 flex items-center gap-2 text-xl font-bold text-green-800">
+			<span>🗄️</span>
+			<span>Database Configuration</span>
+		</h2>
+
+		<div class="space-y-4">
+			<!-- Database Info -->
+			<div class="rounded-lg border-2 border-green-100 bg-green-50 p-4">
+				<div class="mb-2 flex items-center gap-2">
+					<span class="text-2xl">✅</span>
+					<span class="font-bold text-green-800">Supabase Connected</span>
+				</div>
+				<div class="space-y-1 text-sm text-green-700">
+					<p>
+						<strong>URL:</strong>
+						{env.PUBLIC_SUPABASE_URL || '❌ Not configured'}
+					</p>
+					<p>
+						<strong>Key:</strong>
+						{env.PUBLIC_SUPABASE_ANON_KEY ? '✅ Configured' : '❌ Not configured'}
+					</p>
+				</div>
+			</div>
+
+			<!-- Test Connection Button -->
+			<button
+				onclick={testDatabaseConnection}
+				disabled={dbTesting}
+				class="w-full rounded-xl border-2 border-green-200 bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-3 font-bold text-white shadow-lg transition-all hover:shadow-xl active:scale-95 disabled:opacity-50"
+			>
+				{#if dbTesting}
+					<span class="flex items-center justify-center gap-2">
+						<span class="animate-spin">⏳</span>
+						<span>Testing Connection...</span>
+					</span>
+				{:else}
+					🔌 Test Database Connection
+				{/if}
+			</button>
+
+			<!-- Test Result -->
+			{#if dbTestResult}
+				<div
+					class="rounded-lg border-2 p-4 {dbTestResult.success
+						? 'border-green-200 bg-green-50'
+						: 'border-red-200 bg-red-50'}"
+				>
+					<p
+						class="text-sm font-semibold {dbTestResult.success
+							? 'text-green-800'
+							: 'text-red-800'}"
+					>
+						{dbTestResult.message}
+					</p>
+				</div>
+			{/if}
+
+			<!-- GitHub Pages Instructions -->
+			<details class="rounded-lg border-2 border-blue-100 bg-blue-50 p-4">
+				<summary class="cursor-pointer font-semibold text-blue-800">
+					📘 Setup untuk GitHub Pages
+				</summary>
+				<div class="mt-3 space-y-2 text-sm text-blue-700">
+					<p><strong>⚠️ Important:</strong> GitHub Pages tidak support .env files!</p>
+					<p>Gunakan salah satu metode berikut:</p>
+
+					<div class="mt-3 space-y-2">
+						<div class="rounded-lg bg-white p-3">
+							<p class="font-bold">1️⃣ GitHub Secrets (Recommended)</p>
+							<ol class="ml-4 mt-1 list-decimal space-y-1 text-xs">
+								<li>Go to: Settings → Secrets and variables → Actions</li>
+								<li>Add: <code class="rounded bg-gray-200 px-1">PUBLIC_SUPABASE_URL</code></li>
+								<li>Add: <code class="rounded bg-gray-200 px-1">PUBLIC_SUPABASE_ANON_KEY</code></li>
+								<li>Update workflow to inject secrets</li>
+							</ol>
+						</div>
+
+					<div class="rounded-lg bg-white p-3">
+						<p class="font-bold">2️⃣ Build-time Injection</p>
+						<p class="text-xs">Set in GitHub Actions workflow:</p>
+						<div class="mt-1 overflow-x-auto rounded bg-gray-800 p-2 text-xs text-green-400">
+							<code>
+								env:<br />
+								&nbsp;&nbsp;PUBLIC_SUPABASE_URL: {'${{ secrets.PUBLIC_SUPABASE_URL }}'}<br />
+								&nbsp;&nbsp;PUBLIC_SUPABASE_ANON_KEY: {'${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}'}
+							</code>
+						</div>
+					</div>
+
+						<div class="rounded-lg bg-white p-3">
+							<p class="font-bold">3️⃣ Hardcode (Not Recommended)</p>
+							<p class="text-xs">
+								Directly set values in <code class="rounded bg-gray-200 px-1">src/lib/supabase.ts</code>
+							</p>
+							<p class="mt-1 text-xs text-red-600">
+								⚠️ Only use this for public anon keys!
+							</p>
+						</div>
+					</div>
+				</div>
+			</details>
 		</div>
 	</div>
 
