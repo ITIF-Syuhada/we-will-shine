@@ -235,7 +235,7 @@
 
 		<!-- Pagination Mode -->
 		<div class="mt-4 flex items-center gap-4">
-			<label class="text-sm font-semibold text-gray-700">Pagination Mode:</label>
+			<span class="text-sm font-semibold text-gray-700">Pagination Mode:</span>
 			<div class="flex gap-2">
 				<button
 					onclick={() => {
