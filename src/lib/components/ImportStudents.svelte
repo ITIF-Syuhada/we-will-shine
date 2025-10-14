@@ -488,18 +488,6 @@ Citra Sari,X,B,2025,0,1`;
 					</div>
 				{/if}
 
-				<!-- Debug Info (remove after testing) -->
-				<div class="mb-4 rounded-lg border-2 border-gray-300 bg-gray-100 p-3 text-xs">
-					<p><strong>Debug:</strong></p>
-					<p>totalStudents: {totalStudents}</p>
-					<p>previewData.length: {previewData.length} (showing first 10)</p>
-					<p>conflicts.length: {conflicts.length}</p>
-					<p>conflicts (existing): {conflicts.filter((c) => c.existing).length}</p>
-					<p>hasConflicts: {hasConflicts}</p>
-					<p>canImport(): {canImport()}</p>
-					<p>validStudentsCount(): {validStudentsCount()}</p>
-				</div>
-
 				<!-- Info box if has conflicts but can still import -->
 				{#if hasConflicts && canImport()}
 					<div class="rounded-xl border-2 border-blue-200 bg-blue-50 p-4">
