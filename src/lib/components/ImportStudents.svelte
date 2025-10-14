@@ -28,6 +28,17 @@
 		return true;
 	});
 
+	// Computed: count valid students (not in DB)
+	const validStudentsCount = $derived(() => {
+		const dbConflicts = conflicts.filter((c) => c.existing).length;
+		return previewData.length - dbConflicts;
+	});
+
+	// Computed: has conflicts
+	const hasConflicts = $derived(() => {
+		return conflicts.filter((c) => c.existing).length > 0;
+	});
+
 	function handleFileSelect(event: Event) {
 		const input = event.target as HTMLInputElement;
 		if (input.files && input.files[0]) {
@@ -453,24 +464,58 @@ Citra Sari,X,B,2025,0,1`;
 					</div>
 				{/if}
 
-				<!-- Import Button -->
-				<button
-					onclick={handleImport}
-					disabled={importing || !canImport()}
-					class="w-full rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-3 font-bold text-white shadow-lg transition-all hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
-				>
-					{#if importing}
-						⏳ Importing...
-					{:else if !canImport()}
-						🚫 Cannot Import (All Duplicates)
-					{:else if conflicts.length > 0}
-						⚠️ Import ({previewData.length - conflicts.filter((c) => c.existing).length} valid, {conflicts.filter(
-							(c) => c.existing
-						).length} skip)
+				<!-- Info box if has conflicts but can still import -->
+				{#if hasConflicts() && canImport()}
+					<div class="rounded-xl border-2 border-blue-200 bg-blue-50 p-4">
+						<p class="font-bold text-blue-800">ℹ️ Import Summary</p>
+						<div class="mt-2 space-y-1 text-sm text-blue-700">
+							<p>✅ <strong>{validStudentsCount()}</strong> siswa baru akan ditambahkan</p>
+							<p>
+								⚠️ <strong>{conflicts.filter((c) => c.existing).length}</strong> siswa sudah ada (akan
+								di-skip)
+							</p>
+							<p class="mt-2 text-xs text-blue-600">
+								💡 Hanya siswa baru yang akan ditambahkan ke database
+							</p>
+						</div>
+					</div>
+				{/if}
+
+				<!-- Import Buttons -->
+				<div class="space-y-2">
+					{#if canImport() && hasConflicts()}
+						<!-- Button for importing only valid students -->
+						<button
+							onclick={handleImport}
+							disabled={importing}
+							class="w-full rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 px-6 py-3 font-bold text-white shadow-lg transition-all hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+						>
+							{#if importing}
+								⏳ Importing...
+							{:else}
+								➕ Add {validStudentsCount()} New Student{validStudentsCount() > 1 ? 's' : ''} Only
+							{/if}
+						</button>
+						<p class="text-center text-xs text-gray-500">
+							Akan menambahkan siswa baru dan skip yang sudah ada
+						</p>
 					{:else}
-						✅ Confirm Import ({previewData.length} students)
+						<!-- Normal import button -->
+						<button
+							onclick={handleImport}
+							disabled={importing || !canImport()}
+							class="w-full rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-3 font-bold text-white shadow-lg transition-all hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+						>
+							{#if importing}
+								⏳ Importing...
+							{:else if !canImport()}
+								🚫 Cannot Import (All Duplicates)
+							{:else}
+								✅ Confirm Import ({previewData.length} students)
+							{/if}
+						</button>
 					{/if}
-				</button>
+				</div>
 			{/if}
 		</div>
 	</div>
