@@ -15,6 +15,19 @@
 	let conflicts = $state<{ code: string; name: string; existing?: boolean }[]>([]);
 	let showConfirmation = $state(false);
 
+	// Computed: check if there are students that can be imported
+	const canImport = $derived(() => {
+		if (previewData.length === 0) return false;
+
+		// Count conflicts that exist in DB (will be skipped)
+		const dbConflicts = conflicts.filter((c) => c.existing).length;
+
+		// If all students have DB conflicts, cannot import
+		if (dbConflicts >= previewData.length) return false;
+
+		return true;
+	});
+
 	function handleFileSelect(event: Event) {
 		const input = event.target as HTMLInputElement;
 		if (input.files && input.files[0]) {
@@ -131,6 +144,7 @@
 			const existingCodes = await checkExistingCodes(studentCodes);
 
 			// Check for duplicates within CSV itself
+			// eslint-disable-next-line svelte/prefer-svelte-reactivity
 			const codeCount = new Map<string, number>();
 			studentCodes.forEach((code) => {
 				codeCount.set(code, (codeCount.get(code) || 0) + 1);
@@ -429,13 +443,33 @@ Citra Sari,X,B,2025,0,1`;
 					</table>
 				</div>
 
+				<!-- Warning if all students will be skipped -->
+				{#if !canImport() && conflicts.length > 0}
+					<div class="rounded-xl border-2 border-red-200 bg-red-50 p-4">
+						<p class="font-bold text-red-800">❌ Cannot Import</p>
+						<p class="text-sm text-red-700">
+							Semua siswa dalam file sudah ada di database. Tidak ada yang bisa diimport.
+						</p>
+					</div>
+				{/if}
+
 				<!-- Import Button -->
 				<button
 					onclick={handleImport}
-					disabled={importing}
-					class="w-full rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-3 font-bold text-white shadow-lg transition-all hover:shadow-xl active:scale-95 disabled:opacity-50"
+					disabled={importing || !canImport()}
+					class="w-full rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-3 font-bold text-white shadow-lg transition-all hover:shadow-xl active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
 				>
-					{importing ? '⏳ Importing...' : '✅ Confirm Import'}
+					{#if importing}
+						⏳ Importing...
+					{:else if !canImport()}
+						🚫 Cannot Import (All Duplicates)
+					{:else if conflicts.length > 0}
+						⚠️ Import ({previewData.length - conflicts.filter((c) => c.existing).length} valid, {conflicts.filter(
+							(c) => c.existing
+						).length} skip)
+					{:else}
+						✅ Confirm Import ({previewData.length} students)
+					{/if}
 				</button>
 			{/if}
 		</div>
