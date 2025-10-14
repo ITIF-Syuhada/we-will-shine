@@ -34,10 +34,8 @@
 		return previewData.length - dbConflicts;
 	});
 
-	// Computed: has conflicts
-	const hasConflicts = $derived(() => {
-		return conflicts.filter((c) => c.existing).length > 0;
-	});
+	// Computed: has conflicts (DB conflicts only)
+	const hasConflicts = $derived(conflicts.filter((c) => c.existing).length > 0);
 
 	function handleFileSelect(event: Event) {
 		const input = event.target as HTMLInputElement;
@@ -297,7 +295,7 @@ Citra Sari,X,B,2025,0,1`;
 {#if showModal}
 	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 		<div
-			class="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-2xl border-2 border-green-200 bg-white p-6 shadow-2xl"
+			class="max-h-[90vh] w-full max-w-4xl space-y-2 overflow-y-auto rounded-2xl border-2 border-green-200 bg-white p-6 shadow-2xl"
 		>
 			<!-- Header -->
 			<div class="mb-6 flex items-center justify-between">
@@ -465,7 +463,7 @@ Citra Sari,X,B,2025,0,1`;
 				{/if}
 
 				<!-- Info box if has conflicts but can still import -->
-				{#if hasConflicts() && canImport()}
+				{#if hasConflicts && canImport()}
 					<div class="rounded-xl border-2 border-blue-200 bg-blue-50 p-4">
 						<p class="font-bold text-blue-800">ℹ️ Import Summary</p>
 						<div class="mt-2 space-y-1 text-sm text-blue-700">
@@ -483,7 +481,7 @@ Citra Sari,X,B,2025,0,1`;
 
 				<!-- Import Buttons -->
 				<div class="space-y-2">
-					{#if canImport() && hasConflicts()}
+					{#if canImport() && hasConflicts}
 						<!-- Button for importing only valid students -->
 						<button
 							onclick={handleImport}
