@@ -48,24 +48,29 @@
 		}
 	}
 
-	function generateStudentCode(name: string, angkatan: string = '2025'): string {
-		// Generate code from name initials + angkatan
-		const words = name
+	function generateStudentCode(
+		name: string,
+		kelas: string = '',
+		rombel: string = '',
+		angkatan: string = '2025'
+	): string {
+		// Clean name: remove special chars and extra spaces
+		const cleanName = name
 			.trim()
 			.toUpperCase()
-			.split(' ')
-			.filter((w) => w.length > 0);
+			.replace(/[^A-Z\s]/g, '')
+			.replace(/\s+/g, ' ');
 
-		let initials = '';
-		if (words.length === 1) {
-			// Single name: take first 2-3 chars
-			initials = words[0].substring(0, 3);
-		} else {
-			// Multiple words: take first letter of each
-			initials = words.map((w) => w[0]).join('');
-		}
+		const words = cleanName.split(' ').filter((w) => w.length > 0);
 
-		return `INSPIRE${angkatan}${initials}`;
+		// Take first 4 letters of first name
+		const firstName = words[0] || '';
+		const firstPart = firstName.substring(0, 4).padEnd(4, 'X');
+
+		// Format kelas+rombel (e.g., VII-D → VIID, X-A → XA)
+		const kelasCode = (kelas + rombel).replace(/[^A-Z0-9]/g, '').toUpperCase();
+
+		return `${firstPart}${kelasCode}${angkatan}`;
 	}
 
 	async function checkExistingCodes(codes: string[]): Promise<Set<string>> {
@@ -123,6 +128,8 @@
 			if (!student.student_code && student.student_name) {
 				student.student_code = generateStudentCode(
 					student.student_name,
+					student.kelas || '',
+					student.rombel || '',
 					student.angkatan || '2025'
 				);
 			}
