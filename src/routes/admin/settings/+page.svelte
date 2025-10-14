@@ -297,15 +297,6 @@
 					</div>
 				</div>
 			</details>
-
-			<!-- Test Connection -->
-			<button
-				type="button"
-				onclick={testConnection}
-				class="w-full rounded-lg border-2 border-blue-400 bg-white py-3 font-semibold text-blue-600 transition-all hover:bg-blue-50 active:scale-95"
-			>
-				🧪 Test Connection
-			</button>
 		</div>
 	</div>
 
@@ -359,9 +350,7 @@
 						: 'border-red-200 bg-red-50'}"
 				>
 					<p
-						class="text-sm font-semibold {dbTestResult.success
-							? 'text-green-800'
-							: 'text-red-800'}"
+						class="text-sm font-semibold {dbTestResult.success ? 'text-green-800' : 'text-red-800'}"
 					>
 						{dbTestResult.message}
 					</p>
@@ -380,7 +369,7 @@
 					<div class="mt-3 space-y-2">
 						<div class="rounded-lg bg-white p-3">
 							<p class="font-bold">1️⃣ GitHub Secrets (Recommended)</p>
-							<ol class="ml-4 mt-1 list-decimal space-y-1 text-xs">
+							<ol class="mt-1 ml-4 list-decimal space-y-1 text-xs">
 								<li>Go to: Settings → Secrets and variables → Actions</li>
 								<li>Add: <code class="rounded bg-gray-200 px-1">PUBLIC_SUPABASE_URL</code></li>
 								<li>Add: <code class="rounded bg-gray-200 px-1">PUBLIC_SUPABASE_ANON_KEY</code></li>
@@ -388,26 +377,26 @@
 							</ol>
 						</div>
 
-					<div class="rounded-lg bg-white p-3">
-						<p class="font-bold">2️⃣ Build-time Injection</p>
-						<p class="text-xs">Set in GitHub Actions workflow:</p>
-						<div class="mt-1 overflow-x-auto rounded bg-gray-800 p-2 text-xs text-green-400">
-							<code>
-								env:<br />
-								&nbsp;&nbsp;PUBLIC_SUPABASE_URL: {'${{ secrets.PUBLIC_SUPABASE_URL }}'}<br />
-								&nbsp;&nbsp;PUBLIC_SUPABASE_ANON_KEY: {'${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}'}
-							</code>
+						<div class="rounded-lg bg-white p-3">
+							<p class="font-bold">2️⃣ Build-time Injection</p>
+							<p class="text-xs">Set in GitHub Actions workflow:</p>
+							<div class="mt-1 overflow-x-auto rounded bg-gray-800 p-2 text-xs text-green-400">
+								<code>
+									env:<br />
+									&nbsp;&nbsp;PUBLIC_SUPABASE_URL: {'${{ secrets.PUBLIC_SUPABASE_URL }}'}<br />
+									&nbsp;&nbsp;PUBLIC_SUPABASE_ANON_KEY: {'${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}'}
+								</code>
+							</div>
 						</div>
-					</div>
 
 						<div class="rounded-lg bg-white p-3">
 							<p class="font-bold">3️⃣ Hardcode (Not Recommended)</p>
 							<p class="text-xs">
-								Directly set values in <code class="rounded bg-gray-200 px-1">src/lib/supabase.ts</code>
+								Directly set values in <code class="rounded bg-gray-200 px-1"
+									>src/lib/supabase.ts</code
+								>
 							</p>
-							<p class="mt-1 text-xs text-red-600">
-								⚠️ Only use this for public anon keys!
-							</p>
+							<p class="mt-1 text-xs text-red-600">⚠️ Only use this for public anon keys!</p>
 						</div>
 					</div>
 				</div>
