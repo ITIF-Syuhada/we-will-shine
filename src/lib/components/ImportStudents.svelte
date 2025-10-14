@@ -12,9 +12,15 @@
 	let error = $state('');
 	let success = $state('');
 	let previewData = $state<Omit<Student, 'id' | 'created_at' | 'updated_at'>[]>([]);
+	let allStudents = $state<Omit<Student, 'id' | 'created_at' | 'updated_at'>[]>([]); // All students from CSV
 	let totalStudents = $state(0); // Total students in CSV
 	let conflicts = $state<{ code: string; name: string; existing?: boolean }[]>([]);
 	let showConfirmation = $state(false);
+
+	// Pagination
+	let currentPage = $state(1);
+	let itemsPerPage = $state(10);
+	const pageOptions = [10, 20, 30, 40, 50];
 
 	// Computed: check if there are students that can be imported
 	const canImport = $derived(() => {
@@ -37,6 +43,18 @@
 
 	// Computed: has conflicts (DB conflicts only)
 	const hasConflicts = $derived(conflicts.filter((c) => c.existing).length > 0);
+
+	// Computed: pagination
+	const totalPages = $derived(Math.ceil(allStudents.length / itemsPerPage));
+	const startIndex = $derived((currentPage - 1) * itemsPerPage);
+	const endIndex = $derived(startIndex + itemsPerPage);
+
+	// Update previewData when pagination changes
+	$effect(() => {
+		if (allStudents.length > 0) {
+			previewData = allStudents.slice(startIndex, endIndex);
+		}
+	});
 
 	function handleFileSelect(event: Event) {
 		const input = event.target as HTMLInputElement;
@@ -242,7 +260,10 @@
 				}
 			});
 
-			previewData = students.slice(0, 10); // Show first 10 for preview
+			// Store all students and reset pagination
+			allStudents = students;
+			currentPage = 1;
+			previewData = students.slice(0, itemsPerPage);
 
 			const dbConflicts = conflicts.filter((c) => c.existing).length;
 			const csvDuplicates = conflicts.filter((c) => !c.existing).length;
@@ -519,6 +540,49 @@ Citra Sari,X,B,2025,0,1`;
 						</tbody>
 					</table>
 				</div>
+
+				<!-- Pagination Controls -->
+				{#if allStudents.length > 10}
+					<div
+						class="mb-6 flex items-center justify-between rounded-xl border-2 border-blue-200 bg-blue-50 p-4"
+					>
+						<div class="flex items-center gap-4">
+							<span class="text-sm font-semibold text-blue-800">Items per page:</span>
+							<select
+								bind:value={itemsPerPage}
+								onchange={() => (currentPage = 1)}
+								class="rounded-lg border-2 border-blue-200 px-3 py-2 text-sm transition-all focus:border-blue-400 focus:ring-2 focus:ring-blue-100 focus:outline-none"
+							>
+								{#each pageOptions as option (option)}
+									<option value={option}>{option}</option>
+								{/each}
+							</select>
+							<span class="text-sm text-blue-700">
+								Showing {startIndex + 1}-{Math.min(endIndex, allStudents.length)} of {allStudents.length}
+							</span>
+						</div>
+
+						<div class="flex items-center gap-2">
+							<button
+								onclick={() => (currentPage = Math.max(1, currentPage - 1))}
+								disabled={currentPage === 1}
+								class="rounded-lg border-2 border-blue-200 bg-white px-3 py-2 text-sm font-semibold text-blue-700 transition-all hover:bg-blue-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+							>
+								← Previous
+							</button>
+							<span class="text-sm font-semibold text-blue-800">
+								Page {currentPage} of {totalPages}
+							</span>
+							<button
+								onclick={() => (currentPage = Math.min(totalPages, currentPage + 1))}
+								disabled={currentPage === totalPages}
+								class="rounded-lg border-2 border-blue-200 bg-white px-3 py-2 text-sm font-semibold text-blue-700 transition-all hover:bg-blue-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+							>
+								Next →
+							</button>
+						</div>
+					</div>
+				{/if}
 
 				<!-- Warning if all students will be skipped -->
 				{#if !canImport() && conflicts.length > 0}
