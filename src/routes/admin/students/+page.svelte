@@ -24,16 +24,68 @@
 	let availableRombel = $state<string[]>([]);
 	let availableAngkatan = $state<string[]>([]);
 
+	// Column visibility (default all visible)
+	interface ColumnVisibility {
+		code: boolean;
+		name: boolean;
+		kelas: boolean;
+		rombel: boolean;
+		angkatan: boolean;
+		points: boolean;
+		level: boolean;
+	}
+
+	const defaultColumns: ColumnVisibility = {
+		code: true,
+		name: true,
+		kelas: true,
+		rombel: true,
+		angkatan: true,
+		points: true,
+		level: true
+	};
+
+	let visibleColumns = $state<ColumnVisibility>(defaultColumns);
+	let showColumnSettings = $state(false);
+
 	// Computed values
 	const totalPages = $derived(Math.ceil(totalStudents / itemsPerPage));
 	const activeStudents = $derived(students.filter((s) => s.points > 0).length);
 	const totalPoints = $derived(students.reduce((sum, s) => sum + s.points, 0));
 	const avgPoints = $derived(activeStudents > 0 ? Math.round(totalPoints / activeStudents) : 0);
+	const visibleColumnCount = $derived(Object.values(visibleColumns).filter((v) => v).length);
 
 	onMount(() => {
+		loadColumnSettings();
 		loadUniqueValues();
 		loadStudents();
 	});
+
+	function loadColumnSettings() {
+		const saved = localStorage.getItem('admin-students-columns');
+		if (saved) {
+			try {
+				visibleColumns = JSON.parse(saved);
+			} catch (e) {
+				console.error('Failed to parse column settings:', e);
+				visibleColumns = defaultColumns;
+			}
+		}
+	}
+
+	function saveColumnSettings() {
+		localStorage.setItem('admin-students-columns', JSON.stringify(visibleColumns));
+	}
+
+	function toggleColumn(column: keyof ColumnVisibility) {
+		visibleColumns[column] = !visibleColumns[column];
+		saveColumnSettings();
+	}
+
+	function resetColumns() {
+		visibleColumns = { ...defaultColumns };
+		saveColumnSettings();
+	}
 
 	async function loadUniqueValues() {
 		try {
@@ -230,21 +282,113 @@
 				📚 Students List ({students.length} of {totalStudents})
 			</h2>
 
-			<!-- Items Per Page -->
 			<div class="flex items-center gap-3">
-				<span class="text-sm font-semibold text-gray-700">Items per page:</span>
-				<select
-					bind:value={itemsPerPage}
-					onchange={() => {
-						currentPage = 1;
-						loadStudents();
-					}}
-					class="rounded-lg border-2 border-purple-200 px-3 py-2 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
-				>
-					{#each pageOptions as option (option)}
-						<option value={option}>{option}</option>
-					{/each}
-				</select>
+				<!-- Column Settings Button -->
+				<div class="relative">
+					<button
+						onclick={() => (showColumnSettings = !showColumnSettings)}
+						class="rounded-lg border-2 border-purple-200 bg-white px-3 py-2 text-sm font-semibold text-purple-700 transition-all hover:bg-purple-50 active:scale-95"
+						title="Column Settings"
+					>
+						⚙️ Columns ({visibleColumnCount})
+					</button>
+
+					{#if showColumnSettings}
+						<div
+							class="absolute top-full right-0 z-10 mt-2 w-48 rounded-lg border-2 border-purple-200 bg-white p-3 shadow-xl"
+						>
+							<div class="mb-2 text-xs font-bold text-gray-700">Show/Hide Columns</div>
+							<div class="space-y-2">
+								<label class="flex cursor-pointer items-center gap-2">
+									<input
+										type="checkbox"
+										checked={visibleColumns.code}
+										onchange={() => toggleColumn('code')}
+										class="cursor-pointer"
+									/>
+									<span class="text-sm">Code</span>
+								</label>
+								<label class="flex cursor-pointer items-center gap-2">
+									<input
+										type="checkbox"
+										checked={visibleColumns.name}
+										onchange={() => toggleColumn('name')}
+										class="cursor-pointer"
+									/>
+									<span class="text-sm">Name</span>
+								</label>
+								<label class="flex cursor-pointer items-center gap-2">
+									<input
+										type="checkbox"
+										checked={visibleColumns.kelas}
+										onchange={() => toggleColumn('kelas')}
+										class="cursor-pointer"
+									/>
+									<span class="text-sm">Kelas</span>
+								</label>
+								<label class="flex cursor-pointer items-center gap-2">
+									<input
+										type="checkbox"
+										checked={visibleColumns.rombel}
+										onchange={() => toggleColumn('rombel')}
+										class="cursor-pointer"
+									/>
+									<span class="text-sm">Rombel</span>
+								</label>
+								<label class="flex cursor-pointer items-center gap-2">
+									<input
+										type="checkbox"
+										checked={visibleColumns.angkatan}
+										onchange={() => toggleColumn('angkatan')}
+										class="cursor-pointer"
+									/>
+									<span class="text-sm">Angkatan</span>
+								</label>
+								<label class="flex cursor-pointer items-center gap-2">
+									<input
+										type="checkbox"
+										checked={visibleColumns.points}
+										onchange={() => toggleColumn('points')}
+										class="cursor-pointer"
+									/>
+									<span class="text-sm">Points</span>
+								</label>
+								<label class="flex cursor-pointer items-center gap-2">
+									<input
+										type="checkbox"
+										checked={visibleColumns.level}
+										onchange={() => toggleColumn('level')}
+										class="cursor-pointer"
+									/>
+									<span class="text-sm">Level</span>
+								</label>
+							</div>
+							<button
+								onclick={resetColumns}
+								class="mt-3 w-full rounded-lg border-2 border-gray-200 bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 transition-all hover:bg-gray-200 active:scale-95"
+							>
+								Reset to Default
+							</button>
+						</div>
+					{/if}
+				</div>
+
+				<!-- Items Per Page -->
+				<div class="flex items-center gap-2">
+					<span class="text-sm font-semibold text-gray-700">Items per page:</span>
+					<select
+						bind:value={itemsPerPage}
+						onchange={() => {
+							currentPage = 1;
+							loadStudents();
+						}}
+						class="rounded-lg border-2 border-purple-200 px-3 py-2 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
+					>
+						{#each pageOptions as option (option)}
+							<option value={option}>{option}</option>
+						{/each}
+					</select>
+				</div>
 			</div>
 		</div>
 
@@ -263,25 +407,54 @@
 				<table class="w-full">
 					<thead class="bg-purple-50">
 						<tr>
-							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Code</th>
-							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Name</th>
-							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Kelas</th>
-							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Rombel</th>
-							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Angkatan</th>
-							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Points</th>
-							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Level</th>
+							{#if visibleColumns.code}
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Code</th>
+							{/if}
+							{#if visibleColumns.name}
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Name</th>
+							{/if}
+							{#if visibleColumns.kelas}
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Kelas</th>
+							{/if}
+							{#if visibleColumns.rombel}
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Rombel</th>
+							{/if}
+							{#if visibleColumns.angkatan}
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Angkatan</th>
+							{/if}
+							{#if visibleColumns.points}
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Points</th>
+							{/if}
+							{#if visibleColumns.level}
+								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Level</th>
+							{/if}
 						</tr>
 					</thead>
 					<tbody>
 						{#each students as student (student.id)}
 							<tr class="border-b border-purple-50 transition-colors hover:bg-purple-50">
-								<td class="px-4 py-3 text-sm font-medium text-gray-800">{student.student_code}</td>
-								<td class="px-4 py-3 text-sm text-gray-700">{student.student_name}</td>
-								<td class="px-4 py-3 text-sm text-gray-600">{student.kelas || '-'}</td>
-								<td class="px-4 py-3 text-sm text-gray-600">{student.rombel || '-'}</td>
-								<td class="px-4 py-3 text-sm text-gray-600">{student.angkatan || '-'}</td>
-								<td class="px-4 py-3 text-sm font-bold text-yellow-600">{student.points}</td>
-								<td class="px-4 py-3 text-sm font-bold text-purple-600">Lv.{student.level}</td>
+								{#if visibleColumns.code}
+									<td class="px-4 py-3 text-sm font-medium text-gray-800">{student.student_code}</td
+									>
+								{/if}
+								{#if visibleColumns.name}
+									<td class="px-4 py-3 text-sm text-gray-700">{student.student_name}</td>
+								{/if}
+								{#if visibleColumns.kelas}
+									<td class="px-4 py-3 text-sm text-gray-600">{student.kelas || '-'}</td>
+								{/if}
+								{#if visibleColumns.rombel}
+									<td class="px-4 py-3 text-sm text-gray-600">{student.rombel || '-'}</td>
+								{/if}
+								{#if visibleColumns.angkatan}
+									<td class="px-4 py-3 text-sm text-gray-600">{student.angkatan || '-'}</td>
+								{/if}
+								{#if visibleColumns.points}
+									<td class="px-4 py-3 text-sm font-bold text-yellow-600">{student.points}</td>
+								{/if}
+								{#if visibleColumns.level}
+									<td class="px-4 py-3 text-sm font-bold text-purple-600">Lv.{student.level}</td>
+								{/if}
 							</tr>
 						{/each}
 					</tbody>

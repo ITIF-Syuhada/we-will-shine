@@ -109,9 +109,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	plugins: [sveltekit()],
 	define: {
-		'import.meta.env.PUBLIC_SUPABASE_URL': JSON.stringify(
-			process.env.PUBLIC_SUPABASE_URL || ''
-		),
+		'import.meta.env.PUBLIC_SUPABASE_URL': JSON.stringify(process.env.PUBLIC_SUPABASE_URL || ''),
 		'import.meta.env.PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(
 			process.env.PUBLIC_SUPABASE_ANON_KEY || ''
 		)
@@ -145,6 +143,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 ```
 
 **Cons:**
+
 - ❌ Credentials in source code
 - ❌ No flexibility for different environments
 - ❌ Security risk if repo is public (but anon keys are meant to be public)
@@ -154,12 +153,14 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 ### Local Testing (Development)
 
 1. Create `.env` file:
+
 ```bash
 PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 PUBLIC_SUPABASE_ANON_KEY=eyJhbG...
 ```
 
 2. Run dev server:
+
 ```bash
 pnpm dev
 ```
@@ -179,6 +180,7 @@ pnpm dev
 ### Issue: "Environment variables not configured"
 
 **Solution:**
+
 1. Check GitHub Secrets are added
 2. Verify workflow uses secrets correctly
 3. Re-run the workflow
@@ -186,11 +188,13 @@ pnpm dev
 ### Issue: "Database connection failed"
 
 **Possible causes:**
+
 1. Wrong Supabase URL or Key
 2. Network issues
 3. Tables not created (run migrations)
 
 **Solution:**
+
 ```bash
 # Verify credentials
 echo $PUBLIC_SUPABASE_URL
@@ -204,6 +208,7 @@ supabase db push
 
 **Solution:**
 Add your GitHub Pages domain to Supabase:
+
 1. Go to Supabase Dashboard
 2. Settings → API → CORS
 3. Add: `https://your-username.github.io`
@@ -242,6 +247,7 @@ Add your GitHub Pages domain to Supabase:
 ## 🔒 Security Best Practices
 
 ### Do's ✅
+
 - ✅ Use GitHub Secrets for sensitive data
 - ✅ Use Supabase Row Level Security (RLS)
 - ✅ Rotate keys periodically
@@ -249,6 +255,7 @@ Add your GitHub Pages domain to Supabase:
 - ✅ Enable CORS properly
 
 ### Don'ts ❌
+
 - ❌ Don't commit `.env` to git
 - ❌ Don't use service keys in frontend
 - ❌ Don't expose admin passwords
@@ -276,4 +283,3 @@ Add your GitHub Pages domain to Supabase:
 
 **Last Updated:** October 2025  
 **Status:** ✅ Ready for Production
-
