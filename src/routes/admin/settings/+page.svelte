@@ -21,6 +21,9 @@
 	let achievementNotif = $state($appSettings.notifications.achievements);
 	let dailyMotivation = $state($appSettings.notifications.dailyMotivation);
 
+	// Accordion state
+	let showProviderInfo = $state(false);
+
 	function saveSettings() {
 		appSettings.updateAI({
 			provider,
@@ -297,6 +300,56 @@
 					</div>
 				</div>
 			</details>
+
+			<!-- About AI Providers Accordion -->
+			<details
+				class="rounded-lg border-2 border-yellow-200 bg-gradient-to-br from-yellow-50 to-orange-50"
+			>
+				<summary
+					class="cursor-pointer p-4 font-semibold text-yellow-800 transition-colors hover:bg-yellow-100"
+					onclick={() => (showProviderInfo = !showProviderInfo)}
+				>
+					<span class="flex items-center gap-2">
+						<span>💡</span>
+						<span>About AI Providers</span>
+						<span class="text-sm text-yellow-600">
+							{showProviderInfo ? '▼' : '▶'}
+						</span>
+					</span>
+				</summary>
+
+				{#if showProviderInfo}
+					<div class="border-t border-yellow-200 p-4">
+						<div class="space-y-2 text-sm text-gray-700">
+							<div class="rounded-lg bg-white/60 p-3">
+								<p class="font-bold text-green-700">🟢 OpenAI (ChatGPT)</p>
+								<p class="text-xs text-gray-600">Best for: General knowledge, Indonesian support</p>
+								<p class="text-xs text-gray-500">Cost: $$$ | Quality: ⭐⭐⭐⭐⭐</p>
+							</div>
+
+							<div class="rounded-lg bg-white/60 p-3">
+								<p class="font-bold text-purple-700">🟣 Claude (Anthropic)</p>
+								<p class="text-xs text-gray-600">Best for: Long conversations, reasoning</p>
+								<p class="text-xs text-gray-500">Cost: $$$ | Quality: ⭐⭐⭐⭐⭐</p>
+							</div>
+
+							<div class="rounded-lg bg-white/60 p-3">
+								<p class="font-bold text-blue-700">🔵 Google Gemini</p>
+								<p class="text-xs text-gray-600">Best for: Multimodal, fast responses</p>
+								<p class="text-xs text-gray-500">Cost: $$ | Quality: ⭐⭐⭐⭐</p>
+							</div>
+
+							<div class="rounded-lg bg-white/60 p-3">
+								<p class="font-bold text-gray-700">🔧 Custom LLM</p>
+								<p class="text-xs text-gray-600">
+									Best for: Privacy, local deployment, cost control
+								</p>
+								<p class="text-xs text-gray-500">Examples: Ollama, LM Studio, LocalAI</p>
+							</div>
+						</div>
+					</div>
+				{/if}
+			</details>
 		</div>
 	</div>
 
@@ -474,42 +527,6 @@
 						class="h-5 w-5 rounded"
 					/>
 				</label>
-			</div>
-		</div>
-	</div>
-
-	<!-- Provider Info -->
-	<div
-		class="rounded-2xl border-2 border-yellow-200 bg-gradient-to-br from-yellow-50 to-orange-50 p-6"
-	>
-		<h3 class="mb-3 flex items-center gap-2 text-lg font-bold text-yellow-800">
-			<span>💡</span>
-			<span>About AI Providers</span>
-		</h3>
-
-		<div class="space-y-2 text-sm text-gray-700">
-			<div class="rounded-lg bg-white/60 p-3">
-				<p class="font-bold text-green-700">🟢 OpenAI (ChatGPT)</p>
-				<p class="text-xs text-gray-600">Best for: General knowledge, Indonesian support</p>
-				<p class="text-xs text-gray-500">Cost: $$$ | Quality: ⭐⭐⭐⭐⭐</p>
-			</div>
-
-			<div class="rounded-lg bg-white/60 p-3">
-				<p class="font-bold text-purple-700">🟣 Claude (Anthropic)</p>
-				<p class="text-xs text-gray-600">Best for: Long conversations, reasoning</p>
-				<p class="text-xs text-gray-500">Cost: $$$ | Quality: ⭐⭐⭐⭐⭐</p>
-			</div>
-
-			<div class="rounded-lg bg-white/60 p-3">
-				<p class="font-bold text-blue-700">🔵 Google Gemini</p>
-				<p class="text-xs text-gray-600">Best for: Multimodal, fast responses</p>
-				<p class="text-xs text-gray-500">Cost: $$ | Quality: ⭐⭐⭐⭐</p>
-			</div>
-
-			<div class="rounded-lg bg-white/60 p-3">
-				<p class="font-bold text-gray-700">🔧 Custom LLM</p>
-				<p class="text-xs text-gray-600">Best for: Privacy, local deployment, cost control</p>
-				<p class="text-xs text-gray-500">Examples: Ollama, LM Studio, LocalAI</p>
 			</div>
 		</div>
 	</div>
