@@ -3,6 +3,7 @@
 	import { base } from '$app/paths';
 	import { userProgress } from '$lib/stores/user';
 	import { getStudentByCode } from '$lib/data/students';
+	import { db } from '$lib/supabase';
 	import { motivationalQuotes } from '$lib/data/motivations';
 
 	let code = $state('');
@@ -11,7 +12,7 @@
 	let showWelcome = $state(false);
 	let welcomeMessage = $state('');
 
-	function handleSubmit() {
+	async function handleSubmit() {
 		if (code.trim().length === 0) {
 			error = 'Masukkan kode dari coklat kamu ya! 🍫';
 			return;
@@ -21,25 +22,55 @@
 		error = '';
 
 		// Simulate loading for better UX
-		setTimeout(() => {
-			const student = getStudentByCode(code);
+		setTimeout(async () => {
+			try {
+				// Try to get student from Supabase first
+				const dbStudent = await db.getStudent(code);
 
-			if (student) {
-				// Login successful
-				userProgress.login(student);
-				userProgress.addPoints(50); // Welcome points
-				userProgress.unlockAchievement('first-login');
+				if (dbStudent) {
+					// Convert to local student format
+					const student = {
+						id: dbStudent.id,
+						code: dbStudent.student_code,
+						name: dbStudent.student_name
+					};
 
-				// Show welcome message
-				welcomeMessage = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
-				showWelcome = true;
+					// Login successful
+					await userProgress.login(student);
+					userProgress.addPoints(50); // Welcome points
+					userProgress.unlockAchievement('first-login');
 
-				// Redirect to dashboard after 3 seconds
-				setTimeout(() => {
-					goto(`${base}/dashboard/${student.code}`);
-				}, 3000);
-			} else {
-				error = 'Kode tidak valid. Cek kembali kode di coklat hadiah kamu ya! 🍫';
+					// Show welcome message
+					welcomeMessage =
+						motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+					showWelcome = true;
+
+					// Redirect to dashboard after 3 seconds
+					setTimeout(() => {
+						goto(`${base}/dashboard/${student.code}`);
+					}, 3000);
+				} else {
+					// Fallback to local data (for backwards compatibility)
+					const localStudent = getStudentByCode(code);
+
+					if (localStudent) {
+						await userProgress.login(localStudent);
+						userProgress.addPoints(50);
+						userProgress.unlockAchievement('first-login');
+						welcomeMessage =
+							motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+						showWelcome = true;
+						setTimeout(() => {
+							goto(`${base}/dashboard/${localStudent.code}`);
+						}, 3000);
+					} else {
+						error = 'Kode tidak valid. Cek kembali kode di coklat hadiah kamu ya! 🍫';
+						isLoading = false;
+					}
+				}
+			} catch (err) {
+				console.error('Unlock error:', err);
+				error = 'Terjadi kesalahan. Silakan coba lagi.';
 				isLoading = false;
 			}
 		}, 800);
