@@ -156,9 +156,13 @@ export const db = {
 	},
 
 	async getUniqueValues() {
-		const { data, error } = await supabase.from('students').select('kelas, rombel, angkatan');
+		const { data, error } = await supabase.from('students').select('kelas,rombel,angkatan');
 
 		if (error) throw error;
+
+		if (!data || data.length === 0) {
+			return { kelas: [], rombel: [], angkatan: [] };
+		}
 
 		const kelas = [...new Set(data.map((s) => s.kelas).filter(Boolean))].sort();
 		const rombel = [...new Set(data.map((s) => s.rombel).filter(Boolean))].sort();
