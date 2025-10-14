@@ -96,8 +96,11 @@
 		<div class="space-y-4">
 			<!-- AI Provider -->
 			<div>
-				<label class="mb-2 block text-sm font-semibold text-gray-700"> AI Provider </label>
+				<label for="ai-provider" class="mb-2 block text-sm font-semibold text-gray-700">
+					AI Provider
+				</label>
 				<select
+					id="ai-provider"
 					bind:value={provider}
 					class="w-full rounded-lg border-2 border-blue-200 px-4 py-3 transition-all focus:border-blue-400 focus:ring-2 focus:ring-blue-100 focus:outline-none"
 				>
@@ -111,11 +114,12 @@
 			<!-- API Key -->
 			{#if provider !== 'custom'}
 				<div>
-					<label class="mb-2 block text-sm font-semibold text-gray-700">
+					<label for="api-key" class="mb-2 block text-sm font-semibold text-gray-700">
 						API Key
 						<span class="text-xs text-gray-500">(Required)</span>
 					</label>
 					<input
+						id="api-key"
 						type="password"
 						bind:value={apiKey}
 						placeholder="sk-..."
@@ -148,8 +152,11 @@
 			<!-- Custom LLM URL -->
 			{#if provider === 'custom'}
 				<div>
-					<label class="mb-2 block text-sm font-semibold text-gray-700"> Custom LLM URL </label>
+					<label for="custom-url" class="mb-2 block text-sm font-semibold text-gray-700">
+						Custom LLM URL
+					</label>
 					<input
+						id="custom-url"
 						type="url"
 						bind:value={customUrl}
 						placeholder="http://localhost:11434/api/generate"
@@ -161,8 +168,11 @@
 				</div>
 
 				<div>
-					<label class="mb-2 block text-sm font-semibold text-gray-700"> API Key (Optional) </label>
+					<label for="custom-api-key" class="mb-2 block text-sm font-semibold text-gray-700">
+						API Key (Optional)
+					</label>
 					<input
+						id="custom-api-key"
 						type="password"
 						bind:value={apiKey}
 						placeholder="Optional for custom LLM"
@@ -173,8 +183,9 @@
 
 			<!-- Model Selection -->
 			<div>
-				<label class="mb-2 block text-sm font-semibold text-gray-700"> Model </label>
+				<label for="model" class="mb-2 block text-sm font-semibold text-gray-700"> Model </label>
 				<select
+					id="model"
 					bind:value={model}
 					class="w-full rounded-lg border-2 border-blue-200 px-4 py-3 transition-all focus:border-blue-400 focus:ring-2 focus:ring-blue-100 focus:outline-none"
 				>
@@ -204,10 +215,11 @@
 				<div class="mt-4 space-y-4">
 					<!-- Temperature -->
 					<div>
-						<label class="mb-2 block text-sm font-semibold text-gray-700">
+						<label for="temperature" class="mb-2 block text-sm font-semibold text-gray-700">
 							Temperature: <span class="font-mono text-blue-600">{temperature}</span>
 						</label>
 						<input
+							id="temperature"
 							type="range"
 							bind:value={temperature}
 							min="0"
@@ -223,10 +235,11 @@
 
 					<!-- Max Tokens -->
 					<div>
-						<label class="mb-2 block text-sm font-semibold text-gray-700">
+						<label for="max-tokens" class="mb-2 block text-sm font-semibold text-gray-700">
 							Max Tokens: <span class="font-mono text-blue-600">{maxTokens}</span>
 						</label>
 						<input
+							id="max-tokens"
 							type="range"
 							bind:value={maxTokens}
 							min="100"
