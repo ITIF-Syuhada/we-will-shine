@@ -478,7 +478,7 @@ export const db = {
 			ipAddress?: string;
 			userAgent?: string;
 		}
-	) {
+	): Promise<StudentSession> {
 		const sessionToken = crypto.randomUUID();
 
 		const { data, error } = await supabase
@@ -510,7 +510,7 @@ export const db = {
 		activityData?: Record<string, unknown>,
 		pageUrl?: string,
 		durationSeconds?: number
-	) {
+	): Promise<StudentActivityLog> {
 		const { data, error } = await supabase
 			.from('student_activity_log')
 			.insert({
