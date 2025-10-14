@@ -14,6 +14,9 @@ export interface Student {
 	student_name: string;
 	points: number;
 	level: number;
+	kelas?: string; // e.g., "X", "XI", "XII"
+	rombel?: string; // e.g., "A", "B", "C"
+	angkatan?: string; // e.g., "2024", "2025"
 	created_at: string;
 	updated_at: string;
 }
@@ -103,6 +106,65 @@ export const db = {
 
 		if (error) throw error;
 		return data as Student;
+	},
+
+	async bulkCreateStudents(students: Omit<Student, 'id' | 'created_at' | 'updated_at'>[]) {
+		const { data, error } = await supabase.from('students').insert(students).select();
+
+		if (error) throw error;
+		return data as Student[];
+	},
+
+	async getStudentsWithFilter(filters: {
+		kelas?: string;
+		rombel?: string;
+		angkatan?: string;
+		search?: string;
+		limit?: number;
+		offset?: number;
+	}) {
+		let query = supabase.from('students').select('*', { count: 'exact' });
+
+		if (filters.kelas) {
+			query = query.eq('kelas', filters.kelas);
+		}
+		if (filters.rombel) {
+			query = query.eq('rombel', filters.rombel);
+		}
+		if (filters.angkatan) {
+			query = query.eq('angkatan', filters.angkatan);
+		}
+		if (filters.search) {
+			query = query.or(
+				`student_name.ilike.%${filters.search}%,student_code.ilike.%${filters.search}%`
+			);
+		}
+
+		query = query.order('student_name', { ascending: true });
+
+		if (filters.limit) {
+			query = query.limit(filters.limit);
+		}
+		if (filters.offset) {
+			query = query.range(filters.offset, filters.offset + (filters.limit || 40) - 1);
+		}
+
+		const { data, error, count } = await query;
+
+		if (error) throw error;
+		return { students: data as Student[], total: count || 0 };
+	},
+
+	async getUniqueValues() {
+		const { data, error } = await supabase.from('students').select('kelas, rombel, angkatan');
+
+		if (error) throw error;
+
+		const kelas = [...new Set(data.map((s) => s.kelas).filter(Boolean))].sort();
+		const rombel = [...new Set(data.map((s) => s.rombel).filter(Boolean))].sort();
+		const angkatan = [...new Set(data.map((s) => s.angkatan).filter(Boolean))].sort();
+
+		return { kelas, rombel, angkatan };
 	},
 
 	// Chat Messages

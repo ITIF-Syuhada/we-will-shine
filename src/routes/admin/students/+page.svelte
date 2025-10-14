@@ -1,73 +1,124 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
-	import { students } from '$lib/data/students';
+	import { db } from '$lib/supabase';
+	import type { Student } from '$lib/supabase';
+	import ImportStudents from '$lib/components/ImportStudents.svelte';
 
-	interface StudentData {
-		id: string;
-		name: string;
-		code: string;
-		hasLoggedIn: boolean;
-		points: number;
-		level: number;
-		exploredCareers: number;
-		quizCompleted: boolean;
-		dreamsCount: number;
-		lastActive: string;
-	}
+	let students = $state<Student[]>([]);
+	let totalStudents = $state(0);
+	let loading = $state(true);
 
-	let studentsData = $state<StudentData[]>([]);
+	// Filter states
 	let searchQuery = $state('');
+	let selectedKelas = $state('');
+	let selectedRombel = $state('');
+	let selectedAngkatan = $state('');
+
+	// Pagination states
+	let currentPage = $state(1);
+	let itemsPerPage = $state(40);
+	let paginationMode = $state<'number' | 'kelas' | 'rombel'>('number');
+
+	// Unique values for filters
+	let availableKelas = $state<string[]>([]);
+	let availableRombel = $state<string[]>([]);
+	let availableAngkatan = $state<string[]>([]);
+
+	// Computed values
+	const totalPages = $derived(Math.ceil(totalStudents / itemsPerPage));
+	const activeStudents = $derived(students.filter((s) => s.points > 0).length);
+	const totalPoints = $derived(students.reduce((sum, s) => sum + s.points, 0));
+	const avgPoints = $derived(activeStudents > 0 ? Math.round(totalPoints / activeStudents) : 0);
 
 	onMount(() => {
-		loadStudentsData();
+		loadUniqueValues();
+		loadStudents();
 	});
 
-	function loadStudentsData() {
-		if (!browser) return;
-
-		const data = students.map((student) => {
-			let progress = null;
-			try {
-				const stored = localStorage.getItem('we-will-shine-progress');
-				if (stored) {
-					const parsed = JSON.parse(stored);
-					if (parsed.studentCode === student.code) {
-						progress = parsed;
-					}
-				}
-			} catch {
-				// ignore
-			}
-
-			return {
-				...student,
-				hasLoggedIn: progress !== null,
-				points: progress?.points || 0,
-				level: progress?.level || 0,
-				exploredCareers: progress?.exploredCareers?.length || 0,
-				quizCompleted: progress?.quizCompleted || false,
-				dreamsCount: progress?.dreams?.length || 0,
-				lastActive: progress ? 'Active' : 'Never'
-			};
-		});
-
-		studentsData = data;
+	async function loadUniqueValues() {
+		try {
+			const values = await db.getUniqueValues();
+			availableKelas = values.kelas as string[];
+			availableRombel = values.rombel as string[];
+			availableAngkatan = values.angkatan as string[];
+		} catch (error) {
+			console.error('Failed to load unique values:', error);
+		}
 	}
 
-	const filteredStudents = $derived(
-		searchQuery.trim() === ''
-			? studentsData
-			: studentsData.filter(
-					(s) =>
-						s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-						s.code.toLowerCase().includes(searchQuery.toLowerCase())
-				)
-	);
+	async function loadStudents() {
+		loading = true;
+		try {
+			const offset = (currentPage - 1) * itemsPerPage;
+			const result = await db.getStudentsWithFilter({
+				kelas: selectedKelas || undefined,
+				rombel: selectedRombel || undefined,
+				angkatan: selectedAngkatan || undefined,
+				search: searchQuery || undefined,
+				limit: itemsPerPage,
+				offset
+			});
 
-	const activeStudents = $derived(studentsData.filter((s) => s.hasLoggedIn).length);
-	const totalPoints = $derived(studentsData.reduce((sum, s) => sum + s.points, 0));
-	const avgPoints = $derived(activeStudents > 0 ? Math.round(totalPoints / activeStudents) : 0);
+			students = result.students;
+			totalStudents = result.total;
+		} catch (error) {
+			console.error('Failed to load students:', error);
+		} finally {
+			loading = false;
+		}
+	}
+
+	function handleFilterChange() {
+		currentPage = 1; // Reset to first page
+		loadStudents();
+	}
+
+	function handlePageChange(page: number) {
+		currentPage = page;
+		loadStudents();
+	}
+
+	function handlePaginationModeChange() {
+		currentPage = 1;
+		if (paginationMode === 'kelas') {
+			// Group by kelas - show all students in selected kelas
+			selectedRombel = '';
+		} else if (paginationMode === 'rombel') {
+			// Group by rombel - show all students in selected rombel
+		}
+		loadStudents();
+	}
+
+	function handleImportComplete() {
+		loadUniqueValues();
+		loadStudents();
+	}
+
+	function clearFilters() {
+		searchQuery = '';
+		selectedKelas = '';
+		selectedRombel = '';
+		selectedAngkatan = '';
+		currentPage = 1;
+		loadStudents();
+	}
+
+	// Generate page numbers for pagination
+	const pageNumbers = $derived(() => {
+		const pages = [];
+		const maxVisible = 5;
+		let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+		let end = Math.min(totalPages, start + maxVisible - 1);
+
+		if (end - start + 1 < maxVisible) {
+			start = Math.max(1, end - maxVisible + 1);
+		}
+
+		for (let i = start; i <= end; i++) {
+			pages.push(i);
+		}
+		return pages;
+	});
 </script>
 
 <svelte:head>
@@ -77,10 +128,13 @@
 <div class="space-y-6 pb-6">
 	<!-- Page Header -->
 	<div
-		class="rounded-2xl border-2 border-green-200 bg-gradient-to-br from-green-100 to-emerald-100 p-6 shadow-lg"
+		class="flex items-center justify-between rounded-2xl border-2 border-green-200 bg-gradient-to-br from-green-100 to-emerald-100 p-6 shadow-lg"
 	>
-		<h1 class="text-2xl font-bold text-green-800">👥 Manage Students</h1>
-		<p class="text-sm text-green-600">{students.length} students registered</p>
+		<div>
+			<h1 class="text-2xl font-bold text-green-800">👥 Manage Students</h1>
+			<p class="text-sm text-green-600">{totalStudents} students registered</p>
+		</div>
+		<ImportStudents onImportComplete={handleImportComplete} />
 	</div>
 
 	<!-- Quick Stats -->
@@ -102,79 +156,218 @@
 		</div>
 	</div>
 
-	<!-- Search -->
-	<div class="rounded-2xl border-2 border-purple-200 bg-white p-4 shadow-lg">
-		<input
-			type="text"
-			bind:value={searchQuery}
-			placeholder="🔍 Search by name or code..."
-			class="w-full rounded-lg border-2 border-purple-200 px-4 py-3 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
-		/>
+	<!-- Filters -->
+	<div class="rounded-2xl border-2 border-purple-200 bg-white p-6 shadow-lg">
+		<div class="mb-4 flex items-center justify-between">
+			<h2 class="text-lg font-bold text-gray-800">🔍 Filters</h2>
+			<button
+				onclick={clearFilters}
+				class="rounded-lg border-2 border-gray-200 bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700 transition-all hover:bg-gray-200 active:scale-95"
+			>
+				Clear All
+			</button>
+		</div>
+
+		<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+			<!-- Search -->
+			<div>
+				<label for="search" class="mb-2 block text-sm font-semibold text-gray-700"> Search </label>
+				<input
+					id="search"
+					type="text"
+					bind:value={searchQuery}
+					onkeyup={handleFilterChange}
+					placeholder="Name or code..."
+					class="w-full rounded-lg border-2 border-purple-200 px-4 py-2 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
+				/>
+			</div>
+
+			<!-- Kelas Filter -->
+			<div>
+				<label for="kelas" class="mb-2 block text-sm font-semibold text-gray-700"> Kelas </label>
+				<select
+					id="kelas"
+					bind:value={selectedKelas}
+					onchange={handleFilterChange}
+					class="w-full rounded-lg border-2 border-purple-200 px-4 py-2 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
+				>
+					<option value="">All Kelas</option>
+					{#each availableKelas as kelas (kelas)}
+						<option value={kelas}>{kelas}</option>
+					{/each}
+				</select>
+			</div>
+
+			<!-- Rombel Filter -->
+			<div>
+				<label for="rombel" class="mb-2 block text-sm font-semibold text-gray-700"> Rombel </label>
+				<select
+					id="rombel"
+					bind:value={selectedRombel}
+					onchange={handleFilterChange}
+					class="w-full rounded-lg border-2 border-purple-200 px-4 py-2 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
+				>
+					<option value="">All Rombel</option>
+					{#each availableRombel as rombel (rombel)}
+						<option value={rombel}>{rombel}</option>
+					{/each}
+				</select>
+			</div>
+
+			<!-- Angkatan Filter -->
+			<div>
+				<label for="angkatan" class="mb-2 block text-sm font-semibold text-gray-700">
+					Angkatan
+				</label>
+				<select
+					id="angkatan"
+					bind:value={selectedAngkatan}
+					onchange={handleFilterChange}
+					class="w-full rounded-lg border-2 border-purple-200 px-4 py-2 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
+				>
+					<option value="">All Angkatan</option>
+					{#each availableAngkatan as angkatan (angkatan)}
+						<option value={angkatan}>{angkatan}</option>
+					{/each}
+				</select>
+			</div>
+		</div>
+
+		<!-- Pagination Mode -->
+		<div class="mt-4 flex items-center gap-4">
+			<label class="text-sm font-semibold text-gray-700">Pagination Mode:</label>
+			<div class="flex gap-2">
+				<button
+					onclick={() => {
+						paginationMode = 'number';
+						handlePaginationModeChange();
+					}}
+					class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
+					'number'
+						? 'border-purple-400 bg-purple-100 text-purple-700'
+						: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
+				>
+					By Number (40/page)
+				</button>
+				<button
+					onclick={() => {
+						paginationMode = 'kelas';
+						handlePaginationModeChange();
+					}}
+					class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
+					'kelas'
+						? 'border-purple-400 bg-purple-100 text-purple-700'
+						: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
+				>
+					By Kelas
+				</button>
+				<button
+					onclick={() => {
+						paginationMode = 'rombel';
+						handlePaginationModeChange();
+					}}
+					class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
+					'rombel'
+						? 'border-purple-400 bg-purple-100 text-purple-700'
+						: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
+				>
+					By Rombel
+				</button>
+			</div>
+		</div>
 	</div>
 
 	<!-- Students Table -->
 	<div class="rounded-2xl border-2 border-purple-200 bg-white shadow-lg">
 		<div class="border-b-2 border-purple-100 p-4">
 			<h2 class="text-lg font-bold text-gray-800">
-				📚 Students List ({filteredStudents.length})
+				📚 Students List ({students.length} of {totalStudents})
 			</h2>
 		</div>
 
-		<div class="overflow-x-auto">
-			<table class="w-full">
-				<thead class="bg-purple-50">
-					<tr>
-						<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Code</th>
-						<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Name</th>
-						<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Status</th>
-						<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Points</th>
-						<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Level</th>
-						<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Careers</th>
-						<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Quiz</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each filteredStudents as student (student.id)}
-						<tr class="border-b border-purple-50 transition-colors hover:bg-purple-50">
-							<td class="px-4 py-3 text-sm font-medium text-gray-800">{student.code}</td>
-							<td class="px-4 py-3 text-sm text-gray-700">{student.name}</td>
-							<td class="px-4 py-3">
-								{#if student.hasLoggedIn}
-									<span
-										class="rounded-full bg-green-100 px-2 py-1 text-xs font-semibold text-green-700"
-									>
-										Active
-									</span>
-								{:else}
-									<span
-										class="rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-600"
-									>
-										Not Active
-									</span>
-								{/if}
-							</td>
-							<td class="px-4 py-3 text-sm font-bold text-yellow-600">{student.points}</td>
-							<td class="px-4 py-3 text-sm font-bold text-purple-600">Lv.{student.level}</td>
-							<td class="px-4 py-3 text-sm text-gray-600">{student.exploredCareers}/8</td>
-							<td class="px-4 py-3">
-								{#if student.quizCompleted}
-									<span class="text-green-600">✅</span>
-								{:else}
-									<span class="text-gray-400">⬜</span>
-								{/if}
-							</td>
+		{#if loading}
+			<div class="p-12 text-center">
+				<div class="mb-4 text-4xl">⏳</div>
+				<p class="text-gray-600">Loading students...</p>
+			</div>
+		{:else if students.length === 0}
+			<div class="p-12 text-center">
+				<div class="mb-4 text-4xl">📭</div>
+				<p class="text-gray-600">No students found</p>
+			</div>
+		{:else}
+			<div class="overflow-x-auto">
+				<table class="w-full">
+					<thead class="bg-purple-50">
+						<tr>
+							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Code</th>
+							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Name</th>
+							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Kelas</th>
+							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Rombel</th>
+							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Angkatan</th>
+							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Points</th>
+							<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Level</th>
 						</tr>
-					{/each}
-				</tbody>
-			</table>
-
-			{#if filteredStudents.length === 0}
-				<div class="py-12 text-center">
-					<p class="text-sm text-gray-500">
-						{searchQuery ? 'No students found' : 'No students yet'}
-					</p>
-				</div>
-			{/if}
-		</div>
+					</thead>
+					<tbody>
+						{#each students as student (student.id)}
+							<tr class="border-b border-purple-50 transition-colors hover:bg-purple-50">
+								<td class="px-4 py-3 text-sm font-medium text-gray-800">{student.student_code}</td>
+								<td class="px-4 py-3 text-sm text-gray-700">{student.student_name}</td>
+								<td class="px-4 py-3 text-sm text-gray-600">{student.kelas || '-'}</td>
+								<td class="px-4 py-3 text-sm text-gray-600">{student.rombel || '-'}</td>
+								<td class="px-4 py-3 text-sm text-gray-600">{student.angkatan || '-'}</td>
+								<td class="px-4 py-3 text-sm font-bold text-yellow-600">{student.points}</td>
+								<td class="px-4 py-3 text-sm font-bold text-purple-600">Lv.{student.level}</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+		{/if}
 	</div>
+
+	<!-- Pagination -->
+	{#if totalPages > 1}
+		<div
+			class="flex items-center justify-between rounded-2xl border-2 border-purple-200 bg-white p-4 shadow-lg"
+		>
+			<div class="text-sm text-gray-600">
+				Page {currentPage} of {totalPages} • Total: {totalStudents} students
+			</div>
+
+			<div class="flex gap-2">
+				<!-- Previous Button -->
+				<button
+					onclick={() => handlePageChange(currentPage - 1)}
+					disabled={currentPage === 1}
+					class="rounded-lg border-2 border-purple-200 bg-white px-4 py-2 text-sm font-semibold text-purple-700 transition-all hover:bg-purple-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+				>
+					← Previous
+				</button>
+
+				<!-- Page Numbers -->
+				{#each pageNumbers() as page (page)}
+					<button
+						onclick={() => handlePageChange(page)}
+						class="rounded-lg border-2 px-4 py-2 text-sm font-semibold transition-all active:scale-95 {page ===
+						currentPage
+							? 'border-purple-400 bg-purple-500 text-white'
+							: 'border-purple-200 bg-white text-purple-700 hover:bg-purple-50'}"
+					>
+						{page}
+					</button>
+				{/each}
+
+				<!-- Next Button -->
+				<button
+					onclick={() => handlePageChange(currentPage + 1)}
+					disabled={currentPage === totalPages}
+					class="rounded-lg border-2 border-purple-200 bg-white px-4 py-2 text-sm font-semibold text-purple-700 transition-all hover:bg-purple-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+				>
+					Next →
+				</button>
+			</div>
+		</div>
+	{/if}
 </div>
