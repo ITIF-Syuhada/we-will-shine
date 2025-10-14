@@ -483,18 +483,44 @@
 						{#each students as student (student.id)}
 							<tr class="border-b border-purple-50 transition-colors hover:bg-purple-50">
 								{#if visibleColumns.code}
-									<td class="px-4 py-3 text-sm font-medium text-gray-800">
-										<div class="flex items-center gap-2">
-											<span>{student.student_code}</span>
+									<td class="px-4 py-1">
+										<div class="relative w-48">
+											<input
+												type="text"
+												value={student.student_code}
+												readonly
+												class="w-full rounded-lg border-0 bg-purple-50 pr-10 pl-3 font-mono text-xs text-gray-800"
+											/>
 											<button
 												onclick={() => copyCode(student.student_code)}
-												class="rounded px-1.5 py-0.5 text-xs text-purple-600 transition-all hover:bg-purple-100 active:scale-95"
+												class="absolute top-1/2 right-2 -translate-y-1/2 rounded p-1 text-purple-600 transition-all hover:bg-purple-100 active:scale-95"
 												title="Copy code"
 											>
 												{#if copiedCode === student.student_code}
-													✓
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														class="h-4 w-4"
+														viewBox="0 0 20 20"
+														fill="currentColor"
+													>
+														<path
+															fill-rule="evenodd"
+															d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+															clip-rule="evenodd"
+														/>
+													</svg>
 												{:else}
-													📋
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														class="h-4 w-4"
+														viewBox="0 0 20 20"
+														fill="currentColor"
+													>
+														<path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+														<path
+															d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"
+														/>
+													</svg>
 												{/if}
 											</button>
 										</div>
