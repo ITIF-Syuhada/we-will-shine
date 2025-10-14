@@ -41,21 +41,32 @@ WeWillShine2025!
 
 **Fitur:**
 
-- ✅ Daftar semua siswa (22 siswa)
-- ✅ Search/filter siswa
-- ✅ Lihat status: Active / Never logged in
+- ✅ Daftar semua siswa dengan pagination (10-50 per page)
+- ✅ Search/filter siswa (by name, code, kelas, rombel, angkatan)
+- ✅ Column visibility settings (show/hide columns)
+- ✅ Copy student code to clipboard
+- ✅ Inspect student details (modal view)
+- ✅ Import students from CSV
 - ✅ Track individual progress:
   - Points
   - Level
-  - Karir explored (x/8)
-  - Quiz completed (✓/-)
-  - Dreams count
+  - Login history
+  - Recent activities
+  - Device information
 
 **Stats:**
 
-- Siswa aktif vs total
+- Active students (points > 0)
 - Total points
 - Average points per siswa
+
+**New Features (v2.0):**
+
+- 📋 **Copy Button** - Copy student codes dengan satu klik
+- 🔍 **Inspect Modal** - Detail view dengan login history & activities
+- 📊 **Activity Tracking** - Real-time session & activity logging
+- ⚙️ **Column Settings** - Customize table columns
+- 🧹 **Cleanup Script** - Remove duplicates & reset data
 
 ---
 

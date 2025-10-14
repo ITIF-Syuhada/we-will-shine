@@ -9,11 +9,12 @@ Dokumentasi struktur dan pattern yang digunakan di Admin Portal untuk konsistens
 ├── +layout.svelte           # Centralized auth, header, navigation
 ├── +page.svelte             # Main dashboard with quick actions
 ├── login/+page.svelte       # Authentication page
-├── overview/+page.svelte    # Student list & stats (from Supabase)
-├── settings/+page.svelte    # AI API configuration
+├── overview/+page.svelte    # Dashboard with charts & leaderboards
+├── settings/+page.svelte    # AI API & system configuration
 ├── analytics/+page.svelte   # Platform metrics & charts
-├── students/+page.svelte    # Student management (local data)
+├── students/+page.svelte    # Student management with tracking
 ├── qr-generator/+page.svelte# QR code generation
+├── migrate-codes/+page.svelte# Student code migration tool
 └── auth/+page.svelte        # Admin management (coming soon)
 ```
 
@@ -117,19 +118,30 @@ Semua halaman admin mengikuti pattern yang sama:
 
 ## 📊 Data Management
 
-### Supabase Pages
+### Supabase Pages (Database-driven)
 
-- `overview/+page.svelte` - Uses `db.getAllStudents()`
+- `overview/+page.svelte` - Uses `db.getAllStudents()` with charts & leaderboards
+- `students/+page.svelte` - Uses `db.getStudentsWithFilter()` with pagination
 - `analytics/+page.svelte` - Uses `db.getStudentAnalytics()`
+- `migrate-codes/+page.svelte` - Uses `db.getAllStudents()` for code migration
+
+### Activity Tracking
+
+- `StudentDetailModal.svelte` - Uses `db.getStudentDetailData()`
+  - `db.getStudentSessions()` - Login history
+  - `db.getStudentActivities()` - Activity logs
+  - `db.getStudentLoginStats()` - Aggregated stats
 
 ### Local Data Pages
 
-- `students/+page.svelte` - Uses `$lib/data/students.ts` + localStorage
-- `qr-generator/+page.svelte` - Uses `$lib/data/students.ts`
+- `qr-generator/+page.svelte` - Uses `db.getAllStudents()` from Supabase
 
 ### Settings Store
 
-- `settings/+page.svelte` - Uses `appSettings` store
+- `settings/+page.svelte` - Uses `appSettings` store + localStorage
+- AI configuration (API keys, providers)
+- Database connection testing
+- API integration (PT Koneksi)
 - Persisted to localStorage
 - Shared across entire app
 
