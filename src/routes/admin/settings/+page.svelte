@@ -21,6 +21,12 @@
 	let achievementNotif = $state($appSettings.notifications.achievements);
 	let dailyMotivation = $state($appSettings.notifications.dailyMotivation);
 
+	// API Integration (PT Koneksi Sistem Akademik)
+	let apiIntegrationKey = $state(localStorage.getItem('koneksi-api-key') || '');
+	let apiIntegrationUrl = $state(localStorage.getItem('koneksi-api-url') || '');
+	let apiTesting = $state(false);
+	let apiTestResult = $state<{ success: boolean; message: string } | null>(null);
+
 	function saveSettings() {
 		appSettings.updateAI({
 			provider,
@@ -38,8 +44,53 @@
 			dailyMotivation
 		});
 
+		// Save API Integration
+		localStorage.setItem('koneksi-api-key', apiIntegrationKey);
+		localStorage.setItem('koneksi-api-url', apiIntegrationUrl);
+
 		saved = true;
 		setTimeout(() => (saved = false), 3000);
+	}
+
+	async function testApiIntegration() {
+		if (!apiIntegrationUrl || !apiIntegrationKey) {
+			apiTestResult = {
+				success: false,
+				message: '❌ API URL dan Key harus diisi!'
+			};
+			return;
+		}
+
+		apiTesting = true;
+		apiTestResult = null;
+
+		try {
+			const response = await fetch(`${apiIntegrationUrl}/health`, {
+				headers: {
+					Authorization: `Bearer ${apiIntegrationKey}`,
+					'Content-Type': 'application/json'
+				}
+			});
+
+			if (response.ok) {
+				apiTestResult = {
+					success: true,
+					message: '✅ API Connection successful!'
+				};
+			} else {
+				apiTestResult = {
+					success: false,
+					message: `❌ API returned status ${response.status}`
+				};
+			}
+		} catch (err) {
+			apiTestResult = {
+				success: false,
+				message: `❌ Connection failed: ${err instanceof Error ? err.message : 'Unknown error'}`
+			};
+		} finally {
+			apiTesting = false;
+		}
 	}
 
 	function resetSettings() {
@@ -511,6 +562,152 @@
 					/>
 				</label>
 			</div>
+		</div>
+	</div>
+
+	<!-- Maintenance & Updates -->
+	<div class="rounded-2xl border-2 border-orange-200 bg-white p-6 shadow-lg">
+		<h2 class="mb-4 flex items-center gap-2 text-xl font-bold text-orange-800">
+			<span>🔧</span>
+			<span>Maintenance & Updates</span>
+		</h2>
+
+		<div class="space-y-4">
+			<!-- Quick Links -->
+			<div class="grid gap-3 sm:grid-cols-2">
+				<!-- Migrate Student Codes -->
+				<a
+					href="/admin/migrate-codes"
+					class="group flex items-center gap-3 rounded-lg border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-red-50 p-4 transition-all hover:scale-105 hover:shadow-md"
+				>
+					<div class="flex-shrink-0 rounded-full bg-orange-100 p-3">
+						<span class="text-2xl">🔧</span>
+					</div>
+					<div class="flex-1">
+						<p class="font-bold text-orange-800">Migrate Student Codes</p>
+						<p class="text-xs text-orange-600">Update code formats</p>
+					</div>
+					<span class="text-orange-600">→</span>
+				</a>
+
+				<!-- Repository Updates -->
+				<a
+					href="https://github.com/ITIF-Syuhada/we-will-shine"
+					target="_blank"
+					class="group flex items-center gap-3 rounded-lg border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 p-4 transition-all hover:scale-105 hover:shadow-md"
+				>
+					<div class="flex-shrink-0 rounded-full bg-blue-100 p-3">
+						<span class="text-2xl">📦</span>
+					</div>
+					<div class="flex-1">
+						<p class="font-bold text-blue-800">Repository Updates</p>
+						<p class="text-xs text-blue-600">Check for new features</p>
+					</div>
+					<span class="text-blue-600">↗</span>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- API Integration (PT Koneksi) -->
+	<div class="rounded-2xl border-2 border-indigo-200 bg-white p-6 shadow-lg">
+		<h2 class="mb-4 flex items-center gap-2 text-xl font-bold text-indigo-800">
+			<span>🔗</span>
+			<span>API Integration</span>
+		</h2>
+
+		<div class="mb-4 rounded-lg border-2 border-indigo-100 bg-indigo-50 p-4">
+			<p class="mb-2 font-bold text-indigo-800">PT Koneksi Jaringan Indonesia - Sistem Akademik</p>
+			<p class="text-sm text-indigo-700">
+				Connect ke Sistem Akademik untuk sinkronisasi data siswa, nilai, dan absensi
+			</p>
+		</div>
+
+		<div class="space-y-4">
+			<!-- API URL -->
+			<div>
+				<label for="api-url" class="mb-2 block text-sm font-semibold text-gray-700">
+					API Base URL
+				</label>
+				<input
+					id="api-url"
+					type="url"
+					bind:value={apiIntegrationUrl}
+					placeholder="https://api.koneksi.co.id/v1"
+					class="w-full rounded-lg border-2 border-indigo-200 px-4 py-3 font-mono text-sm transition-all focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 focus:outline-none"
+				/>
+				<p class="mt-1 text-xs text-gray-500">Base URL dari Sistem Akademik PT Koneksi</p>
+			</div>
+
+			<!-- API Key -->
+			<div>
+				<label for="api-integration-key" class="mb-2 block text-sm font-semibold text-gray-700">
+					API Key
+				</label>
+				<input
+					id="api-integration-key"
+					type="password"
+					bind:value={apiIntegrationKey}
+					placeholder="koneksi_xxxxxxxxxxxxx"
+					class="w-full rounded-lg border-2 border-indigo-200 px-4 py-3 font-mono text-sm transition-all focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 focus:outline-none"
+				/>
+				<p class="mt-1 text-xs text-gray-500">
+					Dapatkan API key dari administrator Sistem Akademik
+				</p>
+			</div>
+
+			<!-- Test Connection Button -->
+			<button
+				onclick={testApiIntegration}
+				disabled={apiTesting}
+				class="w-full rounded-xl border-2 border-indigo-200 bg-gradient-to-r from-indigo-500 to-purple-500 px-6 py-3 font-bold text-white shadow-lg transition-all hover:shadow-xl active:scale-95 disabled:opacity-50"
+			>
+				{#if apiTesting}
+					<span class="flex items-center justify-center gap-2">
+						<span class="animate-spin">⏳</span>
+						<span>Testing Connection...</span>
+					</span>
+				{:else}
+					🔌 Test API Connection
+				{/if}
+			</button>
+
+			<!-- Test Result -->
+			{#if apiTestResult}
+				<div
+					class="rounded-lg border-2 p-4 {apiTestResult.success
+						? 'border-green-200 bg-green-50'
+						: 'border-red-200 bg-red-50'}"
+				>
+					<p
+						class="text-sm font-semibold {apiTestResult.success
+							? 'text-green-800'
+							: 'text-red-800'}"
+					>
+						{apiTestResult.message}
+					</p>
+				</div>
+			{/if}
+
+			<!-- API Features Info -->
+			<details class="rounded-lg border-2 border-blue-100 bg-blue-50 p-4">
+				<summary class="cursor-pointer font-semibold text-blue-800">
+					📘 Fitur Integrasi API
+				</summary>
+				<div class="mt-3 space-y-2 text-sm text-blue-700">
+					<p><strong>Fitur yang tersedia:</strong></p>
+					<ul class="ml-5 list-disc space-y-1">
+						<li>Sinkronisasi data siswa (nama, kelas, rombel)</li>
+						<li>Import nilai dari sistem akademik</li>
+						<li>Sinkronisasi absensi</li>
+						<li>Export progress belajar ke sistem akademik</li>
+						<li>Real-time data updates</li>
+					</ul>
+					<p class="mt-3 text-xs text-gray-600">
+						<strong>Note:</strong> Hubungi tim IT PT Koneksi untuk mendapatkan akses API
+					</p>
+				</div>
+			</details>
 		</div>
 	</div>
 
