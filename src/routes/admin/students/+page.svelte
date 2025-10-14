@@ -234,52 +234,60 @@
 			</div>
 		</div>
 
-		<!-- Pagination Settings -->
-		<div class="mt-4 space-y-3">
-			<div class="flex items-center gap-4">
-				<span class="text-sm font-semibold text-gray-700">Pagination Mode:</span>
-				<div class="flex gap-2">
-					<button
-						onclick={() => {
-							paginationMode = 'number';
-							handlePaginationModeChange();
-						}}
-						class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
-						'number'
-							? 'border-purple-400 bg-purple-100 text-purple-700'
-							: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
-					>
-						By Number
-					</button>
-					<button
-						onclick={() => {
-							paginationMode = 'kelas';
-							handlePaginationModeChange();
-						}}
-						class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
-						'kelas'
-							? 'border-purple-400 bg-purple-100 text-purple-700'
-							: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
-					>
-						By Kelas
-					</button>
-					<button
-						onclick={() => {
-							paginationMode = 'rombel';
-							handlePaginationModeChange();
-						}}
-						class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
-						'rombel'
-							? 'border-purple-400 bg-purple-100 text-purple-700'
-							: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
-					>
-						By Rombel
-					</button>
-				</div>
+		<!-- Pagination Mode -->
+		<div class="mt-4 flex items-center gap-4">
+			<span class="text-sm font-semibold text-gray-700">Pagination Mode:</span>
+			<div class="flex gap-2">
+				<button
+					onclick={() => {
+						paginationMode = 'number';
+						handlePaginationModeChange();
+					}}
+					class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
+					'number'
+						? 'border-purple-400 bg-purple-100 text-purple-700'
+						: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
+				>
+					By Number
+				</button>
+				<button
+					onclick={() => {
+						paginationMode = 'kelas';
+						handlePaginationModeChange();
+					}}
+					class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
+					'kelas'
+						? 'border-purple-400 bg-purple-100 text-purple-700'
+						: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
+				>
+					By Kelas
+				</button>
+				<button
+					onclick={() => {
+						paginationMode = 'rombel';
+						handlePaginationModeChange();
+					}}
+					class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
+					'rombel'
+						? 'border-purple-400 bg-purple-100 text-purple-700'
+						: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
+				>
+					By Rombel
+				</button>
 			</div>
+		</div>
+	</div>
 
+	<!-- Students Table -->
+	<div class="rounded-2xl border-2 border-purple-200 bg-white shadow-lg">
+		<div class="flex items-center justify-between border-b-2 border-purple-100 p-4">
+			<h2 class="text-lg font-bold text-gray-800">
+				📚 Students List ({students.length} of {totalStudents})
+			</h2>
+
+			<!-- Items Per Page (only for number pagination) -->
 			{#if paginationMode === 'number'}
-				<div class="flex items-center gap-4">
+				<div class="flex items-center gap-3">
 					<span class="text-sm font-semibold text-gray-700">Items per page:</span>
 					<select
 						bind:value={itemsPerPage}
@@ -293,18 +301,8 @@
 							<option value={option}>{option}</option>
 						{/each}
 					</select>
-					<span class="text-sm text-gray-600">students per page</span>
 				</div>
 			{/if}
-		</div>
-	</div>
-
-	<!-- Students Table -->
-	<div class="rounded-2xl border-2 border-purple-200 bg-white shadow-lg">
-		<div class="border-b-2 border-purple-100 p-4">
-			<h2 class="text-lg font-bold text-gray-800">
-				📚 Students List ({students.length} of {totalStudents})
-			</h2>
 		</div>
 
 		{#if loading}
