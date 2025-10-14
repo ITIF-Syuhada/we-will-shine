@@ -96,6 +96,54 @@ export interface Admin {
 	created_at: string;
 }
 
+export interface StudentSession {
+	id: string;
+	student_id: string;
+	session_token: string;
+	is_active: boolean;
+	device_type?: string;
+	browser?: string;
+	os?: string;
+	ip_address?: string;
+	user_agent?: string;
+	login_at: string;
+	last_activity_at: string;
+	logout_at?: string;
+	created_at: string;
+}
+
+export interface StudentActivityLog {
+	id: string;
+	student_id: string;
+	session_id: string;
+	activity_type: string;
+	activity_data: Record<string, unknown>;
+	page_url?: string;
+	duration_seconds?: number;
+	created_at: string;
+}
+
+export interface StudentLoginStats {
+	student_id: string;
+	total_logins: number;
+	first_login_at?: string;
+	last_login_at?: string;
+	last_logout_at?: string;
+	total_sessions: number;
+	active_sessions: number;
+	longest_session_minutes: number;
+	average_session_minutes: number;
+	devices_used: Array<{ type: string; count: number; last_used: string }>;
+	browsers_used: Array<{ name: string; count: number; last_used: string }>;
+	most_active_hour?: number;
+	most_active_day?: string;
+	total_activity_minutes: number;
+	current_streak_days: number;
+	longest_streak_days: number;
+	last_activity_date?: string;
+	updated_at: string;
+}
+
 // Helper functions
 export const db = {
 	// Students
