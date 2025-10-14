@@ -96,21 +96,6 @@
 			<p class="text-sm text-gray-600">Generate student access codes</p>
 		</a>
 
-		<!-- Auth Management -->
-		<a
-			href="{base}/admin/auth"
-			class="group rounded-2xl border-2 border-red-200 bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
-		>
-			<div class="mb-4 flex items-center justify-between">
-				<div class="rounded-full bg-red-100 p-4 transition-transform group-hover:scale-110">
-					<span class="text-3xl">🔐</span>
-				</div>
-				<span class="text-sm text-red-600">→</span>
-			</div>
-			<h3 class="mb-2 text-xl font-bold text-red-800">Auth Management</h3>
-			<p class="text-sm text-gray-600">Manage admin accounts</p>
-		</a>
-
 		<!-- Migrate Codes -->
 		<a
 			href="{base}/admin/migrate-codes"
