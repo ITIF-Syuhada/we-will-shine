@@ -88,18 +88,49 @@
 		return `${nameCode}${kelasCode}${angkatan}`;
 	}
 
-	async function checkExistingCodes(codes: string[]): Promise<Set<string>> {
+	async function checkExistingStudents(
+		students: Omit<Student, 'id' | 'created_at' | 'updated_at'>[]
+	): Promise<
+		Map<string, { code: string; name: string; kelas: string; rombel: string; existing: boolean }>
+	> {
 		try {
-			// Check which codes already exist in database
+			// Get all students from database
 			const result = await db.getStudentsWithFilter({
-				limit: 1000 // Check up to 1000 existing students
+				limit: 1000
 			});
 
-			const existingCodes = new Set(result.students.map((s) => s.student_code));
-			return new Set(codes.filter((code) => existingCodes.has(code)));
+			// Create a map of existing students by name+kelas+rombel
+			// eslint-disable-next-line svelte/prefer-svelte-reactivity
+			const existingMap = new Map<string, Student>();
+			result.students.forEach((s) => {
+				const key = `${s.student_name.toLowerCase()}_${s.kelas || ''}_${s.rombel || ''}`;
+				existingMap.set(key, s);
+			});
+
+			// Check which CSV students already exist
+			// eslint-disable-next-line svelte/prefer-svelte-reactivity
+			const conflicts = new Map<
+				string,
+				{ code: string; name: string; kelas: string; rombel: string; existing: boolean }
+			>();
+
+			students.forEach((student) => {
+				const key = `${student.student_name.toLowerCase()}_${student.kelas || ''}_${student.rombel || ''}`;
+				if (existingMap.has(key)) {
+					conflicts.set(student.student_code, {
+						code: student.student_code,
+						name: student.student_name,
+						kelas: student.kelas || '',
+						rombel: student.rombel || '',
+						existing: true
+					});
+				}
+			});
+
+			return conflicts;
 		} catch (err) {
-			console.error('Failed to check existing codes:', err);
-			return new Set();
+			console.error('Failed to check existing students:', err);
+			return new Map();
 		}
 	}
 
@@ -173,42 +204,51 @@
 			// Set total students count
 			totalStudents = students.length;
 
-			// Check for conflicts in database
-			const studentCodes = students.map((s) => s.student_code);
-			const existingCodes = await checkExistingCodes(studentCodes);
+			// Check for existing students by name+kelas+rombel (primary check)
+			const existingStudentsMap = await checkExistingStudents(students);
 
 			// Check for duplicates within CSV itself
 			// eslint-disable-next-line svelte/prefer-svelte-reactivity
-			const codeCount = new Map<string, number>();
-			studentCodes.forEach((code) => {
-				codeCount.set(code, (codeCount.get(code) || 0) + 1);
+			const nameCount = new Map<string, number>();
+			students.forEach((s) => {
+				const key = `${s.student_name.toLowerCase()}_${s.kelas || ''}_${s.rombel || ''}`;
+				nameCount.set(key, (nameCount.get(key) || 0) + 1);
 			});
-			const duplicatesInCSV = Array.from(codeCount.entries())
-				.filter(([, count]) => count > 1)
-				.map(([code]) => code);
 
 			// Prepare conflicts list
 			conflicts = [];
+			// eslint-disable-next-line svelte/prefer-svelte-reactivity
+			const processedKeys = new Set<string>();
+
 			students.forEach((student) => {
-				if (existingCodes.has(student.student_code)) {
+				const key = `${student.student_name.toLowerCase()}_${student.kelas || ''}_${student.rombel || ''}`;
+
+				// Check if exists in DB
+				if (existingStudentsMap.has(student.student_code)) {
 					conflicts.push({
 						code: student.student_code,
 						name: student.student_name,
 						existing: true
 					});
-				} else if (duplicatesInCSV.includes(student.student_code)) {
+				}
+				// Check for duplicates within CSV
+				else if (nameCount.get(key)! > 1 && !processedKeys.has(key)) {
 					conflicts.push({
 						code: student.student_code,
 						name: student.student_name,
 						existing: false
 					});
+					processedKeys.add(key);
 				}
 			});
 
 			previewData = students.slice(0, 10); // Show first 10 for preview
 
+			const dbConflicts = conflicts.filter((c) => c.existing).length;
+			const csvDuplicates = conflicts.filter((c) => !c.existing).length;
+
 			if (conflicts.length > 0) {
-				success = `⚠️ Ditemukan ${students.length} siswa, ${conflicts.length} conflict/duplicate!`;
+				success = `⚠️ Ditemukan ${students.length} siswa, ${dbConflicts} sudah ada di DB, ${csvDuplicates} duplikat dalam CSV!`;
 			} else {
 				success = `✅ Ditemukan ${students.length} siswa, siap import!`;
 			}
@@ -242,9 +282,11 @@
 			const text = await file.text();
 			const students = await parseCSV(text);
 
-			// Filter out conflicting students if user didn't confirm
-			const conflictCodes = new Set(conflicts.filter((c) => c.existing).map((c) => c.code));
-			const studentsToImport = students.filter((s) => !conflictCodes.has(s.student_code));
+			// Re-check existing students to ensure data consistency
+			const existingStudentsMap = await checkExistingStudents(students);
+
+			// Filter out students that already exist in DB (by name+kelas+rombel)
+			const studentsToImport = students.filter((s) => !existingStudentsMap.has(s.student_code));
 
 			if (studentsToImport.length === 0) {
 				error = 'Tidak ada siswa yang bisa diimport setelah menghapus conflicts';
