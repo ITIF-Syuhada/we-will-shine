@@ -34,6 +34,7 @@
 		angkatan: boolean;
 		points: boolean;
 		level: boolean;
+		actions: boolean;
 	}
 
 	const defaultColumns: ColumnVisibility = {
@@ -43,11 +44,13 @@
 		rombel: true,
 		angkatan: true,
 		points: true,
-		level: true
+		level: true,
+		actions: true
 	};
 
 	let visibleColumns = $state<ColumnVisibility>(defaultColumns);
 	let showColumnSettings = $state(false);
+	let copiedCode = $state<string | null>(null);
 
 	// Computed values
 	const totalPages = $derived(Math.ceil(totalStudents / itemsPerPage));
@@ -162,6 +165,20 @@
 		selectedAngkatan = '';
 		currentPage = 1;
 		loadStudents();
+	}
+
+	// Copy student code to clipboard
+	async function copyCode(code: string) {
+		if (!browser) return;
+		try {
+			await navigator.clipboard.writeText(code);
+			copiedCode = code;
+			setTimeout(() => {
+				copiedCode = null;
+			}, 2000);
+		} catch (err) {
+			console.error('Failed to copy:', err);
+		}
 	}
 
 	// Generate page numbers for pagination
@@ -303,6 +320,23 @@
 			</h2>
 
 			<div class="flex items-center gap-3">
+				<!-- Items Per Page -->
+				<div class="flex items-center gap-2">
+					<span class="text-sm font-semibold text-gray-700">Items per page:</span>
+					<select
+						bind:value={itemsPerPage}
+						onchange={() => {
+							currentPage = 1;
+							loadStudents();
+						}}
+						class="rounded-lg border-2 border-purple-200 px-3 py-2 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
+					>
+						{#each pageOptions as option (option)}
+							<option value={option}>{option}</option>
+						{/each}
+					</select>
+				</div>
+
 				<!-- Column Settings Button -->
 				<div class="column-settings-container relative">
 					<button
@@ -315,7 +349,7 @@
 
 					{#if showColumnSettings}
 						<div
-							class="absolute right-0 top-full z-10 mt-2 w-48 rounded-lg border-2 border-purple-200 bg-white p-3 shadow-xl"
+							class="absolute top-full right-0 z-10 mt-2 w-48 rounded-lg border-2 border-purple-200 bg-white p-3 shadow-xl"
 						>
 							<div class="mb-2 text-xs font-bold text-gray-700">Show/Hide Columns</div>
 							<div class="space-y-2">
@@ -382,6 +416,15 @@
 									/>
 									<span class="text-sm">Level</span>
 								</label>
+								<label class="flex cursor-pointer items-center gap-2">
+									<input
+										type="checkbox"
+										checked={visibleColumns.actions}
+										onchange={() => toggleColumn('actions')}
+										class="cursor-pointer"
+									/>
+									<span class="text-sm">Actions</span>
+								</label>
 							</div>
 							<button
 								onclick={resetColumns}
@@ -391,23 +434,6 @@
 							</button>
 						</div>
 					{/if}
-				</div>
-
-				<!-- Items Per Page -->
-				<div class="flex items-center gap-2">
-					<span class="text-sm font-semibold text-gray-700">Items per page:</span>
-					<select
-						bind:value={itemsPerPage}
-						onchange={() => {
-							currentPage = 1;
-							loadStudents();
-						}}
-						class="rounded-lg border-2 border-purple-200 px-3 py-2 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
-					>
-						{#each pageOptions as option (option)}
-							<option value={option}>{option}</option>
-						{/each}
-					</select>
 				</div>
 			</div>
 		</div>
@@ -448,14 +474,31 @@
 							{#if visibleColumns.level}
 								<th class="px-4 py-3 text-left text-xs font-bold text-purple-700">Level</th>
 							{/if}
+							{#if visibleColumns.actions}
+								<th class="px-4 py-3 text-center text-xs font-bold text-purple-700">Aksi</th>
+							{/if}
 						</tr>
 					</thead>
 					<tbody>
 						{#each students as student (student.id)}
 							<tr class="border-b border-purple-50 transition-colors hover:bg-purple-50">
 								{#if visibleColumns.code}
-									<td class="px-4 py-3 text-sm font-medium text-gray-800">{student.student_code}</td
-									>
+									<td class="px-4 py-3 text-sm font-medium text-gray-800">
+										<div class="flex items-center gap-2">
+											<span>{student.student_code}</span>
+											<button
+												onclick={() => copyCode(student.student_code)}
+												class="rounded px-1.5 py-0.5 text-xs text-purple-600 transition-all hover:bg-purple-100 active:scale-95"
+												title="Copy code"
+											>
+												{#if copiedCode === student.student_code}
+													✓
+												{:else}
+													📋
+												{/if}
+											</button>
+										</div>
+									</td>
 								{/if}
 								{#if visibleColumns.name}
 									<td class="px-4 py-3 text-sm text-gray-700">{student.student_name}</td>
@@ -474,6 +517,16 @@
 								{/if}
 								{#if visibleColumns.level}
 									<td class="px-4 py-3 text-sm font-bold text-purple-600">Lv.{student.level}</td>
+								{/if}
+								{#if visibleColumns.actions}
+									<td class="px-4 py-3 text-center">
+										<button
+											class="rounded-lg border-2 border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 transition-all hover:bg-blue-100 active:scale-95"
+											title="Inspect student details"
+										>
+											🔍 Inspect
+										</button>
+									</td>
 								{/if}
 							</tr>
 						{/each}
