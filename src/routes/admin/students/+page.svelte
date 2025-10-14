@@ -18,6 +18,7 @@
 	let currentPage = $state(1);
 	let itemsPerPage = $state(40);
 	let paginationMode = $state<'number' | 'kelas' | 'rombel'>('number');
+	const pageOptions = [10, 20, 30, 40, 50];
 
 	// Unique values for filters
 	let availableKelas = $state<string[]>([]);
@@ -233,47 +234,68 @@
 			</div>
 		</div>
 
-		<!-- Pagination Mode -->
-		<div class="mt-4 flex items-center gap-4">
-			<span class="text-sm font-semibold text-gray-700">Pagination Mode:</span>
-			<div class="flex gap-2">
-				<button
-					onclick={() => {
-						paginationMode = 'number';
-						handlePaginationModeChange();
-					}}
-					class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
-					'number'
-						? 'border-purple-400 bg-purple-100 text-purple-700'
-						: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
-				>
-					By Number (40/page)
-				</button>
-				<button
-					onclick={() => {
-						paginationMode = 'kelas';
-						handlePaginationModeChange();
-					}}
-					class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
-					'kelas'
-						? 'border-purple-400 bg-purple-100 text-purple-700'
-						: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
-				>
-					By Kelas
-				</button>
-				<button
-					onclick={() => {
-						paginationMode = 'rombel';
-						handlePaginationModeChange();
-					}}
-					class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
-					'rombel'
-						? 'border-purple-400 bg-purple-100 text-purple-700'
-						: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
-				>
-					By Rombel
-				</button>
+		<!-- Pagination Settings -->
+		<div class="mt-4 space-y-3">
+			<div class="flex items-center gap-4">
+				<span class="text-sm font-semibold text-gray-700">Pagination Mode:</span>
+				<div class="flex gap-2">
+					<button
+						onclick={() => {
+							paginationMode = 'number';
+							handlePaginationModeChange();
+						}}
+						class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
+						'number'
+							? 'border-purple-400 bg-purple-100 text-purple-700'
+							: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
+					>
+						By Number
+					</button>
+					<button
+						onclick={() => {
+							paginationMode = 'kelas';
+							handlePaginationModeChange();
+						}}
+						class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
+						'kelas'
+							? 'border-purple-400 bg-purple-100 text-purple-700'
+							: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
+					>
+						By Kelas
+					</button>
+					<button
+						onclick={() => {
+							paginationMode = 'rombel';
+							handlePaginationModeChange();
+						}}
+						class="rounded-lg border-2 px-3 py-1 text-xs font-semibold transition-all active:scale-95 {paginationMode ===
+						'rombel'
+							? 'border-purple-400 bg-purple-100 text-purple-700'
+							: 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'}"
+					>
+						By Rombel
+					</button>
+				</div>
 			</div>
+
+			{#if paginationMode === 'number'}
+				<div class="flex items-center gap-4">
+					<span class="text-sm font-semibold text-gray-700">Items per page:</span>
+					<select
+						bind:value={itemsPerPage}
+						onchange={() => {
+							currentPage = 1;
+							loadStudents();
+						}}
+						class="rounded-lg border-2 border-purple-200 px-3 py-2 text-sm transition-all focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:outline-none"
+					>
+						{#each pageOptions as option (option)}
+							<option value={option}>{option}</option>
+						{/each}
+					</select>
+					<span class="text-sm text-gray-600">students per page</span>
+				</div>
+			{/if}
 		</div>
 	</div>
 
