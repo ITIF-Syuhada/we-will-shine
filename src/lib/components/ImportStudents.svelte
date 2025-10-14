@@ -12,18 +12,19 @@
 	let error = $state('');
 	let success = $state('');
 	let previewData = $state<Omit<Student, 'id' | 'created_at' | 'updated_at'>[]>([]);
+	let totalStudents = $state(0); // Total students in CSV
 	let conflicts = $state<{ code: string; name: string; existing?: boolean }[]>([]);
 	let showConfirmation = $state(false);
 
 	// Computed: check if there are students that can be imported
 	const canImport = $derived(() => {
-		if (previewData.length === 0) return false;
+		if (totalStudents === 0) return false;
 
 		// Count conflicts that exist in DB (will be skipped)
 		const dbConflicts = conflicts.filter((c) => c.existing).length;
 
 		// If all students have DB conflicts, cannot import
-		if (dbConflicts >= previewData.length) return false;
+		if (dbConflicts >= totalStudents) return false;
 
 		return true;
 	});
@@ -31,7 +32,7 @@
 	// Computed: count valid students (not in DB)
 	const validStudentsCount = $derived(() => {
 		const dbConflicts = conflicts.filter((c) => c.existing).length;
-		return previewData.length - dbConflicts;
+		return totalStudents - dbConflicts;
 	});
 
 	// Computed: has conflicts (DB conflicts only)
@@ -148,6 +149,9 @@
 			const text = await file.text();
 			const students = await parseCSV(text);
 
+			// Set total students count
+			totalStudents = students.length;
+
 			// Check for conflicts in database
 			const studentCodes = students.map((s) => s.student_code);
 			const existingCodes = await checkExistingCodes(studentCodes);
@@ -190,6 +194,7 @@
 		} catch (err) {
 			error = err instanceof Error ? err.message : 'Gagal membaca file';
 			previewData = [];
+			totalStudents = 0;
 			conflicts = [];
 		} finally {
 			importing = false;
@@ -465,7 +470,8 @@ Citra Sari,X,B,2025,0,1`;
 				<!-- Debug Info (remove after testing) -->
 				<div class="mb-4 rounded-lg border-2 border-gray-300 bg-gray-100 p-3 text-xs">
 					<p><strong>Debug:</strong></p>
-					<p>previewData.length: {previewData.length}</p>
+					<p>totalStudents: {totalStudents}</p>
+					<p>previewData.length: {previewData.length} (showing first 10)</p>
 					<p>conflicts.length: {conflicts.length}</p>
 					<p>conflicts (existing): {conflicts.filter((c) => c.existing).length}</p>
 					<p>hasConflicts: {hasConflicts}</p>
@@ -520,7 +526,7 @@ Citra Sari,X,B,2025,0,1`;
 							{:else if !canImport()}
 								🚫 Cannot Import (All Duplicates)
 							{:else}
-								✅ Confirm Import ({previewData.length} students)
+								✅ Confirm Import ({totalStudents} students)
 							{/if}
 						</button>
 					{/if}
