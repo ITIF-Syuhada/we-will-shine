@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 	import { appSettings } from '$lib/stores/settings';
 	import { supabase } from '$lib/supabase';
 	import { env } from '$env/dynamic/public';
@@ -22,10 +24,18 @@
 	let dailyMotivation = $state($appSettings.notifications.dailyMotivation);
 
 	// API Integration (PT Koneksi Sistem Akademik)
-	let apiIntegrationKey = $state(localStorage.getItem('koneksi-api-key') || '');
-	let apiIntegrationUrl = $state(localStorage.getItem('koneksi-api-url') || '');
+	let apiIntegrationKey = $state('');
+	let apiIntegrationUrl = $state('');
 	let apiTesting = $state(false);
 	let apiTestResult = $state<{ success: boolean; message: string } | null>(null);
+
+	// Load API settings from localStorage on mount
+	onMount(() => {
+		if (browser) {
+			apiIntegrationKey = localStorage.getItem('koneksi-api-key') || '';
+			apiIntegrationUrl = localStorage.getItem('koneksi-api-url') || '';
+		}
+	});
 
 	function saveSettings() {
 		appSettings.updateAI({
@@ -44,9 +54,11 @@
 			dailyMotivation
 		});
 
-		// Save API Integration
-		localStorage.setItem('koneksi-api-key', apiIntegrationKey);
-		localStorage.setItem('koneksi-api-url', apiIntegrationUrl);
+		// Save API Integration (only in browser)
+		if (browser) {
+			localStorage.setItem('koneksi-api-key', apiIntegrationKey);
+			localStorage.setItem('koneksi-api-url', apiIntegrationUrl);
+		}
 
 		saved = true;
 		setTimeout(() => (saved = false), 3000);

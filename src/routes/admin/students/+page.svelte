@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 	import { db } from '$lib/supabase';
 	import type { Student } from '$lib/supabase';
 	import ImportStudents from '$lib/components/ImportStudents.svelte';
@@ -62,6 +63,7 @@
 	});
 
 	function loadColumnSettings() {
+		if (!browser) return;
 		const saved = localStorage.getItem('admin-students-columns');
 		if (saved) {
 			try {
@@ -74,6 +76,7 @@
 	}
 
 	function saveColumnSettings() {
+		if (!browser) return;
 		localStorage.setItem('admin-students-columns', JSON.stringify(visibleColumns));
 	}
 
