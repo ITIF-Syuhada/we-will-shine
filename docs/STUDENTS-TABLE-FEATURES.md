@@ -306,7 +306,7 @@ Utility script untuk reset data dan remove duplicates.
 #### **Features:**
 
 - ✅ Remove duplicate students (keep oldest)
-- ✅ Reset all points and levels to 0 and 1
+- ✅ Reset all points and levels bvfto 0 and 1
 - ✅ Clear all tracking data (sessions, activities, stats)
 - ✅ Detailed logging of cleanup process
 
