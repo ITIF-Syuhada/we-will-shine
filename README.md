@@ -35,22 +35,48 @@ We Will Shine akan menjadi **platform open source** untuk membantu Guru BK di se
 
 ## 🎯 Features
 
-### **Student App:**
+### **Student App** (`/app`):
 
 - ✅ **Unlock System** - Login dengan kode unik dari coklat
+- ✅ **Session-based Auth** - Code tersimpan di sessionStorage (secure)
 - ✅ **8 Karir Teknologi** - Software Dev, UI/UX, Data Analyst, AI/ML, dll
 - ✅ **Personality Quiz** - 6 pertanyaan dengan motivasi personal 300+ kata
 - ✅ **AI Mentor** - Chat interaktif untuk guidance
 - ✅ **Dream Board** - Tulis & track impian masa depan
 - ✅ **Gamifikasi** - Points, levels, 8 achievements
 - ✅ **Mobile-Optimized** - Bottom navbar, compact layout
+- ✅ **Clean URLs** - Tidak ada code parameter di URL
 
-### **Admin Panel:**
+### **Admin Panel** (`/dashboard`):
 
 - ✅ **Students Management** - Track 22 siswa & progress
 - ✅ **Analytics** - Engagement, leaderboard, career popularity
 - ✅ **QR Generator** - Generate QR codes untuk sticker coklat
 - ✅ **Export Data** - Download CSV untuk reporting
+- ✅ **Column Visibility** - Customize table columns display
+
+---
+
+## 🗺️ URL Structure
+
+### Development
+
+```
+http://localhost:5173/
+├── /               ← Landing page
+├── /unlock         ← Student login (dengan code)
+├── /app/           ← Student portal ⭐
+│   ├── /careers    ← Eksplorasi karir
+│   ├── /quiz       ← Quiz kepribadian
+│   ├── /achievements ← Pencapaian
+│   └── /ai-mentor  ← AI chat
+└── /dashboard/     ← Admin panel ⭐
+    ├── /students   ← Manage students
+    ├── /analytics  ← Analytics
+    └── /settings   ← Configuration
+```
+
+→ Dokumentasi lengkap: [Routing Structure](docs/ROUTING-STRUCTURE.md)
 
 ---
 
@@ -216,6 +242,7 @@ Harus diubah menjadi client-side only:
 - 🔒 [Ethics Framework](docs/ETHICS-FRAMEWORK.md) - **Privacy & ethical AI guidelines**
 - 🎓 [Admin Guide](docs/ADMIN-GUIDE.md) - Panduan menggunakan admin dashboard
 - 📱 [Career Quest App](docs/CAREER-QUEST-APP.md) - Student app features & usage
+- 🛣️ [Routing Structure](docs/ROUTING-STRUCTURE.md) - **URL structure & session management** ⭐ NEW
 - 🔄 [Supabase Migration](docs/SUPABASE-MIGRATION-GUIDE.md) - Upgrade localStorage → Database
 - 🧪 [Testing Guide](docs/TESTING-GUIDE.md) - Playwright E2E testing
 - 🔧 [Fix Sverdle 404](docs/FIX-SVERDLE-404.md) - Technical fix documentation
