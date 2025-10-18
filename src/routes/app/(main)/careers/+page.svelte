@@ -3,7 +3,6 @@
 	import { userProgress } from '$lib/stores/user';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { page } from '$app/stores';
 
 	const exploredCareerIds = $derived($userProgress?.exploredCareers || []);
 
@@ -24,7 +23,7 @@
 		}
 
 		// Navigate to detail page
-		goto(`${base}/dashboard/${$page.params.code}/careers/${careerId}`);
+		goto(`${base}/app/careers/${careerId}`);
 	}
 </script>
 

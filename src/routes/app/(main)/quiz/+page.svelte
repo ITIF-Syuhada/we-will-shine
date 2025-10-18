@@ -4,7 +4,6 @@
 	import { generatePersonalMotivation } from '$lib/data/motivations';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { page } from '$app/stores';
 
 	let currentQuestion = $state(0);
 	let answers = $state<string[]>([]);
@@ -49,7 +48,7 @@
 	}
 
 	function goToCareerExplore() {
-		goto(`${base}/dashboard/${$page.params.code}/careers`);
+		goto(`${base}/app/careers`);
 	}
 
 	const progress = $derived(((currentQuestion + 1) / questionnaire.length) * 100);

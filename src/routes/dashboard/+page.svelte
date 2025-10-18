@@ -23,7 +23,7 @@
 	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 		<!-- Overview -->
 		<a
-			href="{base}/admin/overview"
+			href="{base}/dashboard/overview"
 			class="group rounded-2xl border-2 border-blue-200 bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
 		>
 			<div class="mb-4 flex items-center justify-between">
@@ -38,7 +38,7 @@
 
 		<!-- Analytics -->
 		<a
-			href="{base}/admin/analytics"
+			href="{base}/dashboard/analytics"
 			class="group rounded-2xl border-2 border-purple-200 bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
 		>
 			<div class="mb-4 flex items-center justify-between">
@@ -53,7 +53,7 @@
 
 		<!-- Students -->
 		<a
-			href="{base}/admin/students"
+			href="{base}/dashboard/students"
 			class="group rounded-2xl border-2 border-green-200 bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
 		>
 			<div class="mb-4 flex items-center justify-between">
@@ -68,7 +68,7 @@
 
 		<!-- Settings -->
 		<a
-			href="{base}/admin/settings"
+			href="{base}/dashboard/settings"
 			class="group rounded-2xl border-2 border-yellow-200 bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
 		>
 			<div class="mb-4 flex items-center justify-between">
@@ -83,7 +83,7 @@
 
 		<!-- QR Generator -->
 		<a
-			href="{base}/admin/qr-generator"
+			href="{base}/dashboard/qr-generator"
 			class="group rounded-2xl border-2 border-pink-200 bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
 		>
 			<div class="mb-4 flex items-center justify-between">
@@ -98,7 +98,7 @@
 
 		<!-- Migrate Codes -->
 		<a
-			href="{base}/admin/migrate-codes"
+			href="{base}/dashboard/migrate-codes"
 			class="group rounded-2xl border-2 border-orange-200 bg-white p-6 shadow-lg transition-all hover:scale-105 hover:shadow-xl"
 		>
 			<div class="mb-4 flex items-center justify-between">

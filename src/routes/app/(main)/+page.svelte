@@ -87,7 +87,7 @@
 	<div class="grid grid-cols-2 gap-2">
 		<!-- Career Progress - Compact -->
 		<button
-			onclick={() => goto(`${base}/dashboard/${$page.params.code}/careers`)}
+			onclick={() => goto(`${base}/app/careers`)}
 			class="group rounded-xl border-2 border-green-100 bg-gradient-to-br from-green-50 to-emerald-50 p-3 text-center shadow-sm transition-all active:scale-95"
 		>
 			<div class="mb-1 text-2xl transition-transform group-active:scale-110">🎯</div>
@@ -105,7 +105,7 @@
 
 		<!-- Dreams Count - Compact -->
 		<button
-			onclick={() => goto(`${base}/dashboard/${$page.params.code}/dreams`)}
+			onclick={() => goto(`${base}/app/dreams`)}
 			class="group rounded-xl border-2 border-yellow-100 bg-gradient-to-br from-yellow-50 to-orange-50 p-3 text-center shadow-sm transition-all active:scale-95"
 		>
 			<div class="mb-1 text-2xl transition-transform group-active:scale-110">✨</div>

@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { userProgress } from '$lib/stores/user';
+	import { getStudentCode } from '$lib/stores/session';
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import DashboardHeader from '$lib/components/DashboardHeader.svelte';
@@ -12,13 +13,14 @@
 
 	// Check if user is logged in
 	onMount(() => {
-		if (!$userProgress) {
+		const code = getStudentCode();
+
+		if (!code || !$userProgress) {
 			goto(`${base}/unlock`);
 			return;
 		}
 
-		// Check if code matches
-		const code = $page.params.code;
+		// Check if code in session matches user progress
 		if ($userProgress.studentCode !== code) {
 			goto(`${base}/unlock`);
 		}

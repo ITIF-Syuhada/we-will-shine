@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { userProgress } from '$lib/stores/user';
+	import { setStudentCode } from '$lib/stores/session';
 	import { getStudentByCode } from '$lib/data/students';
 	import { db } from '$lib/supabase';
 	import { motivationalQuotes } from '$lib/data/motivations';
@@ -42,6 +43,9 @@
 					userProgress.addPoints(50); // Welcome points
 					userProgress.unlockAchievement('first-login');
 
+					// Save student code to session
+					setStudentCode(student.code);
+
 					// Create session in database for tracking
 					if (browser) {
 						try {
@@ -69,9 +73,9 @@
 						motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
 					showWelcome = true;
 
-					// Redirect to dashboard after 3 seconds
+					// Redirect to app after 3 seconds
 					setTimeout(() => {
-						goto(`${base}/dashboard/${student.code}`);
+						goto(`${base}/app`);
 					}, 3000);
 				} else {
 					// Fallback to local data (for backwards compatibility)
@@ -81,11 +85,15 @@
 						await userProgress.login(localStudent);
 						userProgress.addPoints(50);
 						userProgress.unlockAchievement('first-login');
+
+						// Save student code to session
+						setStudentCode(localStudent.code);
+
 						welcomeMessage =
 							motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
 						showWelcome = true;
 						setTimeout(() => {
-							goto(`${base}/dashboard/${localStudent.code}`);
+							goto(`${base}/app`);
 						}, 3000);
 					} else {
 						error = 'Kode tidak valid. Cek kembali kode di coklat hadiah kamu ya! 🍫';

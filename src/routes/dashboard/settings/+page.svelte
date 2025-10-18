@@ -589,7 +589,7 @@
 			<div class="grid gap-3 sm:grid-cols-2">
 				<!-- Migrate Student Codes -->
 				<a
-					href="/admin/migrate-codes"
+					href="{base}/dashboard/migrate-codes"
 					class="group flex items-center gap-3 rounded-lg border-2 border-orange-200 bg-gradient-to-br from-orange-50 to-red-50 p-4 transition-all hover:scale-105 hover:shadow-md"
 				>
 					<div class="flex-shrink-0 rounded-full bg-orange-100 p-3">

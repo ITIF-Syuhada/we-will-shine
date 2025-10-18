@@ -5,9 +5,9 @@
 	import { onMount } from 'svelte';
 
 	onMount(() => {
-		// If already logged in, redirect to dashboard
+		// If already logged in, redirect to app
 		if ($isLoggedIn && $userProgress) {
-			goto(`${base}/dashboard/${$userProgress.studentCode}`);
+			goto(`${base}/app`);
 		}
 	});
 </script>

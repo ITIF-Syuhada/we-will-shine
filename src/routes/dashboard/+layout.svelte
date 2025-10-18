@@ -10,23 +10,23 @@
 	// Check authentication on mount
 	onMount(() => {
 		// Skip auth check for login page
-		if ($page.url.pathname === `${base}/admin/login`) {
+		if ($page.url.pathname === `${base}/dashboard/login`) {
 			return;
 		}
 
 		// Redirect to login if not authenticated
 		if (!$adminStore) {
-			goto(`${base}/admin/login`);
+			goto(`${base}/dashboard/login`);
 		}
 	});
 
 	// Check if current page is login
-	const isLoginPage = $derived($page.url.pathname === `${base}/admin/login`);
+	const isLoginPage = $derived($page.url.pathname === `${base}/dashboard/login`);
 
 	function handleLogout() {
 		if (confirm('Yakin ingin logout?')) {
 			adminStore.logout();
-			goto(`${base}/admin/login`);
+			goto(`${base}/dashboard/login`);
 		}
 	}
 </script>
@@ -77,14 +77,14 @@
 					<a
 						href="{base}/admin"
 						class="rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all {$page
-							.url.pathname === `${base}/admin` || $page.url.pathname === `${base}/admin/`
+							.url.pathname === `${base}/admin` || $page.url.pathname === `${base}/dashboard/`
 							? 'bg-purple-500 text-white shadow-md'
 							: 'bg-white text-gray-700 hover:bg-purple-50'}"
 					>
 						🏠 Dashboard
 					</a>
 					<a
-						href="{base}/admin/overview"
+						href="{base}/dashboard/overview"
 						class="rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all {$page.url.pathname.includes(
 							'/overview'
 						)
@@ -94,7 +94,7 @@
 						📊 Overview
 					</a>
 					<a
-						href="{base}/admin/analytics"
+						href="{base}/dashboard/analytics"
 						class="rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all {$page.url.pathname.includes(
 							'/analytics'
 						)
@@ -104,7 +104,7 @@
 						📈 Analytics
 					</a>
 					<a
-						href="{base}/admin/students"
+						href="{base}/dashboard/students"
 						class="rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all {$page.url.pathname.includes(
 							'/students'
 						)
@@ -114,7 +114,7 @@
 						👥 Students
 					</a>
 					<a
-						href="{base}/admin/settings"
+						href="{base}/dashboard/settings"
 						class="rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all {$page.url.pathname.includes(
 							'/settings'
 						)
@@ -124,7 +124,7 @@
 						⚙️ Settings
 					</a>
 					<a
-						href="{base}/admin/qr-generator"
+						href="{base}/dashboard/qr-generator"
 						class="rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all {$page.url.pathname.includes(
 							'/qr-generator'
 						)

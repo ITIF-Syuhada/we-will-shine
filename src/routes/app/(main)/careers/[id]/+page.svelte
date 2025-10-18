@@ -8,7 +8,7 @@
 	const career = $derived(getCareerById(careerId));
 
 	function goBack() {
-		goto(`${base}/dashboard/${$page.params.code}/careers`);
+		goto(`${base}/app/careers`);
 	}
 </script>
 

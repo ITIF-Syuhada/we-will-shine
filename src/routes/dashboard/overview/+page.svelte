@@ -175,7 +175,7 @@
 					<div class="flex items-center justify-between">
 						<h3 class="text-lg font-bold text-gray-800">🏆 Top 10 Students</h3>
 						<a
-							href="{base}/admin/students"
+							href="{base}/dashboard/students"
 							class="text-xs font-semibold text-green-600 hover:text-green-700"
 						>
 							View All →
@@ -212,7 +212,7 @@
 					<div class="flex items-center justify-between">
 						<h3 class="text-lg font-bold text-gray-800">🆕 Recent Students</h3>
 						<a
-							href="{base}/admin/students"
+							href="{base}/dashboard/students"
 							class="text-xs font-semibold text-blue-600 hover:text-blue-700"
 						>
 							View All →
@@ -257,25 +257,25 @@
 			<h3 class="mb-4 text-lg font-bold text-indigo-800">⚡ Quick Actions</h3>
 			<div class="flex flex-wrap gap-3">
 				<a
-					href="{base}/admin/students"
+					href="{base}/dashboard/students"
 					class="rounded-xl border-2 border-purple-200 bg-white px-4 py-2 text-sm font-semibold text-purple-700 transition-all hover:bg-purple-50 active:scale-95"
 				>
 					📚 Manage Students
 				</a>
 				<a
-					href="{base}/admin/qr-generator"
+					href="{base}/dashboard/qr-generator"
 					class="rounded-xl border-2 border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-all hover:bg-blue-50 active:scale-95"
 				>
 					🎫 Generate QR Codes
 				</a>
 				<a
-					href="{base}/admin/analytics"
+					href="{base}/dashboard/analytics"
 					class="rounded-xl border-2 border-green-200 bg-white px-4 py-2 text-sm font-semibold text-green-700 transition-all hover:bg-green-50 active:scale-95"
 				>
 					📊 View Analytics
 				</a>
 				<a
-					href="{base}/admin/settings"
+					href="{base}/dashboard/settings"
 					class="rounded-xl border-2 border-orange-200 bg-white px-4 py-2 text-sm font-semibold text-orange-700 transition-all hover:bg-orange-50 active:scale-95"
 				>
 					⚙️ Settings

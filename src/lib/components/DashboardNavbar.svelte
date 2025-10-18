@@ -16,7 +16,7 @@
 
 	function isActive(path: string): boolean {
 		const currentPath = $page.url.pathname;
-		const basePath = `${base}/dashboard/${$page.params.code}`;
+		const basePath = `${base}/app`;
 
 		if (path === '') {
 			// Home page - exact match (with or without trailing slash)
@@ -41,7 +41,7 @@
 			{#each navItems as item (item.path)}
 				{@const active = isActive(item.path)}
 				<a
-					href="{base}/dashboard/{$page.params.code}{item.path}"
+					href="{base}/app{item.path}"
 					class="group/item flex flex-col items-center justify-center space-y-0.5 rounded-2xl px-3 py-2 transition-all duration-300 {active
 						? 'scale-105 bg-gradient-to-br from-purple-100 to-pink-100 shadow-md'
 						: 'hover:scale-110 hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 hover:shadow-md'}"
