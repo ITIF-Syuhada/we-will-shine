@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { base } from '$app/paths';
 	import { appSettings } from '$lib/stores/settings';
 	import { supabase } from '$lib/supabase';
 	import { env } from '$env/dynamic/public';
@@ -10,18 +11,18 @@
 	let dbTestResult = $state<{ success: boolean; message: string } | null>(null);
 
 	// Local state untuk form
-	let provider = $state($appSettings.ai.provider);
-	let apiKey = $state($appSettings.ai.apiKey);
-	let customUrl = $state($appSettings.ai.customUrl || '');
-	let model = $state($appSettings.ai.model || 'gpt-4');
-	let temperature = $state($appSettings.ai.temperature || 0.7);
-	let maxTokens = $state($appSettings.ai.maxTokens || 500);
+	let provider = $state<'openai' | 'claude' | 'gemini' | 'custom'>('openai');
+	let apiKey = $state('');
+	let customUrl = $state('');
+	let model = $state('gpt-4');
+	let temperature = $state(0.7);
+	let maxTokens = $state(500);
 
 	// Notification settings
-	let notifEnabled = $state($appSettings.notifications.enabled);
-	let studyReminders = $state($appSettings.notifications.studyReminders);
-	let achievementNotif = $state($appSettings.notifications.achievements);
-	let dailyMotivation = $state($appSettings.notifications.dailyMotivation);
+	let notifEnabled = $state(true);
+	let studyReminders = $state(true);
+	let achievementNotif = $state(true);
+	let dailyMotivation = $state(true);
 
 	// API Integration (PT Koneksi Sistem Akademik)
 	let apiIntegrationKey = $state('');
@@ -29,8 +30,22 @@
 	let apiTesting = $state(false);
 	let apiTestResult = $state<{ success: boolean; message: string } | null>(null);
 
-	// Load API settings from localStorage on mount
+	// Load settings from stores and localStorage on mount
 	onMount(() => {
+		// Load from appSettings store
+		provider = $appSettings.ai.provider;
+		apiKey = $appSettings.ai.apiKey;
+		customUrl = $appSettings.ai.customUrl || '';
+		model = $appSettings.ai.model || 'gpt-4';
+		temperature = $appSettings.ai.temperature || 0.7;
+		maxTokens = $appSettings.ai.maxTokens || 500;
+
+		notifEnabled = $appSettings.notifications.enabled;
+		studyReminders = $appSettings.notifications.studyReminders;
+		achievementNotif = $appSettings.notifications.achievements;
+		dailyMotivation = $appSettings.notifications.dailyMotivation;
+
+		// Load API integration from localStorage
 		if (browser) {
 			apiIntegrationKey = localStorage.getItem('koneksi-api-key') || '';
 			apiIntegrationUrl = localStorage.getItem('koneksi-api-url') || '';
