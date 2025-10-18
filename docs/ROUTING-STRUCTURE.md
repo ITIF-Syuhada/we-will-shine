@@ -36,6 +36,8 @@ Aplikasi **We Will Shine** menggunakan struktur routing yang intuitif dan aman d
 http://localhost:5173/
 ├── /                      ← Landing page
 ├── /unlock                ← Student login dengan code
+├── /login                 ← Admin login ⭐
+│
 ├── /app/                  ← Student portal (authenticated)
 │   ├── /app/              ← Home siswa
 │   ├── /app/careers       ← Eksplorasi karir
@@ -48,7 +50,6 @@ http://localhost:5173/
 │
 └── /dashboard/            ← Admin panel (authenticated)
     ├── /dashboard/        ← Admin home
-    ├── /dashboard/login   ← Admin login
     ├── /dashboard/overview      ← Student overview
     ├── /dashboard/students      ← Manage students
     ├── /dashboard/analytics     ← Platform analytics
@@ -62,11 +63,13 @@ http://localhost:5173/
 ```
 https://username.github.io/we-will-shine/
 ├── /we-will-shine/
-├── /we-will-shine/unlock
-├── /we-will-shine/app/
+├── /we-will-shine/unlock         ← Student login
+├── /we-will-shine/login          ← Admin login ⭐
+│
+├── /we-will-shine/app/           ← Student portal
 │   └── ... (same as development)
 │
-└── /we-will-shine/dashboard/
+└── /we-will-shine/dashboard/     ← Admin panel
     └── ... (same as development)
 ```
 
@@ -215,33 +218,49 @@ Semua route admin menggunakan base path `/dashboard/`.
 ### Structure
 
 ```
-src/routes/dashboard/
-├── +layout.svelte          ← Admin layout dengan auth check
-├── +page.svelte            ← Admin home (quick actions)
-├── login/
-│   └── +page.svelte        ← Admin login page
-├── overview/
-│   └── +page.svelte        ← Student overview & stats
-├── students/
-│   └── +page.svelte        ← Manage students (CRUD)
-├── analytics/
-│   └── +page.svelte        ← Platform analytics & insights
-├── settings/
-│   └── +page.svelte        ← App settings (AI API, DB, etc)
-├── qr-generator/
-│   └── +page.svelte        ← Generate student QR codes
-└── migrate-codes/
-    └── +page.svelte        ← Migrate student code formats
+src/routes/
+├── login/                  ← Admin login (NO dashboard layout!) ⭐
+│   └── +page.svelte        ← Standalone login page
+│
+└── dashboard/              ← Admin panel (WITH dashboard layout)
+    ├── +layout.svelte      ← Admin layout dengan auth check
+    ├── +page.svelte        ← Admin home (quick actions)
+    ├── overview/
+    │   └── +page.svelte    ← Student overview & stats
+    ├── students/
+    │   └── +page.svelte    ← Manage students (CRUD)
+    ├── analytics/
+    │   └── +page.svelte    ← Platform analytics & insights
+    ├── settings/
+    │   └── +page.svelte    ← App settings (AI API, DB, etc)
+    ├── qr-generator/
+    │   └── +page.svelte    ← Generate student QR codes
+    └── migrate-codes/
+        └── +page.svelte    ← Migrate student code formats
 ```
+
+**Key Point:**
+
+- ✅ `/login` is **OUTSIDE** `/dashboard/` folder
+- ✅ `/login` does **NOT** use dashboard layout
+- ✅ `/dashboard/*` pages **ALWAYS** use dashboard layout
+- ✅ Clean separation of concerns
 
 ### Admin Authentication
 
-**Layout** (`dashboard/+layout.svelte`):
+**Login Page** (`login/+page.svelte`):
+
+```svelte
+// Standalone page - No dashboard layout // Full-screen login form // Redirects to /dashboard after
+success
+```
+
+**Dashboard Layout** (`dashboard/+layout.svelte`):
 
 ```svelte
 // Check if admin is logged in
 if (!$adminStore) {
-  goto(`${base}/dashboard/login`);
+  goto(`${base}/login`);  // ← Now redirects to /login
 }
 ```
 

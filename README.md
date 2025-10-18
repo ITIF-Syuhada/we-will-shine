@@ -65,11 +65,14 @@ We Will Shine akan menjadi **platform open source** untuk membantu Guru BK di se
 http://localhost:5173/
 ├── /               ← Landing page
 ├── /unlock         ← Student login (dengan code)
+├── /login          ← Admin login ⭐
+│
 ├── /app/           ← Student portal ⭐
 │   ├── /careers    ← Eksplorasi karir
 │   ├── /quiz       ← Quiz kepribadian
 │   ├── /achievements ← Pencapaian
 │   └── /ai-mentor  ← AI chat
+│
 └── /dashboard/     ← Admin panel ⭐
     ├── /students   ← Manage students
     ├── /analytics  ← Analytics
