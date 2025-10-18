@@ -33,31 +33,6 @@
 			description: 'Ada yang tidak beres nih. Coba refresh atau kembali ke home.'
 		}
 	);
-
-	// Navigation suggestions based on URL
-	const suggestions = $derived(() => {
-		const path = $page.url.pathname;
-
-		if (path.includes('/dashboard') || path.includes('/admin')) {
-			return [
-				{ label: '🏠 Dashboard Admin', href: `${base}/dashboard` },
-				{ label: '🔐 Login Admin', href: `${base}/login` },
-				{ label: '🏠 Home', href: `${base}/` }
-			];
-		} else if (path.includes('/app')) {
-			return [
-				{ label: '🏠 Portal Siswa', href: `${base}/app` },
-				{ label: '🔓 Unlock', href: `${base}/unlock` },
-				{ label: '🏠 Home', href: `${base}/` }
-			];
-		}
-
-		return [
-			{ label: '🏠 Home', href: `${base}/` },
-			{ label: '🔓 Unlock (Siswa)', href: `${base}/unlock` },
-			{ label: '🔐 Login (Admin)', href: `${base}/login` }
-		];
-	});
 </script>
 
 <svelte:head>
@@ -69,9 +44,9 @@
 >
 	<div class="w-full max-w-2xl">
 		<!-- Main Error Card -->
-		<div class="rounded-3xl bg-white p-8 shadow-2xl sm:p-12">
+		<div class="rounded-3xl bg-white p-6 shadow-2xl sm:p-10">
 			<!-- Error Icon -->
-			<div class="mb-6 text-center">
+			<div class="mb-4 text-center">
 				<div class="mb-4 inline-block animate-bounce">
 					<span class="text-8xl">{currentMessage.emoji}</span>
 				</div>
@@ -82,42 +57,34 @@
 
 			<!-- Error Details (for developers) -->
 			{#if errorMessage && errorMessage !== 'Halaman tidak ditemukan'}
-				<div class="mb-6 rounded-xl border-2 border-orange-200 bg-orange-50 p-4">
+				<div class="mb-4 rounded-xl border-2 border-orange-200 bg-orange-50 p-3">
 					<p class="text-sm font-semibold text-orange-800">🔍 Detail Error:</p>
 					<p class="mt-1 text-xs text-orange-700">{errorMessage}</p>
 				</div>
 			{/if}
 
-			<!-- Navigation Suggestions -->
-			<div class="mb-6">
-				<div class="grid gap-3 sm:grid-cols-3">
-					{#each suggestions() as suggestion (suggestion.href)}
-						<a
-							href={suggestion.href}
-							class="rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50 px-4 py-3 text-center font-semibold text-purple-700 transition-all hover:scale-105 hover:border-purple-300 hover:shadow-lg active:scale-95"
-						>
-							{suggestion.label}
-						</a>
-					{/each}
-				</div>
-			</div>
-
 			<!-- Fun Quote -->
-			<div class="rounded-2xl bg-gradient-to-r from-purple-100 to-pink-100 p-6 text-center">
-				<p class="mb-2 text-sm font-semibold text-purple-900">💪 Ingat:</p>
+			<div class="rounded-2xl bg-gradient-to-r from-purple-100 to-pink-100 p-4 text-center">
+				<p class="mb-1 text-sm font-semibold text-purple-900">💪 Ingat:</p>
 				<p class="text-sm text-gray-700 italic">
 					"Kesalahan adalah bukti bahwa kamu sedang mencoba. Terus maju, jangan menyerah!"
 				</p>
 			</div>
 
-			<!-- Back Button -->
-			<div class="mt-6 text-center">
+			<!-- Action Buttons -->
+			<div class="mt-4 flex justify-center gap-3">
 				<button
 					onclick={() => window.history.back()}
-					class="rounded-xl border-2 border-purple-300 bg-white px-6 py-3 font-semibold text-purple-700 transition-all hover:bg-purple-50 active:scale-95"
+					class="rounded-xl border-2 border-purple-200 bg-white px-5 py-2.5 text-sm font-semibold text-purple-600 transition-all hover:border-purple-300 hover:bg-purple-50 active:scale-95"
 				>
-					← Kembali ke Halaman Sebelumnya
+					← Kembali
 				</button>
+				<a
+					href="{base}/"
+					class="rounded-xl border-2 border-purple-200 bg-purple-100 px-5 py-2.5 text-sm font-semibold text-purple-700 transition-all hover:border-purple-300 hover:bg-purple-200 active:scale-95"
+				>
+					🏠 Home
+				</a>
 			</div>
 		</div>
 

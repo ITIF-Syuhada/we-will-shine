@@ -30,7 +30,7 @@
 			.card {
 				background: white;
 				border-radius: 2rem;
-				padding: 3rem 2rem;
+				padding: 2.5rem 2rem;
 				box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 				text-align: center;
 			}
@@ -73,28 +73,45 @@
 			}
 
 			.buttons {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-				gap: 1rem;
-				margin-bottom: 2rem;
+				display: flex;
+				justify-content: center;
+				gap: 0.75rem;
+				margin-top: 1rem;
 			}
 
 			.btn {
 				display: inline-block;
-				padding: 1rem 1.5rem;
-				border-radius: 1rem;
+				padding: 0.625rem 1.25rem;
+				border-radius: 0.75rem;
 				text-decoration: none;
 				font-weight: 600;
+				font-size: 0.875rem;
 				transition: all 0.3s ease;
-				border: 2px solid #e9d5ff;
-				background: linear-gradient(135deg, #faf5ff 0%, #fce7f3 100%);
-				color: #7c3aed;
+				border: 2px solid #d8b4fe;
+				cursor: pointer;
+				font-family: inherit;
 			}
 
-			.btn:hover {
-				transform: scale(1.05);
-				box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.3);
-				border-color: #c084fc;
+			.btn-secondary {
+				background: white;
+				color: #9333ea;
+				border-color: #e9d5ff;
+			}
+
+			.btn-secondary:hover {
+				background: #faf5ff;
+				border-color: #d8b4fe;
+			}
+
+			.btn-primary {
+				background: #f3e8ff;
+				color: #7c3aed;
+				border-color: #e9d5ff;
+			}
+
+			.btn-primary:hover {
+				background: #e9d5ff;
+				border-color: #d8b4fe;
 			}
 
 			.btn:active {
@@ -104,8 +121,7 @@
 			.quote {
 				background: linear-gradient(135deg, #f3e8ff 0%, #fce7f3 100%);
 				border-radius: 1rem;
-				padding: 1.5rem;
-				margin-bottom: 1.5rem;
+				padding: 1rem;
 			}
 
 			.quote-text {
@@ -118,23 +134,7 @@
 				font-size: 0.875rem;
 				font-weight: 600;
 				color: #7c3aed;
-				margin-bottom: 0.5rem;
-			}
-
-			.back-btn {
-				display: inline-block;
-				padding: 0.75rem 1.5rem;
-				border-radius: 1rem;
-				background: white;
-				border: 2px solid #d8b4fe;
-				color: #7c3aed;
-				text-decoration: none;
-				font-weight: 600;
-				transition: all 0.3s ease;
-			}
-
-			.back-btn:hover {
-				background: #faf5ff;
+				margin-bottom: 0.25rem;
 			}
 
 			.footer {
@@ -163,7 +163,12 @@
 				}
 
 				.buttons {
-					grid-template-columns: 1fr;
+					flex-direction: column;
+					width: 100%;
+				}
+
+				.btn {
+					width: 100%;
 				}
 			}
 		</style>
@@ -180,13 +185,6 @@
 					benar!
 				</p>
 
-				<!-- Navigation Buttons -->
-				<div class="buttons">
-					<a href="/we-will-shine/" class="btn">🏠 Home</a>
-					<a href="/we-will-shine/unlock" class="btn">🔓 Unlock (Siswa)</a>
-					<a href="/we-will-shine/login" class="btn">🔐 Login (Admin)</a>
-				</div>
-
 				<!-- Motivational Quote -->
 				<div class="quote">
 					<p class="quote-label">💪 Ingat:</p>
@@ -195,10 +193,11 @@
 					</p>
 				</div>
 
-				<!-- Back Button -->
-				<button onclick="window.history.back()" class="back-btn">
-					← Kembali ke Halaman Sebelumnya
-				</button>
+				<!-- Action Buttons -->
+				<div class="buttons">
+					<button onclick="window.history.back()" class="btn btn-secondary">← Kembali</button>
+					<a href="/we-will-shine/" class="btn btn-primary">🏠 Home</a>
+				</div>
 			</div>
 
 			<!-- Footer -->
