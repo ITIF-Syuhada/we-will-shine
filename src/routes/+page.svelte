@@ -1,15 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { userProgress, isLoggedIn } from '$lib/stores/user';
-	import { onMount } from 'svelte';
-
-	onMount(() => {
-		// If already logged in, redirect to app
-		if ($isLoggedIn && $userProgress) {
-			goto(`${base}/app`);
-		}
-	});
 </script>
 
 <svelte:head>
