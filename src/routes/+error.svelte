@@ -90,7 +90,6 @@
 
 			<!-- Navigation Suggestions -->
 			<div class="mb-6">
-				<p class="mb-3 text-center text-sm font-semibold text-gray-700">💡 Mungkin kamu mencari:</p>
 				<div class="grid gap-3 sm:grid-cols-3">
 					{#each suggestions() as suggestion (suggestion.href)}
 						<a
