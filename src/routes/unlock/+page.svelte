@@ -157,10 +157,10 @@
 		<div class="w-full max-w-md">
 			<!-- Back Button -->
 			<a
-				href="{base}/"
+				href="{base}/login"
 				class="mb-4 inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-sm text-white backdrop-blur-sm transition-all hover:bg-white/30"
 			>
-				← Kembali
+				← Kembali ke Login
 			</a>
 
 			<!-- Main Card -->
