@@ -49,13 +49,6 @@
 						<span class="transition-transform group-hover:translate-x-1">→</span>
 					</span>
 				</a>
-
-				<a
-					href="{base}/login"
-					class="transform rounded-2xl border-2 border-indigo-200 bg-white px-8 py-4 text-lg font-semibold text-indigo-600 transition-all hover:border-indigo-300 hover:bg-indigo-50"
-				>
-					Admin Dashboard
-				</a>
 			</div>
 		</div>
 
