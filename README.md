@@ -237,7 +237,21 @@ Harus diubah menjadi client-side only:
 
 ## 📚 Dokumentasi Project
 
-### **Guides untuk Tim:**
+### **Core Documentation:**
+
+- 📖 [Product Vision](docs/PRODUCT-VISION.md) - **Comprehensive product strategy & roadmap** ⭐ NEW
+- 🏗️ [Technical Architecture](docs/TECHNICAL-ARCHITECTURE.md) - **Complete technical implementation guide** ⭐ NEW
+- 🛣️ [Development Roadmap](docs/DEVELOPMENT-ROADMAP.md) - **Detailed development timeline & milestones** ⭐ NEW
+- 🤝 [Contributing Guide](docs/CONTRIBUTING.md) - **Community contribution guidelines** ⭐ NEW
+- 📚 [API Documentation](docs/API-DOCUMENTATION.md) - **Complete API reference & integration guide** ⭐ NEW
+- 🔒 [Security & Privacy](docs/SECURITY-PRIVACY.md) - **Comprehensive security & privacy guidelines** ⭐ NEW
+- 🧪 [Testing Guide](docs/TESTING-GUIDE.md) - **Complete testing strategy & quality assurance** ⭐ NEW
+- 🚀 [Deployment Guide](docs/DEPLOYMENT-GUIDE.md) - **DevOps & deployment documentation** ⭐ NEW
+- 📖 [User Guide](docs/USER-GUIDE.md) - **Comprehensive user manual & tutorials** ⭐ NEW
+- 🔧 [Troubleshooting & FAQ](docs/TROUBLESHOOTING-FAQ.md) - **FAQ & troubleshooting guide** ⭐ NEW
+- 📋 [Changelog](docs/CHANGELOG.md) - **Complete release notes & changelog** ⭐ NEW
+
+### **Legacy Documentation:**
 
 - 📖 [Development Journey](docs/DEVELOPMENT-JOURNEY.md) - Complete development timeline & decisions
 - 🗺️ [Project Roadmap](docs/ROADMAP.md) - **Future plans (Phase 2-8, Vision 2030)**
@@ -245,9 +259,8 @@ Harus diubah menjadi client-side only:
 - 🔒 [Ethics Framework](docs/ETHICS-FRAMEWORK.md) - **Privacy & ethical AI guidelines**
 - 🎓 [Admin Guide](docs/ADMIN-GUIDE.md) - Panduan menggunakan admin dashboard
 - 📱 [Career Quest App](docs/CAREER-QUEST-APP.md) - Student app features & usage
-- 🛣️ [Routing Structure](docs/ROUTING-STRUCTURE.md) - **URL structure & session management** ⭐ NEW
+- 🛣️ [Routing Structure](docs/ROUTING-STRUCTURE.md) - **URL structure & session management**
 - 🔄 [Supabase Migration](docs/SUPABASE-MIGRATION-GUIDE.md) - Upgrade localStorage → Database
-- 🧪 [Testing Guide](docs/TESTING-GUIDE.md) - Playwright E2E testing
 - 🔧 [Fix Sverdle 404](docs/FIX-SVERDLE-404.md) - Technical fix documentation
 - ⚙️ [Workflows Guide](docs/WORKFLOWS-GUIDE.md) - GitHub Actions & CI/CD
 
