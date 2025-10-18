@@ -19,7 +19,7 @@ _"Atas rasa syukur telah mendapat kesempatan mengajar anak-anak SMP IT Masjid Sy
 
 - ❌ **OLD**: `/dashboard/[code]/` - Code sebagai URL parameter
 - ✅ **NEW**: `/app/` - Clean URL tanpa code parameter
-- 💾 **NEW**: Student code tersimpan di `sessionStorage` (auto-expire)
+- 💾 **NEW**: Student code tersimpan di `localStorage` dengan auto-expiry 7 hari
 
 **Admin Routes:**
 
@@ -39,16 +39,21 @@ _"Atas rasa syukur telah mendapat kesempatan mengajar anak-anak SMP IT Masjid Sy
 
 ```typescript
 // Core functions
-setStudentCode(code: string)      // Save to sessionStorage
-getStudentCode(): string          // Retrieve from sessionStorage
-clearStudentCode()                // Logout/clear session
-isStudentLoggedIn(): boolean      // Check login status
+setStudentCode(code: string)         // Save to localStorage with 7-day expiry
+getStudentCode(): string             // Retrieve & auto-validate expiry
+clearStudentCode()                   // Logout/clear session
+isStudentLoggedIn(): boolean         // Check login status
+getSessionInfo(): SessionData | null // Get full session data (debug)
+getSessionRemainingTime(): number    // Get remaining time in ms
 ```
 
 **Features:**
 
-- ✅ Writable Svelte store + sessionStorage sync
-- ✅ Auto-expires when browser tab closes
+- ✅ Writable Svelte store + localStorage sync
+- ✅ Auto-expiry after 7 days (configurable)
+- ✅ Automatic expired session cleanup
+- ✅ Timestamp validation for security
+- ✅ Persistent across tabs/windows
 - ✅ Type-safe with TypeScript
 - ✅ Works seamlessly with SvelteKit
 
@@ -56,7 +61,7 @@ isStudentLoggedIn(): boolean      // Check login status
 
 **Unlock Page** (`src/routes/unlock/+page.svelte`):
 
-- ✅ Now saves code to `sessionStorage` via `setStudentCode()`
+- ✅ Now saves code to `localStorage` (7-day expiry) via `setStudentCode()`
 - ✅ Redirects to `/app` instead of `/dashboard/[code]`
 
 **App Layout** (`src/routes/app/(main)/+layout.svelte`):

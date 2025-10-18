@@ -38,7 +38,7 @@ We Will Shine akan menjadi **platform open source** untuk membantu Guru BK di se
 ### **Student App** (`/app`):
 
 - ✅ **Unlock System** - Login dengan kode unik dari coklat
-- ✅ **Session-based Auth** - Code tersimpan di sessionStorage (secure)
+- ✅ **Session-based Auth** - Code tersimpan di localStorage dengan auto-expiry 7 hari
 - ✅ **8 Karir Teknologi** - Software Dev, UI/UX, Data Analyst, AI/ML, dll
 - ✅ **Personality Quiz** - 6 pertanyaan dengan motivasi personal 300+ kata
 - ✅ **AI Mentor** - Chat interaktif untuk guidance

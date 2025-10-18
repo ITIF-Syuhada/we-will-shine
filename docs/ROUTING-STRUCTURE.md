@@ -79,32 +79,57 @@ https://username.github.io/we-will-shine/
 File: `src/lib/stores/session.ts`
 
 ```typescript
-// Store student code
+// Store student code (with 7-day expiry)
 setStudentCode('NAYIKUVIIIC2025');
 
-// Get student code
-const code = getStudentCode(); // Returns: 'NAYIKUVIIIC2025'
+// Get student code (auto-checks expiry)
+const code = getStudentCode(); // Returns: 'NAYIKUVIIIC2025' or ''
 
 // Check if logged in
 const isLoggedIn = isStudentLoggedIn(); // Returns: true/false
 
 // Clear session (logout)
 clearStudentCode();
+
+// Get session info (optional, for debugging)
+const sessionInfo = getSessionInfo();
+// Returns: { code, timestamp, expiresAt } or null
+
+// Get remaining time (optional, for UI)
+const remaining = getSessionRemainingTime();
+// Returns: milliseconds until expiry
 ```
 
 ### Storage Details
 
-- **Storage Type**: `sessionStorage` (not `localStorage`)
-- **Key**: `student_code`
-- **Lifetime**: Hingga tab/browser ditutup
-- **Security**: Tidak tersimpan permanent, lebih aman
+- **Storage Type**: `localStorage` (with auto-expiry)
+- **Key**: `student_session`
+- **Lifetime**: 7 hari (auto-clear setelah expired)
+- **Security**: Auto-expiry + timestamp validation
 
-### Why sessionStorage?
+**Session Data Structure:**
 
-✅ **Auto-expire** - Session hilang saat tab ditutup  
-✅ **Privacy** - Tidak tersimpan permanent di device  
-✅ **Security** - Lebih aman untuk data sensitif  
-❌ **Tradeoff** - User harus login ulang setiap buka tab baru
+```json
+{
+	"code": "NAYIKUVIIIC2025",
+	"timestamp": 1729234567890,
+	"expiresAt": 1729839367890
+}
+```
+
+### Why localStorage with Auto-Expiry?
+
+✅ **Better UX** - User tidak perlu login ulang di tab baru  
+✅ **Persistent** - Session bertahan setelah tab ditutup  
+✅ **Auto-expire** - Otomatis clear setelah 7 hari  
+✅ **Secure** - Timestamp validation mencegah session hijacking  
+✅ **Balance** - Security & convenience yang optimal
+
+**Expiry Configuration:**
+
+- Default: **7 hari** (untuk app pendidikan)
+- Configurable di `src/lib/stores/session.ts`
+- Auto-clear expired sessions
 
 ---
 
