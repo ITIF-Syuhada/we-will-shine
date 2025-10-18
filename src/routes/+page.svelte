@@ -154,24 +154,39 @@
 		<!-- Community Section -->
 		<div class="mt-16 text-center">
 			<h2 class="mb-8 text-3xl font-bold text-gray-900">Join Our Community</h2>
-			<div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+			<div class="flex flex-col gap-4 sm:flex-row sm:justify-center">
 				<a
 					href="https://github.com/koneksi-jaringan/we-will-shine"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="group flex items-center gap-2 rounded-xl bg-gray-900 px-6 py-3 text-white transition-all hover:bg-gray-800"
+					class="group flex items-center justify-center gap-3 rounded-2xl bg-gray-950 px-8 py-4 text-lg font-semibold text-white shadow transition hover:bg-black"
 				>
-					<span>⭐</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="currentColor"
+						viewBox="0 0 24 24"
+						class="h-7 w-7"
+						><path
+							d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.207 11.387.6.113.793-.258.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.757-1.333-1.757-1.089-.745.084-.729.084-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.809 1.304 3.495.997.108-.775.418-1.305.762-1.605-2.665-.305-5.467-1.342-5.467-5.976 0-1.32.47-2.399 1.236-3.244-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.47 11.47 0 0 1 3.005-.404c1.02.005 2.047.138 3.006.404C17.993 6.137 19 6.459 19 6.459c.653 1.653.242 2.873.118 3.176.77.845 1.235 1.924 1.235 3.244 0 4.645-2.807 5.668-5.479 5.968.43.372.823 1.102.823 2.222v3.293c0 .322.192.694.801.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12z"
+						/></svg
+					>
 					<span>Star on GitHub</span>
 				</a>
-
 				<a
 					href="https://discord.gg/we-will-shine"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="group flex items-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-white transition-all hover:bg-indigo-700"
+					class="group flex items-center justify-center gap-3 rounded-2xl bg-indigo-600 px-8 py-4 text-lg font-semibold text-white shadow transition hover:bg-indigo-700"
 				>
-					<span>💬</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="currentColor"
+						class="h-7 w-7"
+						><path
+							d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515.07.07 0 0 0-.073.035c-.211.377-.445.864-.608 1.249-1.844-.276-3.68-.276-5.486 0-.163-.385-.405-.872-.617-1.249a.07.07 0 0 0-.072-.035c-1.67.288-3.291.798-4.885 1.515a.062.062 0 0 0-.028.027C.533 7.295-.319 10.122.099 12.884c.002.013.008.025.017.035a19.978 19.978 0 0 0 5.993 3.071.07.07 0 0 0 .076-.027c.461-.63.873-1.294 1.226-1.978a.07.07 0 0 0-.038-.099 13.13 13.13 0 0 1-1.884-.892.07.07 0 0 1-.008-.116c.127-.096.254-.194.374-.291a.07.07 0 0 1 .068-.009c3.927 1.793 8.18 1.793 12.062 0a.07.07 0 0 1 .069.008c.12.098.247.196.374.292a.07.07 0 0 1-.006.116c-.593.349-1.22.666-1.883.891a.07.07 0 0 0-.04.1c.36.684.775 1.348 1.226 1.978a.07.07 0 0 0 .076.028 19.93 19.93 0 0 0 6-3.07.07.07 0 0 0 .017-.035c.5-3.201-.838-6.004-3.49-8.489a.061.061 0 0 0-.03-.029zM8.02 14.523c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.954-2.417 2.157-2.417 1.21 0 2.177 1.092 2.157 2.418 0 1.333-.954 2.418-2.157 2.418zm7.974 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.954-2.417 2.157-2.417 1.21 0 2.177 1.092 2.157 2.418 0 1.333-.947 2.418-2.157 2.418z"
+						/></svg
+					>
 					<span>Join Discord</span>
 				</a>
 			</div>
