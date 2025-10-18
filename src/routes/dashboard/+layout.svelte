@@ -42,7 +42,7 @@
 			<div class="mx-auto max-w-7xl px-4 py-4">
 				<div class="flex items-center justify-between">
 					<!-- Left: Logo + Title -->
-					<a href="{base}/admin" class="flex items-center gap-3 transition-all hover:scale-105">
+					<a href="{base}/dashboard" class="flex items-center gap-3 transition-all hover:scale-105">
 						<div
 							class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-2xl"
 						>
@@ -75,9 +75,9 @@
 				<!-- Navigation -->
 				<nav class="mt-4 flex gap-2 overflow-x-auto pb-2">
 					<a
-						href="{base}/admin"
+						href="{base}/dashboard"
 						class="rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap transition-all {$page
-							.url.pathname === `${base}/admin` || $page.url.pathname === `${base}/dashboard/`
+							.url.pathname === `${base}/dashboard` || $page.url.pathname === `${base}/dashboard/`
 							? 'bg-purple-500 text-white shadow-md'
 							: 'bg-white text-gray-700 hover:bg-purple-50'}"
 					>
