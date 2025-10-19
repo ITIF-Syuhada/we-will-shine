@@ -3,12 +3,13 @@
 	let { children } = $props();
 </script>
 
-<!-- Clean layout without default header/footer -->
+<!-- Root layout - no header, handled by route groups -->
 <div class="app">
 	{@render children()}
 </div>
 
-<style>
+<style lang="postcss">
+	@reference "tailwindcss";
 	.app {
 		min-height: 100vh;
 		width: 100%;

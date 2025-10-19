@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { userProgress } from '$lib/stores/user';
+	import { studentCode } from '$lib/stores/session';
 	import { onMount } from 'svelte';
 	import DashboardNavbar from '$lib/components/DashboardNavbar.svelte';
 
@@ -16,8 +16,8 @@
 		}
 
 		// Check if code matches
-		const code = $page.params.code;
-		if ($userProgress.studentCode !== code) {
+		const code = $studentCode;
+		if (!code || $userProgress.studentCode !== code) {
 			goto(`${base}/unlock`);
 		}
 	});

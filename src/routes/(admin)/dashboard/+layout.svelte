@@ -9,16 +9,16 @@
 
 	// Check authentication on mount
 	onMount(() => {
-		// Redirect to login if not authenticated
+		// Redirect to signin if not authenticated
 		if (!$adminStore) {
-			goto(`${base}/login`);
+			goto(`${base}/signin`);
 		}
 	});
 
 	function handleLogout() {
 		if (confirm('Yakin ingin logout?')) {
 			adminStore.logout();
-			goto(`${base}/login`);
+			goto(`${base}/signin`);
 		}
 	}
 </script>
