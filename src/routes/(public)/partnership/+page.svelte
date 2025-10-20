@@ -18,7 +18,7 @@
 		{ id: 'contact', label: 'Contact', icon: '📞' }
 	];
 
-	let activeSection = $state($page.url.searchParams.get('tab') || 'metrics');
+	let activeSection = $state('metrics');
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let tabNavigationElement: any = $state();
 
@@ -32,6 +32,12 @@
 	const TARGET_BUDGET = 75; // billion
 
 	onMount(() => {
+		// Read tab from URL params (only available in browser)
+		const tabParam = $page.url.searchParams.get('tab');
+		if (tabParam) {
+			activeSection = tabParam;
+		}
+
 		// Set tab navigation in store
 		setTabNavigation(sections, activeSection);
 
