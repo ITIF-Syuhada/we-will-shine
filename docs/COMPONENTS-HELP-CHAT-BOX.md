@@ -21,42 +21,40 @@ Reusable help widget yang muncul di pojok kanan bawah layar dengan style chat bo
 
 ```svelte
 <script lang="ts">
-  import HelpChatBox from '$lib/components/HelpChatBox.svelte';
-  import type { HelpSection } from '$lib/components/HelpChatBox.svelte';
+	import HelpChatBox from '$lib/components/HelpChatBox.svelte';
+	import type { HelpSection } from '$lib/components/HelpChatBox.svelte';
 
-  let showHelp = $state(false);
+	let showHelp = $state(false);
 
-  const helpSections: HelpSection[] = [
-    {
-      title: 'Getting Started',
-      icon: '🚀',
-      color: 'indigo',
-      content: 'This is a simple text help section.'
-    },
-    {
-      title: 'Examples',
-      icon: '📝',
-      color: 'green',
-      content: [
-        { label: 'Example 1:', value: 'Value 1' },
-        { label: 'Example 2:', value: 'Value 2' }
-      ]
-    }
-  ];
+	const helpSections: HelpSection[] = [
+		{
+			title: 'Getting Started',
+			icon: '🚀',
+			color: 'indigo',
+			content: 'This is a simple text help section.'
+		},
+		{
+			title: 'Examples',
+			icon: '📝',
+			color: 'green',
+			content: [
+				{ label: 'Example 1:', value: 'Value 1' },
+				{ label: 'Example 2:', value: 'Value 2' }
+			]
+		}
+	];
 </script>
 
 <!-- Trigger button -->
-<button onclick={() => showHelp = true}>
-  ? Help
-</button>
+<button onclick={() => (showHelp = true)}> ? Help </button>
 
 <!-- Help chat box -->
 <HelpChatBox
-  title="Help Center"
-  headerIcon="💡"
-  sections={helpSections}
-  bind:isOpen={showHelp}
-  onClose={() => showHelp = false}
+	title="Help Center"
+	headerIcon="💡"
+	sections={helpSections}
+	bind:isOpen={showHelp}
+	onClose={() => (showHelp = false)}
 />
 ```
 
@@ -64,74 +62,78 @@ Reusable help widget yang muncul di pojok kanan bawah layar dengan style chat bo
 
 ```svelte
 <script lang="ts">
-  import HelpChatBox from '$lib/components/HelpChatBox.svelte';
-  import type { HelpSection } from '$lib/components/HelpChatBox.svelte';
+	import HelpChatBox from '$lib/components/HelpChatBox.svelte';
+	import type { HelpSection } from '$lib/components/HelpChatBox.svelte';
 
-  let showHelpModal = $state(false);
+	let showHelpModal = $state(false);
 
-  const helpSections: HelpSection[] = [
-    {
-      title: 'Email Belajar.id (Kemendikbud)',
-      icon: '📧',
-      color: 'indigo',
-      content: [
-        { label: '🎓 Siswa:', value: 'ahmad@belajar.id' },
-        { label: '👨‍🏫 Guru/Staff:', value: 'budi@guru.belajar.id' }
-      ]
-    },
-    {
-      title: 'Login Cepat',
-      icon: '🚀',
-      color: 'green',
-      content: 'Gunakan Google Sign-In dengan akun Belajar.id untuk login otomatis tanpa password!'
-    },
-    {
-      title: 'Punya Kode Unlock?',
-      icon: '🔑',
-      color: 'orange',
-      content: 'Siswa dari sekolah partner dapat login langsung dengan kode unlock. Klik tab "Kode" di atas.'
-    }
-  ];
+	const helpSections: HelpSection[] = [
+		{
+			title: 'Email Belajar.id (Kemendikbud)',
+			icon: '📧',
+			color: 'indigo',
+			content: [
+				{ label: '🎓 Siswa:', value: 'ahmad@belajar.id' },
+				{ label: '👨‍🏫 Guru/Staff:', value: 'budi@guru.belajar.id' }
+			]
+		},
+		{
+			title: 'Login Cepat',
+			icon: '🚀',
+			color: 'green',
+			content: 'Gunakan Google Sign-In dengan akun Belajar.id untuk login otomatis tanpa password!'
+		},
+		{
+			title: 'Punya Kode Unlock?',
+			icon: '🔑',
+			color: 'orange',
+			content:
+				'Siswa dari sekolah partner dapat login langsung dengan kode unlock. Klik tab "Kode" di atas.'
+		}
+	];
 </script>
 
 <!-- Trigger in form label -->
 <label>
-  Email
-  <button onclick={() => showHelpModal = true}>
-    ? Bantuan
-  </button>
+	Email
+	<button onclick={() => (showHelpModal = true)}> ? Bantuan </button>
 </label>
 
 <HelpChatBox
-  title="Panduan Login"
-  headerIcon="💡"
-  sections={helpSections}
-  bind:isOpen={showHelpModal}
-  onClose={() => showHelpModal = false}
+	title="Panduan Login"
+	headerIcon="💡"
+	sections={helpSections}
+	bind:isOpen={showHelpModal}
+	onClose={() => (showHelpModal = false)}
 />
 ```
 
 ## Props
 
 ### `title` (optional)
+
 - **Type:** `string`
 - **Default:** `"Bantuan"`
 - **Description:** Title displayed in the chat box header
 
 ### `headerIcon` (optional)
+
 - **Type:** `string`
 - **Default:** `"💡"`
 - **Description:** Emoji icon shown in the header
 
 ### `sections` (required)
+
 - **Type:** `HelpSection[]`
 - **Description:** Array of help sections to display
 
 ### `isOpen` (bindable, required)
+
 - **Type:** `boolean`
 - **Description:** Controls visibility of the chat box. Use `bind:isOpen={yourState}`
 
 ### `onClose` (required)
+
 - **Type:** `() => void`
 - **Description:** Callback function when user closes the chat box
 
@@ -139,16 +141,17 @@ Reusable help widget yang muncul di pojok kanan bawah layar dengan style chat bo
 
 ```typescript
 interface HelpSection {
-  title: string;    // Section title
-  icon: string;     // Emoji icon for the section
-  color: 'indigo' | 'purple' | 'green' | 'orange' | 'blue' | 'pink';
-  content: string | { label: string; value: string }[];
+	title: string; // Section title
+	icon: string; // Emoji icon for the section
+	color: 'indigo' | 'purple' | 'green' | 'orange' | 'blue' | 'pink';
+	content: string | { label: string; value: string }[];
 }
 ```
 
 ### Content Types
 
 **1. Simple Text:**
+
 ```typescript
 {
   title: 'Tip',
@@ -159,6 +162,7 @@ interface HelpSection {
 ```
 
 **2. Key-Value Pairs (e.g., Examples):**
+
 ```typescript
 {
   title: 'Email Examples',
@@ -175,18 +179,19 @@ interface HelpSection {
 
 Available colors with semantic meaning:
 
-| Color | Best For | Example Use Case |
-|-------|----------|------------------|
-| `indigo` | Information | Email patterns, documentation |
-| `purple` | Features | Feature highlights, new features |
-| `green` | Success/Tips | Quick tips, success messages |
-| `orange` | Warnings | Important notes, cautions |
-| `blue` | Technical | API docs, technical details |
-| `pink` | Special | Special offers, promotions |
+| Color    | Best For     | Example Use Case                 |
+| -------- | ------------ | -------------------------------- |
+| `indigo` | Information  | Email patterns, documentation    |
+| `purple` | Features     | Feature highlights, new features |
+| `green`  | Success/Tips | Quick tips, success messages     |
+| `orange` | Warnings     | Important notes, cautions        |
+| `blue`   | Technical    | API docs, technical details      |
+| `pink`   | Special      | Special offers, promotions       |
 
 ## Styling
 
 The component uses:
+
 - **Tailwind CSS v4** with `@reference "tailwindcss"`
 - **Fixed positioning** at bottom-right corner
 - **Responsive breakpoints** for mobile
@@ -208,9 +213,9 @@ Edit the CSS:
 
 ```css
 .help-chat-box {
-  bottom: 2rem;  /* Change vertical position */
-  right: 2rem;   /* Change horizontal position */
-  left: auto;    /* Or position on left side */
+	bottom: 2rem; /* Change vertical position */
+	right: 2rem; /* Change horizontal position */
+	left: auto; /* Or position on left side */
 }
 ```
 
@@ -218,7 +223,7 @@ Edit the CSS:
 
 ```css
 .help-chat-box {
-  width: 400px;  /* Change from 320px */
+	width: 400px; /* Change from 320px */
 }
 ```
 
@@ -228,23 +233,23 @@ Edit the CSS:
 
 ```svelte
 <script lang="ts">
-  let aiMode = $state(false);
-  let chatMessages = $state([]);
+	let aiMode = $state(false);
+	let chatMessages = $state([]);
 
-  function toggleAIMode() {
-    aiMode = !aiMode;
-    // Initialize AI chat session
-  }
+	function toggleAIMode() {
+		aiMode = !aiMode;
+		// Initialize AI chat session
+	}
 </script>
 
 <HelpChatBox ...>
-  {#if aiMode}
-    <!-- Show AI chat interface -->
-    <ChatInterface messages={chatMessages} />
-  {:else}
-    <!-- Show static help sections -->
-    <HelpSections sections={helpSections} />
-  {/if}
+	{#if aiMode}
+		<!-- Show AI chat interface -->
+		<ChatInterface messages={chatMessages} />
+	{:else}
+		<!-- Show static help sections -->
+		<HelpSections sections={helpSections} />
+	{/if}
 </HelpChatBox>
 ```
 
@@ -252,11 +257,9 @@ Edit the CSS:
 
 ```svelte
 <HelpChatBox ...>
-  <div slot="footer">
-    <button onclick={connectToSupport}>
-      💬 Chat dengan Support
-    </button>
-  </div>
+	<div slot="footer">
+		<button onclick={connectToSupport}> 💬 Chat dengan Support </button>
+	</div>
 </HelpChatBox>
 ```
 
@@ -264,11 +267,7 @@ Edit the CSS:
 
 ```svelte
 <HelpChatBox ...>
-  <input 
-    type="search" 
-    placeholder="Cari bantuan..." 
-    oninput={filterSections}
-  />
+	<input type="search" placeholder="Cari bantuan..." oninput={filterSections} />
 </HelpChatBox>
 ```
 
@@ -284,21 +283,25 @@ Edit the CSS:
 ## Examples in Production
 
 ### Sign-in Page
+
 - Email format examples
 - Google Sign-In tip
 - Code unlock info
 
 ### Student Dashboard
+
 - Quick start guide
 - Feature highlights
 - Keyboard shortcuts
 
 ### Admin Dashboard
+
 - Common tasks
 - Bulk action tips
 - Report generation guide
 
 ### Analytics Page
+
 - Chart interpretation
 - Date range selection
 - Export options
@@ -321,4 +324,3 @@ Edit the CSS:
 ## License
 
 MIT License - Free to use and modify
-

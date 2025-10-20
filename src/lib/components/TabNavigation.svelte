@@ -43,21 +43,21 @@
 	// Switch to section
 	function switchToSection(sectionId: string) {
 		activeSection = sectionId;
-		
+
 		// Update URL query
 		goto(`?${queryParam}=${sectionId}`, { replaceState: true, noScroll: true });
-		
+
 		// Scroll to the target section
 		const targetSection = document.getElementById(sectionId);
 		if (targetSection) {
 			const rect = targetSection.getBoundingClientRect();
 			const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 			const sectionTop = rect.top + scrollTop;
-			
+
 			// Offset for header + tab navigation (approximately 120px)
 			const headerOffset = 120;
 			const targetScroll = sectionTop - headerOffset;
-			
+
 			window.scrollTo({
 				top: targetScroll,
 				behavior: 'smooth'
@@ -68,7 +68,7 @@
 	onMount(() => {
 		// Check URL query for initial tab
 		const urlTab = $page.url.searchParams.get(queryParam);
-		if (urlTab && sections.some(s => s.id === urlTab)) {
+		if (urlTab && sections.some((s) => s.id === urlTab)) {
 			activeSection = urlTab;
 			// Scroll to initial section if from URL
 			setTimeout(() => switchToSection(urlTab), 100);
@@ -100,7 +100,7 @@
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
 					const sectionId = entry.target.id;
-					if (sections.some(s => s.id === sectionId)) {
+					if (sections.some((s) => s.id === sectionId)) {
 						activeSection = sectionId;
 						// Update URL without scrolling
 						goto(`?${queryParam}=${sectionId}`, { replaceState: true, noScroll: true });
@@ -112,7 +112,7 @@
 		const observer = new IntersectionObserver(observerCallback, observerOptions);
 
 		// Observe all sections
-		sections.forEach(section => {
+		sections.forEach((section) => {
 			const element = document.getElementById(section.id);
 			if (element) {
 				observer.observe(element);
@@ -126,10 +126,10 @@
 </script>
 
 <!-- Tab Navigation -->
-<nav 
+<nav
 	bind:this={navElement}
-	class="tab-navigation {topOffset} {backgroundColor} {className}" 
-	class:sticky={position === 'sticky'} 
+	class="tab-navigation {topOffset} {backgroundColor} {className}"
+	class:sticky={position === 'sticky'}
 	class:static={position === 'static'}
 	class:floating-right={position === 'floating-right'}
 	class:stuck={isStuck && position === 'sticky'}
@@ -162,7 +162,7 @@
 	}
 
 	.tab-navigation.sticky {
-		@apply sticky left-0 right-0;
+		@apply sticky right-0 left-0;
 	}
 
 	/* When sticky nav is stuck at top, make it fixed and align with header */
@@ -178,7 +178,7 @@
 
 	/* Stuck state items - compact styling */
 	.tab-navigation.sticky.stuck .tab-nav-item {
-		@apply flex items-center gap-1 px-2 py-1.5 rounded-xl;
+		@apply flex items-center gap-1 rounded-xl px-2 py-1.5;
 		@apply text-xs font-medium text-gray-600;
 		background: transparent;
 		border: 1px solid rgba(99, 102, 241, 0.1);
@@ -235,17 +235,17 @@
 	}
 
 	.tab-navigation.floating-right .tab-nav-container {
-		@apply flex-col gap-3 p-0 max-w-none;
+		@apply max-w-none flex-col gap-3 p-0;
 	}
 
 	.tab-navigation.floating-right .tab-nav-item {
-		@apply flex-col gap-1 px-3 py-3 rounded-2xl;
+		@apply flex-col gap-1 rounded-2xl px-3 py-3;
 		min-width: 64px;
 		backdrop-filter: blur(12px);
 	}
 
 	.tab-navigation.floating-right .tab-nav-label {
-		@apply text-xs text-center;
+		@apply text-center text-xs;
 		writing-mode: horizontal-tb;
 	}
 
@@ -271,23 +271,23 @@
 	}
 
 	.tab-nav-container {
-		@apply flex items-center justify-center gap-2 flex-wrap;
-		@apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+		@apply flex flex-wrap items-center justify-center gap-2;
+		@apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
 		transition: justify-content 0.3s ease;
 	}
 
 	/* When stuck at top, align left and remove container constraints */
 	.tab-nav-container.stuck {
-		@apply justify-start max-w-none mx-0 px-0;
+		@apply mx-0 max-w-none justify-start px-0;
 	}
 
 	/* Header Position Container */
 	.tab-navigation.header .tab-nav-container {
-		@apply flex items-center gap-1 max-w-none mx-0 px-0;
+		@apply mx-0 flex max-w-none items-center gap-1 px-0;
 	}
 
 	.tab-nav-item {
-		@apply flex items-center gap-2 px-4 py-2.5 rounded-2xl;
+		@apply flex items-center gap-2 rounded-2xl px-4 py-2.5;
 		@apply text-sm font-medium text-gray-600;
 		@apply transition-all duration-300;
 		@apply whitespace-nowrap;
@@ -332,7 +332,7 @@
 
 	/* Header Position Items - More compact, no background */
 	.tab-navigation.header .tab-nav-item {
-		@apply flex items-center gap-1 px-2 py-1.5 rounded-xl;
+		@apply flex items-center gap-1 rounded-xl px-2 py-1.5;
 		@apply text-xs font-medium text-gray-600;
 		@apply transition-all duration-300;
 		@apply whitespace-nowrap;
@@ -385,7 +385,7 @@
 		}
 
 		.tab-navigation.floating-right .tab-nav-container {
-			@apply flex-row gap-2 justify-start overflow-x-auto px-4;
+			@apply flex-row justify-start gap-2 overflow-x-auto px-4;
 			scrollbar-width: none;
 			-ms-overflow-style: none;
 		}
@@ -395,7 +395,7 @@
 		}
 
 		.tab-navigation.floating-right .tab-nav-item {
-			@apply flex-row gap-2 px-3 py-2 rounded-2xl;
+			@apply flex-row gap-2 rounded-2xl px-3 py-2;
 			min-width: auto;
 			flex-shrink: 0;
 		}
@@ -426,9 +426,9 @@
 		.tab-navigation.top-24 {
 			top: 6rem;
 		}
-		
+
 		.tab-nav-container {
-			@apply justify-start overflow-x-auto gap-1;
+			@apply justify-start gap-1 overflow-x-auto;
 			scrollbar-width: none;
 			-ms-overflow-style: none;
 		}
@@ -438,7 +438,7 @@
 		}
 
 		.tab-nav-item {
-			@apply px-2.5 py-1.5 gap-1;
+			@apply gap-1 px-2.5 py-1.5;
 			flex-shrink: 0;
 		}
 

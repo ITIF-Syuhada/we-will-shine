@@ -7,22 +7,15 @@
 Ubah parameter `position` dari `"sticky"` menjadi `"floating-right"`:
 
 **Before:**
+
 ```svelte
-<TabNavigation 
-  bind:activeSection={activeSection}
-  {sections}
-  position="sticky"
-  topOffset="top-14"
-/>
+<TabNavigation bind:activeSection {sections} position="sticky" topOffset="top-14" />
 ```
 
 **After:**
+
 ```svelte
-<TabNavigation 
-  bind:activeSection={activeSection}
-  {sections}
-  position="floating-right"
-/>
+<TabNavigation bind:activeSection {sections} position="floating-right" />
 ```
 
 ### **Halaman yang Bisa Dicoba:**
@@ -46,6 +39,7 @@ Ubah parameter `position` dari `"sticky"` menjadi `"floating-right"`:
 ## **Visual Comparison:**
 
 ### **Sticky (Current):**
+
 ```
 ┌─────────────────────────────────────────────┐
 │ [Header]                                    │
@@ -60,6 +54,7 @@ Ubah parameter `position` dari `"sticky"` menjadi `"floating-right"`:
 ```
 
 ### **Floating Right (New):**
+
 ```
 ┌─────────────────────────────────────────────┐
 │ [Header]                                    │
@@ -91,12 +86,14 @@ Ubah parameter `position` dari `"sticky"` menjadi `"floating-right"`:
 ## **Responsive Behavior:**
 
 ### **Desktop (≥1024px):**
+
 - Vertical tabs di kanan
 - Icon + Label (stacked)
 - Fixed position
 - Centered vertically
 
 ### **Tablet/Mobile (<1024px):**
+
 - Automatically horizontal di atas
 - Same as sticky mode
 - Horizontal scroll
@@ -104,12 +101,14 @@ Ubah parameter `position` dari `"sticky"` menjadi `"floating-right"`:
 ## **Recommendation:**
 
 **Best for:**
+
 - 📖 Documentation pages
 - 📄 Long-form content
 - 📊 Data-heavy pages
 - 🎯 Focus-required reading
 
 **Keep Sticky for:**
+
 - 💰 E-commerce (traditional UX)
 - 📱 Mobile-first apps
 - 🎨 Visual-heavy pages
@@ -124,4 +123,3 @@ Ubah parameter `position` dari `"sticky"` menjadi `"floating-right"`:
 
 Desktop: Vertical tabs on right
 Mobile: Horizontal tabs on top (auto-fallback)
-

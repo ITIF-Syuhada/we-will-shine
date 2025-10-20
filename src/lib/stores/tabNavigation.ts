@@ -25,7 +25,11 @@ export const tabNavigationStore = writable<TabNavigationState>({
 });
 
 // Helper functions
-export function setTabNavigation(sections: TabSection[], activeSection: string = '', queryParam: string = 'tab') {
+export function setTabNavigation(
+	sections: TabSection[],
+	activeSection: string = '',
+	queryParam: string = 'tab'
+) {
 	tabNavigationStore.set({
 		sections,
 		activeSection: activeSection || sections[0]?.id || '',
@@ -36,7 +40,7 @@ export function setTabNavigation(sections: TabSection[], activeSection: string =
 }
 
 export function hideTabNavigation() {
-	tabNavigationStore.update(state => ({
+	tabNavigationStore.update((state) => ({
 		...state,
 		isVisible: false,
 		showInHeader: false
@@ -44,14 +48,14 @@ export function hideTabNavigation() {
 }
 
 export function updateActiveSection(activeSection: string) {
-	tabNavigationStore.update(state => ({
+	tabNavigationStore.update((state) => ({
 		...state,
 		activeSection
 	}));
 }
 
 export function setHeaderVisibility(showInHeader: boolean) {
-	tabNavigationStore.update(state => ({
+	tabNavigationStore.update((state) => ({
 		...state,
 		showInHeader
 	}));

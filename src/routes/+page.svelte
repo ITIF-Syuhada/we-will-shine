@@ -38,7 +38,7 @@
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
 					entry.target.classList.add('reveal-visible');
-					
+
 					// Trigger stats animation when stats section is visible
 					if (entry.target.id === 'stats-section') {
 						animateNumbers();
@@ -93,7 +93,7 @@
 	// Handle newsletter submission
 	async function handleNewsletterSubmit(e: Event) {
 		e.preventDefault();
-		
+
 		if (!email || !email.includes('@')) {
 			showToastMessage('Please enter a valid email address', 'error');
 			return;
@@ -149,7 +149,7 @@
 		<div class="text-center">
 			<div class="animate-float mx-auto mb-8 inline-block">
 				<div class="rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 p-6 shadow-2xl">
-				<span class="text-6xl drop-shadow-sm">🌟</span>
+					<span class="text-6xl drop-shadow-sm">🌟</span>
 				</div>
 			</div>
 
@@ -164,10 +164,7 @@
 			</p>
 
 			<div class="mb-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-				<a
-					href="{base}/signin"
-					class="start-learning-button"
-				>
+				<a href="{base}/signin" class="start-learning-button">
 					<span class="flex items-center gap-2">
 						<span>Start Learning</span>
 						<span class="arrow">→</span>
@@ -241,11 +238,11 @@
 		<div class="rounded-3xl bg-gradient-to-r from-indigo-500 to-purple-600 p-12 text-white">
 			<div class="mx-auto max-w-4xl text-center">
 				<h2 class="mb-6 text-4xl font-bold">Our Vision</h2>
-				<p class="mb-4 text-2xl font-bold leading-relaxed">
-					"Tidak Ada Anak yang Bodoh"
-				</p>
+				<p class="mb-4 text-2xl leading-relaxed font-bold">"Tidak Ada Anak yang Bodoh"</p>
 				<p class="mb-8 text-xl leading-relaxed">
-					Membantu setiap tunas bangsa <strong>menemukan jati dirinya</strong> dalam kebaikan dan kebermanfaatan kolektif - melalui pendidikan yang holistik, teknologi yang humanis, dan nilai-nilai luhur yang universal.
+					Membantu setiap tunas bangsa <strong>menemukan jati dirinya</strong> dalam kebaikan dan kebermanfaatan
+					kolektif - melalui pendidikan yang holistik, teknologi yang humanis, dan nilai-nilai luhur
+					yang universal.
 				</p>
 
 				<div class="grid gap-6 md:grid-cols-3">
@@ -305,7 +302,10 @@
 </section>
 
 <!-- Stats Section -->
-<section id="stats-section" class="reveal-on-scroll bg-gradient-to-r from-indigo-600 to-purple-600 py-16">
+<section
+	id="stats-section"
+	class="reveal-on-scroll bg-gradient-to-r from-indigo-600 to-purple-600 py-16"
+>
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="grid gap-8 md:grid-cols-3">
 			<!-- Active Users -->
@@ -348,7 +348,9 @@
 		<div class="grid gap-8 md:grid-cols-4">
 			<!-- Step 1 -->
 			<div class="text-center">
-				<div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-3xl font-bold text-white shadow-lg">
+				<div
+					class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-3xl font-bold text-white shadow-lg"
+				>
 					1
 				</div>
 				<h3 class="mb-3 text-xl font-bold text-gray-900">Sign Up</h3>
@@ -359,7 +361,9 @@
 
 			<!-- Step 2 -->
 			<div class="text-center">
-				<div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-600 text-3xl font-bold text-white shadow-lg">
+				<div
+					class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-600 text-3xl font-bold text-white shadow-lg"
+				>
 					2
 				</div>
 				<h3 class="mb-3 text-xl font-bold text-gray-900">Set Your Goals</h3>
@@ -370,7 +374,9 @@
 
 			<!-- Step 3 -->
 			<div class="text-center">
-				<div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-600 text-3xl font-bold text-white shadow-lg">
+				<div
+					class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-600 text-3xl font-bold text-white shadow-lg"
+				>
 					3
 				</div>
 				<h3 class="mb-3 text-xl font-bold text-gray-900">Learn & Grow</h3>
@@ -381,7 +387,9 @@
 
 			<!-- Step 4 -->
 			<div class="text-center">
-				<div class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-yellow-600 text-3xl font-bold text-white shadow-lg">
+				<div
+					class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-yellow-600 text-3xl font-bold text-white shadow-lg"
+				>
 					4
 				</div>
 				<h3 class="mb-3 text-xl font-bold text-gray-900">Shine Bright</h3>
@@ -418,7 +426,9 @@
 					bisa mikir sendiri. Nilai matematika aku naik drastis!"
 				</p>
 				<div class="flex items-center gap-3">
-					<div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-xl text-white">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-xl text-white"
+					>
 						A
 					</div>
 					<div>
@@ -442,7 +452,9 @@
 					mental aku dan bisa manage stress lebih baik."
 				</p>
 				<div class="flex items-center gap-3">
-					<div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-600 text-xl text-white">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-600 text-xl text-white"
+					>
 						S
 					</div>
 					<div>
@@ -466,7 +478,9 @@
 					sangat intuitif untuk monitoring progress siswa."
 				</p>
 				<div class="flex items-center gap-3">
-					<div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-600 text-xl text-white">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-600 text-xl text-white"
+					>
 						B
 					</div>
 					<div>
@@ -484,73 +498,94 @@
 	<div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
 		<div class="mb-16 text-center">
 			<h2 class="mb-4 text-4xl font-bold text-gray-900">Frequently Asked Questions</h2>
-			<p class="mx-auto max-w-2xl text-lg text-gray-600">
-				Got questions? We've got answers!
-			</p>
+			<p class="mx-auto max-w-2xl text-lg text-gray-600">Got questions? We've got answers!</p>
 		</div>
 
 		<div class="space-y-6">
 			<!-- FAQ 1 -->
-			<details class="group rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 p-6 transition-all hover:shadow-lg">
-				<summary class="flex cursor-pointer items-center justify-between font-semibold text-gray-900">
+			<details
+				class="group rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 p-6 transition-all hover:shadow-lg"
+			>
+				<summary
+					class="flex cursor-pointer items-center justify-between font-semibold text-gray-900"
+				>
 					<span class="text-lg">Apakah We Will Shine benar-benar gratis?</span>
 					<span class="text-2xl transition-transform group-open:rotate-180">▼</span>
 				</summary>
 				<p class="mt-4 text-gray-700">
-					Ya! We Will Shine 100% gratis untuk semua siswa dan sekolah. Kami adalah open-source project
-					yang didukung oleh PT Koneksi Jaringan Indonesia dan komunitas. Model BYOK (Bring Your Own Key)
-					memungkinkan Anda menggunakan API key LLM sendiri jika ingin.
+					Ya! We Will Shine 100% gratis untuk semua siswa dan sekolah. Kami adalah open-source
+					project yang didukung oleh PT Koneksi Jaringan Indonesia dan komunitas. Model BYOK (Bring
+					Your Own Key) memungkinkan Anda menggunakan API key LLM sendiri jika ingin.
 				</p>
 			</details>
 
 			<!-- FAQ 2 -->
-			<details class="group rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 p-6 transition-all hover:shadow-lg">
-				<summary class="flex cursor-pointer items-center justify-between font-semibold text-gray-900">
+			<details
+				class="group rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 p-6 transition-all hover:shadow-lg"
+			>
+				<summary
+					class="flex cursor-pointer items-center justify-between font-semibold text-gray-900"
+				>
 					<span class="text-lg">Bagaimana cara login ke platform?</span>
 					<span class="text-2xl transition-transform group-open:rotate-180">▼</span>
 				</summary>
 				<p class="mt-4 text-gray-700">
-					Ada dua cara: (1) Login dengan akun Google untuk akses publik, atau (2) Gunakan unlock code
-					dari sekolah Anda jika sekolah sudah terintegrasi dengan Sistem Akademik kami. Login sekolah
-					dilengkapi dengan 2FA untuk keamanan ekstra.
+					Ada dua cara: (1) Login dengan akun Google untuk akses publik, atau (2) Gunakan unlock
+					code dari sekolah Anda jika sekolah sudah terintegrasi dengan Sistem Akademik kami. Login
+					sekolah dilengkapi dengan 2FA untuk keamanan ekstra.
 				</p>
 			</details>
 
 			<!-- FAQ 3 -->
-			<details class="group rounded-2xl bg-gradient-to-br from-pink-50 to-orange-50 p-6 transition-all hover:shadow-lg">
-				<summary class="flex cursor-pointer items-center justify-between font-semibold text-gray-900">
+			<details
+				class="group rounded-2xl bg-gradient-to-br from-pink-50 to-orange-50 p-6 transition-all hover:shadow-lg"
+			>
+				<summary
+					class="flex cursor-pointer items-center justify-between font-semibold text-gray-900"
+				>
 					<span class="text-lg">Apa itu 2USE AI dan Metode Socratic?</span>
 					<span class="text-2xl transition-transform group-open:rotate-180">▼</span>
 				</summary>
 				<p class="mt-4 text-gray-700">
-					2USE AI adalah custom AI middleware kami yang dirancang khusus untuk edukasi. Berbeda dengan
-					AI chatbot biasa, 2USE menolak memberikan jawaban instan. Sebaliknya, AI akan membimbing Anda
-					berpikir kritis melalui pertanyaan-pertanyaan (metode Socratic) sehingga Anda benar-benar
-					memahami konsepnya.
+					2USE AI adalah custom AI middleware kami yang dirancang khusus untuk edukasi. Berbeda
+					dengan AI chatbot biasa, 2USE menolak memberikan jawaban instan. Sebaliknya, AI akan
+					membimbing Anda berpikir kritis melalui pertanyaan-pertanyaan (metode Socratic) sehingga
+					Anda benar-benar memahami konsepnya.
 				</p>
 			</details>
 
 			<!-- FAQ 4 -->
-			<details class="group rounded-2xl bg-gradient-to-br from-orange-50 to-yellow-50 p-6 transition-all hover:shadow-lg">
-				<summary class="flex cursor-pointer items-center justify-between font-semibold text-gray-900">
+			<details
+				class="group rounded-2xl bg-gradient-to-br from-orange-50 to-yellow-50 p-6 transition-all hover:shadow-lg"
+			>
+				<summary
+					class="flex cursor-pointer items-center justify-between font-semibold text-gray-900"
+				>
 					<span class="text-lg">Apakah data saya aman?</span>
 					<span class="text-2xl transition-transform group-open:rotate-180">▼</span>
 				</summary>
 				<p class="mt-4 text-gray-700">
 					Sangat aman! Kami menggunakan enkripsi tingkat enterprise dan tidak pernah menjual data
-					pengguna. Sebagai open-source project, kode kami transparan dan bisa diaudit oleh siapa saja.
-					Data mental health Anda fully encrypted dan hanya Anda yang punya akses.
+					pengguna. Sebagai open-source project, kode kami transparan dan bisa diaudit oleh siapa
+					saja. Data mental health Anda fully encrypted dan hanya Anda yang punya akses.
 				</p>
 			</details>
 
 			<!-- FAQ 5 -->
-			<details class="group rounded-2xl bg-gradient-to-br from-yellow-50 to-green-50 p-6 transition-all hover:shadow-lg">
-				<summary class="flex cursor-pointer items-center justify-between font-semibold text-gray-900">
+			<details
+				class="group rounded-2xl bg-gradient-to-br from-yellow-50 to-green-50 p-6 transition-all hover:shadow-lg"
+			>
+				<summary
+					class="flex cursor-pointer items-center justify-between font-semibold text-gray-900"
+				>
 					<span class="text-lg">Bagaimana cara sekolah kami bergabung?</span>
 					<span class="text-2xl transition-transform group-open:rotate-180">▼</span>
 				</summary>
 				<p class="mt-4 text-gray-700">
-					Hubungi tim kami di <a href="mailto:support@we-will-shine.org" class="font-semibold text-indigo-600 hover:underline">support@we-will-shine.org</a>
+					Hubungi tim kami di <a
+						href="mailto:support@we-will-shine.org"
+						class="font-semibold text-indigo-600 hover:underline">support@we-will-shine.org</a
+					>
 					untuk konsultasi gratis. Kami akan membantu integrasi dengan Sistem Akademik sekolah Anda dan
 					memberikan training untuk guru dan admin.
 				</p>
@@ -574,14 +609,10 @@
 					placeholder="your.email@example.com"
 					bind:value={email}
 					disabled={isSubmitting}
-					class="flex-1 rounded-xl border-2 border-white/20 bg-white/10 px-6 py-3 text-white placeholder-white/60 backdrop-blur-sm transition-all focus:border-white/40 focus:bg-white/20 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+					class="flex-1 rounded-xl border-2 border-white/20 bg-white/10 px-6 py-3 text-white placeholder-white/60 backdrop-blur-sm transition-all focus:border-white/40 focus:bg-white/20 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 					required
 				/>
-				<button
-					type="submit"
-					disabled={isSubmitting}
-					class="newsletter-button"
-				>
+				<button type="submit" disabled={isSubmitting} class="newsletter-button">
 					{isSubmitting ? 'Subscribing...' : 'Subscribe'}
 				</button>
 			</div>
@@ -609,12 +640,7 @@
 				<p class="text-sm font-semibold text-gray-900">Siap memulai perjalanan belajar?</p>
 				<p class="text-xs text-gray-600">Gratis untuk semua pelajar Indonesia</p>
 			</div>
-			<a
-				href="{base}/signin"
-				class="btn-gradient-primary whitespace-nowrap"
-			>
-				Mulai Gratis
-			</a>
+			<a href="{base}/signin" class="btn-gradient-primary whitespace-nowrap"> Mulai Gratis </a>
 		</div>
 	</div>
 {/if}
@@ -690,14 +716,18 @@
 		font-weight: 600;
 		color: var(--button-text-white) !important;
 		text-decoration: none;
-		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+		box-shadow:
+			0 10px 15px -3px rgba(0, 0, 0, 0.1),
+			0 4px 6px -4px rgba(0, 0, 0, 0.1);
 		transition: all 0.3s ease;
 		transform: scale(1);
 	}
 
 	.start-learning-button:hover {
 		transform: scale(1.05);
-		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+		box-shadow:
+			0 20px 25px -5px rgba(0, 0, 0, 0.1),
+			0 8px 10px -6px rgba(0, 0, 0, 0.1);
 	}
 
 	.start-learning-button span {
@@ -740,7 +770,9 @@
 	.reveal-on-scroll {
 		opacity: 0;
 		transform: translateY(30px);
-		transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+		transition:
+			opacity 0.8s ease-out,
+			transform 0.8s ease-out;
 	}
 
 	:global(.reveal-on-scroll.reveal-visible) {
@@ -755,7 +787,9 @@
 		right: 2rem;
 		padding: 1rem 1.5rem;
 		border-radius: 0.75rem;
-		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+		box-shadow:
+			0 10px 15px -3px rgba(0, 0, 0, 0.1),
+			0 4px 6px -4px rgba(0, 0, 0, 0.1);
 		font-weight: 600;
 		z-index: 9999;
 		animation: slideIn 0.3s ease-out;
@@ -799,7 +833,9 @@
 		backdrop-filter: blur(12px);
 		padding: 1rem 1.5rem;
 		border-radius: 1rem;
-		box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+		box-shadow:
+			0 10px 25px -5px rgba(0, 0, 0, 0.1),
+			0 8px 10px -6px rgba(0, 0, 0, 0.1);
 		animation: slideUp 0.5s ease-out;
 		max-width: 500px;
 		width: calc(100% - 2rem);

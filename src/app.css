@@ -12,7 +12,7 @@
 	/* Base Colors */
 	--color-white: #ffffff;
 	--color-black: #000000;
-	
+
 	/* Button Colors */
 	--button-text-white: #ffffff;
 	--button-bg-dark: #1f2937; /* gray-800 */
@@ -38,7 +38,7 @@
 
 	--color-text: #334155; /* Soft Dark Gray */
 	--color-text-light: #64748b; /* Medium Gray */
-	
+
 	/* Theme Colors */
 	--color-theme-1: #6366f1; /* Indigo for links */
 
@@ -108,7 +108,9 @@ a {
 
 .btn-white-solid:hover {
 	background-color: #f3f4f6;
-	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+	box-shadow:
+		0 10px 15px -3px rgba(0, 0, 0, 0.1),
+		0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-gradient-primary {
@@ -120,11 +122,15 @@ a {
 	color: var(--button-text-white) !important;
 	text-decoration: none;
 	transition: all 0.3s ease;
-	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 .btn-gradient-primary:hover {
-	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+	box-shadow:
+		0 10px 15px -3px rgba(0, 0, 0, 0.1),
+		0 4px 6px -4px rgba(0, 0, 0, 0.1);
 	transform: translateY(-1px);
 }
 
@@ -137,11 +143,15 @@ a {
 	color: var(--button-text-white) !important;
 	text-decoration: none;
 	transition: all 0.3s ease;
-	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 .btn-gradient-red:hover {
-	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+	box-shadow:
+		0 10px 15px -3px rgba(0, 0, 0, 0.1),
+		0 4px 6px -4px rgba(0, 0, 0, 0.1);
 	transform: translateY(-1px);
 }
 
@@ -154,11 +164,15 @@ a {
 	color: var(--button-text-white) !important;
 	text-decoration: none;
 	transition: all 0.3s ease;
-	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+	box-shadow:
+		0 4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 .btn-gradient-green:hover {
-	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+	box-shadow:
+		0 10px 15px -3px rgba(0, 0, 0, 0.1),
+		0 4px 6px -4px rgba(0, 0, 0, 0.1);
 	transform: translateY(-1px);
 }
 

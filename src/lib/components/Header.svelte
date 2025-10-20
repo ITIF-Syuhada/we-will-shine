@@ -48,7 +48,7 @@
 
 	// Toggle shortcuts visibility
 	let showShortcuts = $state(false);
-	
+
 	// Scroll state for header transformation
 	let isScrolled = $state(false);
 	let scrollY = $state(0);
@@ -67,7 +67,7 @@
 	const checkAuthStatus = () => {
 		const admin = $adminStore;
 		const student = $studentCode;
-		
+
 		if (admin) {
 			isLoggedIn = true;
 			userType = 'admin';
@@ -88,10 +88,10 @@
 	onMount(() => {
 		// Check authentication status
 		checkAuthStatus();
-		
+
 		// Add scroll listener
 		window.addEventListener('scroll', handleScroll, { passive: true });
-		
+
 		// Cleanup
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
@@ -105,17 +105,23 @@
 		<!-- Left Section: Navigation -->
 		<div class="left-section">
 			<!-- Main Header Button -->
-			<a 
-				href="{base}/" 
+			<a
+				href="{base}/"
 				class="floating-header-button"
 				title="Kembali ke Home"
 				aria-label="Kembali ke halaman utama We Will Shine"
 			>
 				<!-- Back Arrow -->
-				<svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-					<path d="M19 12H5M12 19l-7-7 7-7"/>
+				<svg
+					class="back-icon"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path d="M19 12H5M12 19l-7-7 7-7" />
 				</svg>
-				
+
 				<!-- Logo & Brand -->
 				<div class="brand-section">
 					<div class="logo-container">
@@ -149,19 +155,31 @@
 			<button
 				class="toggle-shortcuts"
 				class:menu-open={showShortcuts}
-				onclick={() => showShortcuts = !showShortcuts}
-				title={showShortcuts ? "Tutup Menu" : "Buka Menu"}
-				aria-label={showShortcuts ? "Tutup menu navigasi" : "Buka menu navigasi"}
+				onclick={() => (showShortcuts = !showShortcuts)}
+				title={showShortcuts ? 'Tutup Menu' : 'Buka Menu'}
+				aria-label={showShortcuts ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
 			>
 				{#if showShortcuts}
 					<!-- X icon when menu is open -->
-					<svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M18 6L6 18M6 6l12 12"/>
+					<svg
+						class="toggle-icon"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M18 6L6 18M6 6l12 12" />
 					</svg>
 				{:else}
 					<!-- Hamburger icon when menu is closed -->
-					<svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M3 12h18M3 6h18M3 18h18"/>
+					<svg
+						class="toggle-icon"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M3 12h18M3 6h18M3 18h18" />
 					</svg>
 				{/if}
 			</button>
@@ -172,7 +190,7 @@
 			<!-- Tab Navigation Slot -->
 			{#if tabNavState.isVisible && tabNavState.showInHeader}
 				<div class="tab-nav-slot">
-					<TabNavigation 
+					<TabNavigation
 						sections={tabNavState.sections}
 						activeSection={tabNavState.activeSection}
 						queryParam={tabNavState.queryParam}
@@ -180,7 +198,7 @@
 					/>
 				</div>
 			{/if}
-			
+
 			<!-- CTA Button -->
 			{#if isLoggedIn}
 				<!-- Logged in: Dashboard/App button -->
@@ -206,11 +224,7 @@
 				</a>
 			{:else}
 				<!-- Guest: Sign up/Get started button -->
-				<a
-					href="{base}/signin"
-					class="cta-button guest"
-					title="Mulai Belajar dengan We Will Shine"
-				>
+				<a href="{base}/signin" class="cta-button guest" title="Mulai Belajar dengan We Will Shine">
 					<span class="cta-icon">🚀</span>
 					<span class="cta-text">Mulai Gratis</span>
 				</a>
@@ -231,7 +245,7 @@
 		justify-content: space-between;
 		gap: 2px;
 		animation: fadeInSlideDown 0.3s ease-out;
-		
+
 		/* Default state: Full-width glassmorphism when at top */
 		width: 100%;
 		background: rgba(255, 255, 255, 0.1);
@@ -239,14 +253,14 @@
 		padding: 1rem 2rem;
 		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	}
-	
+
 	/* Scrolled state: Rounded floating container */
 	.floating-header-container.scrolled {
 		width: auto;
 		background: transparent;
 		backdrop-filter: none;
 		border-bottom: none;
-        @apply px-3 pt-2;
+		@apply px-3 pt-2;
 		border-radius: 1rem;
 		/* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); */
 	}
@@ -274,7 +288,7 @@
 		border: 1px solid rgba(0, 0, 0, 0.1);
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		@apply text-gray-700 transition-all duration-300;
-		@apply hover:bg-white hover:shadow-lg hover:scale-105 active:scale-95;
+		@apply hover:scale-105 hover:bg-white hover:shadow-lg active:scale-95;
 		text-decoration: none;
 		min-width: 2.5rem; /* Same as toggle button */
 		height: 2.5rem; /* Same as toggle button */
@@ -333,15 +347,15 @@
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		@apply text-gray-700;
 		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-		@apply hover:bg-white hover:shadow-lg hover:scale-105 active:scale-95;
+		@apply hover:scale-105 hover:bg-white hover:shadow-lg active:scale-95;
 		cursor: pointer;
 		position: relative;
 		z-index: 10;
-		
+
 		/* Fixed dimensions to match other buttons */
 		width: 2.5rem;
 		height: 2.5rem;
-		
+
 		/* Smooth animation for appearing/disappearing */
 		animation: fadeInSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	}
@@ -363,11 +377,11 @@
 		cursor: pointer;
 		position: relative;
 		z-index: 10;
-		
+
 		/* Fixed dimensions */
 		min-width: 2.5rem;
 		height: 2.5rem;
-		
+
 		/* Smooth animation */
 		animation: fadeInSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 	}
@@ -430,7 +444,7 @@
 		border: 1px solid rgba(0, 0, 0, 0.1);
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		@apply text-gray-700;
-		@apply hover:bg-white hover:shadow-lg hover:scale-105 active:scale-95;
+		@apply hover:scale-105 hover:bg-white hover:shadow-lg active:scale-95;
 		text-decoration: none;
 		white-space: nowrap;
 		transition: all 0.3s ease;
@@ -465,7 +479,8 @@
 	}
 
 	@keyframes logoPulse {
-		0%, 100% {
+		0%,
+		100% {
 			transform: scale(1);
 		}
 		50% {
@@ -509,7 +524,7 @@
 		.floating-header-container {
 			padding: 0.75rem 1rem;
 		}
-		
+
 		.floating-header-container.scrolled {
 			margin: 0.75rem;
 		}

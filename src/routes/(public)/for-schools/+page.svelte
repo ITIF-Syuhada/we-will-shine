@@ -1,6 +1,10 @@
 <script lang="ts">
 	import TabNavigation from '$lib/components/TabNavigation.svelte';
-	import { setTabNavigation, hideTabNavigation, setHeaderVisibility } from '$lib/stores/tabNavigation';
+	import {
+		setTabNavigation,
+		hideTabNavigation,
+		setHeaderVisibility
+	} from '$lib/stores/tabNavigation';
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { page } from '$app/stores';
@@ -22,7 +26,7 @@
 	// Calculator state
 	let studentCount = $state(500);
 	let monthlyPricePerStudent = $state(5000);
-	
+
 	// Calculated values
 	const totalMonthly = $derived(studentCount * monthlyPricePerStudent);
 	const totalYearly = $derived(totalMonthly * 12);
@@ -31,7 +35,7 @@
 	onMount(() => {
 		// Set tab navigation in store
 		setTabNavigation(sections, activeSection);
-		
+
 		// Scroll detection for header visibility
 		const handleScroll = () => {
 			if (tabNavigationElement) {
@@ -43,7 +47,7 @@
 
 		window.addEventListener('scroll', handleScroll);
 		handleScroll(); // Initial check
-		
+
 		// Cleanup when component is destroyed
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
@@ -71,14 +75,15 @@
 <section class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 py-20 text-white">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="text-center">
-			<div class="mb-6 inline-block rounded-full bg-white/20 px-6 py-2 text-sm font-semibold backdrop-blur-sm">
+			<div
+				class="mb-6 inline-block rounded-full bg-white/20 px-6 py-2 text-sm font-semibold backdrop-blur-sm"
+			>
 				🏫 For Educational Institutions
 			</div>
-			<h1 class="mb-6 text-5xl font-bold sm:text-6xl">
-				Transformasi Digital untuk Sekolah Anda
-			</h1>
+			<h1 class="mb-6 text-5xl font-bold sm:text-6xl">Transformasi Digital untuk Sekolah Anda</h1>
 			<p class="mx-auto mb-8 max-w-3xl text-xl text-indigo-100">
-				Berikan akses AI learning mentor untuk setiap siswa. Monitor progress real-time. Improve outcomes dengan data-driven insights.
+				Berikan akses AI learning mentor untuk setiap siswa. Monitor progress real-time. Improve
+				outcomes dengan data-driven insights.
 			</p>
 			<div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
 				<a
@@ -87,24 +92,14 @@
 				>
 					📞 Konsultasi Gratis
 				</a>
-			<a
-				href="#case-study"
-				class="btn-white-outline"
-			>
-				Lihat Case Study
-			</a>
+				<a href="#case-study" class="btn-white-outline"> Lihat Case Study </a>
 			</div>
 		</div>
 	</div>
 </section>
 
 <!-- Tab Navigation -->
-<TabNavigation 
-	bind:this={tabNavigationElement}
-	bind:activeSection={activeSection}
-	{sections}
-	position="sticky"
-/>
+<TabNavigation bind:this={tabNavigationElement} bind:activeSection {sections} position="sticky" />
 
 <!-- Interactive Cost Calculator -->
 <section id="calculator" class="bg-gradient-to-br from-indigo-50 to-purple-50 py-16">
@@ -118,9 +113,14 @@
 			<!-- Input Controls -->
 			<div class="mb-8 space-y-6">
 				<div>
-					<label for="student-count" class="mb-2 flex items-center justify-between text-sm font-semibold text-gray-700">
+					<label
+						for="student-count"
+						class="mb-2 flex items-center justify-between text-sm font-semibold text-gray-700"
+					>
 						<span>Jumlah Siswa</span>
-						<span class="text-2xl font-bold text-indigo-600">{studentCount.toLocaleString('id-ID')}</span>
+						<span class="text-2xl font-bold text-indigo-600"
+							>{studentCount.toLocaleString('id-ID')}</span
+						>
 					</label>
 					<input
 						id="student-count"
@@ -146,7 +146,9 @@
 					<p class="text-2xl font-bold text-indigo-600">
 						Rp {totalMonthly.toLocaleString('id-ID')}
 					</p>
-					<p class="mt-1 text-xs text-gray-600">atau Rp {monthlyPricePerStudent.toLocaleString('id-ID')}/siswa</p>
+					<p class="mt-1 text-xs text-gray-600">
+						atau Rp {monthlyPricePerStudent.toLocaleString('id-ID')}/siswa
+					</p>
 				</div>
 
 				<div class="rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100 p-6 text-center">
@@ -173,9 +175,12 @@
 				<div class="flex items-start gap-3">
 					<div class="text-2xl">🎁</div>
 					<div>
-						<p class="mb-1 font-semibold text-indigo-900">Penawaran Khusus Partner Sistem Akademik</p>
+						<p class="mb-1 font-semibold text-indigo-900">
+							Penawaran Khusus Partner Sistem Akademik
+						</p>
 						<p class="text-sm text-gray-700">
-							Sekolah yang berlangganan <strong>Sistem Akademik PT Koneksi</strong> mendapatkan akses <strong>GRATIS</strong> 
+							Sekolah yang berlangganan <strong>Sistem Akademik PT Koneksi</strong> mendapatkan
+							akses <strong>GRATIS</strong>
 							ke We Will Shine untuk semua siswa. Hemat hingga <strong>100%</strong> biaya!
 						</p>
 					</div>
@@ -295,7 +300,9 @@
 			<div class="rounded-2xl bg-white p-6 shadow-lg">
 				<div class="mb-4 flex items-center justify-between">
 					<span class="text-3xl">📊</span>
-					<span class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-600">Real-time</span>
+					<span class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-600"
+						>Real-time</span
+					>
 				</div>
 				<div class="mb-2 text-3xl font-bold text-indigo-600">1,247</div>
 				<p class="text-sm text-gray-600">Active Students</p>
@@ -304,7 +311,9 @@
 			<div class="rounded-2xl bg-white p-6 shadow-lg">
 				<div class="mb-4 flex items-center justify-between">
 					<span class="text-3xl">💬</span>
-					<span class="rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-600">Today</span>
+					<span class="rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-600"
+						>Today</span
+					>
 				</div>
 				<div class="mb-2 text-3xl font-bold text-purple-600">3,842</div>
 				<p class="text-sm text-gray-600">AI Conversations</p>
@@ -313,7 +322,9 @@
 			<div class="rounded-2xl bg-white p-6 shadow-lg">
 				<div class="mb-4 flex items-center justify-between">
 					<span class="text-3xl">🧠</span>
-					<span class="rounded-full bg-pink-100 px-3 py-1 text-xs font-semibold text-pink-600">Alerts</span>
+					<span class="rounded-full bg-pink-100 px-3 py-1 text-xs font-semibold text-pink-600"
+						>Alerts</span
+					>
 				</div>
 				<div class="mb-2 text-3xl font-bold text-pink-600">3</div>
 				<p class="text-sm text-gray-600">Mental Health Alerts</p>
@@ -322,7 +333,9 @@
 			<div class="rounded-2xl bg-white p-6 shadow-lg">
 				<div class="mb-4 flex items-center justify-between">
 					<span class="text-3xl">📈</span>
-					<span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600">Trend</span>
+					<span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-600"
+						>Trend</span
+					>
 				</div>
 				<div class="mb-2 text-3xl font-bold text-green-600">+23%</div>
 				<p class="text-sm text-gray-600">Avg Score Improvement</p>
@@ -385,7 +398,9 @@
 
 		<div class="rounded-3xl bg-gradient-to-br from-white to-indigo-50 p-8 shadow-2xl md:p-12">
 			<div class="mb-8 flex items-start gap-6">
-				<div class="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-3xl text-white">
+				<div
+					class="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-3xl text-white"
+				>
 					🏫
 				</div>
 				<div>
@@ -419,10 +434,14 @@
 
 			<div class="mt-8 rounded-2xl border-2 border-indigo-200 bg-white p-6">
 				<p class="mb-4 text-gray-700 italic">
-					"We Will Shine mengubah cara siswa kami belajar. Mereka lebih engaged, proactive, dan yang paling penting - lebih bahagia. Dashboard admin membantu kami identify dan support siswa yang butuh extra help sebelum terlambat."
+					"We Will Shine mengubah cara siswa kami belajar. Mereka lebih engaged, proactive, dan yang
+					paling penting - lebih bahagia. Dashboard admin membantu kami identify dan support siswa
+					yang butuh extra help sebelum terlambat."
 				</p>
 				<div class="flex items-center gap-4">
-					<div class="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-xl text-indigo-600">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-xl text-indigo-600"
+					>
 						BP
 					</div>
 					<div>
@@ -448,50 +467,58 @@
 		<div class="grid gap-8 md:grid-cols-4">
 			<!-- Step 1 -->
 			<div class="text-center">
-				<div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-2xl font-bold text-white shadow-lg">
+				<div
+					class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-2xl font-bold text-white shadow-lg"
+				>
 					1
 				</div>
 				<h3 class="mb-2 text-lg font-bold text-gray-900">Konsultasi</h3>
 				<p class="text-sm text-gray-600">
 					Free consultation untuk understand needs & objectives sekolah
 				</p>
-				<p class="mt-2 text-xs text-indigo-600 font-semibold">1-2 hari</p>
+				<p class="mt-2 text-xs font-semibold text-indigo-600">1-2 hari</p>
 			</div>
 
 			<!-- Step 2 -->
 			<div class="text-center">
-				<div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-600 text-2xl font-bold text-white shadow-lg">
+				<div
+					class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-600 text-2xl font-bold text-white shadow-lg"
+				>
 					2
 				</div>
 				<h3 class="mb-2 text-lg font-bold text-gray-900">Setup & Integration</h3>
 				<p class="text-sm text-gray-600">
 					Konfigurasi sistem, import student data, integration dengan Sistem Akademik
 				</p>
-				<p class="mt-2 text-xs text-purple-600 font-semibold">3-5 hari</p>
+				<p class="mt-2 text-xs font-semibold text-purple-600">3-5 hari</p>
 			</div>
 
 			<!-- Step 3 -->
 			<div class="text-center">
-				<div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-600 text-2xl font-bold text-white shadow-lg">
+				<div
+					class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-orange-600 text-2xl font-bold text-white shadow-lg"
+				>
 					3
 				</div>
 				<h3 class="mb-2 text-lg font-bold text-gray-900">Training</h3>
 				<p class="text-sm text-gray-600">
 					Training untuk admin, guru, dan BK. Materials & video tutorials disediakan
 				</p>
-				<p class="mt-2 text-xs text-pink-600 font-semibold">1-2 hari</p>
+				<p class="mt-2 text-xs font-semibold text-pink-600">1-2 hari</p>
 			</div>
 
 			<!-- Step 4 -->
 			<div class="text-center">
-				<div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-yellow-600 text-2xl font-bold text-white shadow-lg">
+				<div
+					class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-yellow-600 text-2xl font-bold text-white shadow-lg"
+				>
 					4
 				</div>
 				<h3 class="mb-2 text-lg font-bold text-gray-900">Launch & Support</h3>
 				<p class="text-sm text-gray-600">
 					Soft launch untuk siswa, monitoring intensif minggu pertama, ongoing support
 				</p>
-				<p class="mt-2 text-xs text-orange-600 font-semibold">1 minggu</p>
+				<p class="mt-2 text-xs font-semibold text-orange-600">1 minggu</p>
 			</div>
 		</div>
 
@@ -499,12 +526,12 @@
 			<p class="mb-6 text-gray-700">
 				<strong>Total timeline: 2-4 minggu</strong> dari konsultasi hingga full operational
 			</p>
-				<a
-					href="mailto:sales@konxc.space?subject=Implementasi We Will Shine - Request Timeline"
-					class="btn-gradient-primary"
-				>
-					Request Implementation Plan
-				</a>
+			<a
+				href="mailto:sales@konxc.space?subject=Implementasi We Will Shine - Request Timeline"
+				class="btn-gradient-primary"
+			>
+				Request Implementation Plan
+			</a>
 		</div>
 	</div>
 </section>
@@ -521,8 +548,12 @@
 
 		<div class="grid gap-8 lg:grid-cols-2">
 			<!-- Bundling Option -->
-			<div class="rounded-3xl border-2 border-indigo-500 bg-gradient-to-br from-indigo-50 to-purple-50 p-8 shadow-xl">
-				<div class="mb-6 inline-block rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-4 py-1 text-sm font-semibold text-white">
+			<div
+				class="rounded-3xl border-2 border-indigo-500 bg-gradient-to-br from-indigo-50 to-purple-50 p-8 shadow-xl"
+			>
+				<div
+					class="mb-6 inline-block rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-4 py-1 text-sm font-semibold text-white"
+				>
 					💡 Best Value
 				</div>
 				<h3 class="mb-4 text-3xl font-bold text-gray-900">Sistem Akademik + We Will Shine</h3>
@@ -530,11 +561,14 @@
 					<div class="flex items-baseline gap-2">
 						<span class="text-5xl font-bold text-indigo-600">GRATIS</span>
 					</div>
-					<p class="mt-2 text-sm text-gray-600">We Will Shine included dalam paket Sistem Akademik</p>
+					<p class="mt-2 text-sm text-gray-600">
+						We Will Shine included dalam paket Sistem Akademik
+					</p>
 				</div>
 
 				<p class="mb-6 text-gray-700">
-					Investasi tunggal untuk transformasi digital menyeluruh: manajemen akademik + AI learning platform.
+					Investasi tunggal untuk transformasi digital menyeluruh: manajemen akademik + AI learning
+					platform.
 				</p>
 
 				<ul class="mb-8 space-y-2 text-sm text-gray-700">
@@ -564,21 +598,31 @@
 				</div>
 
 				<p class="mb-6 text-gray-700">
-					Untuk sekolah yang sudah punya sistem manajemen sendiri dan hanya ingin AI learning platform.
+					Untuk sekolah yang sudah punya sistem manajemen sendiri dan hanya ingin AI learning
+					platform.
 				</p>
 
 				<div class="mb-8 space-y-4">
 					<div class="rounded-xl bg-purple-50 p-4">
 						<div class="mb-1 font-semibold text-gray-900">Small School (100-500 siswa)</div>
-						<p class="text-sm text-gray-600">Starting from <strong class="text-purple-600">Rp 2.5 juta/bulan</strong></p>
+						<p class="text-sm text-gray-600">
+							Starting from <strong class="text-purple-600">Rp 2.5 juta/bulan</strong>
+						</p>
 					</div>
 					<div class="rounded-xl bg-purple-50 p-4">
 						<div class="mb-1 font-semibold text-gray-900">Medium School (500-1,500 siswa)</div>
-						<p class="text-sm text-gray-600">Starting from <strong class="text-purple-600">Rp 5 juta/bulan</strong></p>
+						<p class="text-sm text-gray-600">
+							Starting from <strong class="text-purple-600">Rp 5 juta/bulan</strong>
+						</p>
 					</div>
 					<div class="rounded-xl bg-purple-50 p-4">
 						<div class="mb-1 font-semibold text-gray-900">Large School (1,500+ siswa)</div>
-						<p class="text-sm text-gray-600">Custom pricing - <a href="mailto:sales@konxc.space" class="font-semibold text-purple-600 hover:underline">hubungi sales</a></p>
+						<p class="text-sm text-gray-600">
+							Custom pricing - <a
+								href="mailto:sales@konxc.space"
+								class="font-semibold text-purple-600 hover:underline">hubungi sales</a
+							>
+						</p>
 					</div>
 				</div>
 
@@ -593,7 +637,9 @@
 
 		<div class="mt-12 rounded-2xl border-2 border-green-200 bg-green-50 p-8 text-center">
 			<p class="text-lg text-gray-700">
-				<strong>🎁 Special Offer:</strong> Sekolah yang mendaftar sebelum <strong>31 Desember 2025</strong> mendapatkan <strong>3 bulan pertama gratis</strong> untuk trial & evaluation.
+				<strong>🎁 Special Offer:</strong> Sekolah yang mendaftar sebelum
+				<strong>31 Desember 2025</strong>
+				mendapatkan <strong>3 bulan pertama gratis</strong> untuk trial & evaluation.
 			</p>
 		</div>
 	</div>
@@ -608,52 +654,74 @@
 
 		<div class="space-y-6">
 			<details class="group rounded-2xl bg-white p-6 shadow-lg transition-all hover:shadow-xl">
-				<summary class="flex cursor-pointer items-center justify-between font-semibold text-gray-900">
+				<summary
+					class="flex cursor-pointer items-center justify-between font-semibold text-gray-900"
+				>
 					<span class="text-lg">Berapa minimum jumlah siswa untuk implementasi?</span>
 					<span class="text-2xl transition-transform group-open:rotate-180">▼</span>
 				</summary>
 				<p class="mt-4 text-gray-700">
-					Tidak ada minimum! Kami melayani dari sekolah kecil (50 siswa) hingga school networks dengan 10,000+ siswa. Pricing disesuaikan dengan scale untuk fairness.
+					Tidak ada minimum! Kami melayani dari sekolah kecil (50 siswa) hingga school networks
+					dengan 10,000+ siswa. Pricing disesuaikan dengan scale untuk fairness.
 				</p>
 			</details>
 
 			<details class="group rounded-2xl bg-white p-6 shadow-lg transition-all hover:shadow-xl">
-				<summary class="flex cursor-pointer items-center justify-between font-semibold text-gray-900">
+				<summary
+					class="flex cursor-pointer items-center justify-between font-semibold text-gray-900"
+				>
 					<span class="text-lg">Apakah data siswa aman?</span>
 					<span class="text-2xl transition-transform group-open:rotate-180">▼</span>
 				</summary>
 				<p class="mt-4 text-gray-700">
-					Sangat aman. Data tersimpan di server Indonesia dengan enkripsi end-to-end. Kami comply dengan regulasi perlindungan data. Sebagai open source, security audit bisa dilakukan kapan saja. <strong>Sekolah owns the data</strong> - bukan kami. Export data kapan saja jika ingin migrate.
+					Sangat aman. Data tersimpan di server Indonesia dengan enkripsi end-to-end. Kami comply
+					dengan regulasi perlindungan data. Sebagai open source, security audit bisa dilakukan
+					kapan saja. <strong>Sekolah owns the data</strong> - bukan kami. Export data kapan saja jika
+					ingin migrate.
 				</p>
 			</details>
 
 			<details class="group rounded-2xl bg-white p-6 shadow-lg transition-all hover:shadow-xl">
-				<summary class="flex cursor-pointer items-center justify-between font-semibold text-gray-900">
+				<summary
+					class="flex cursor-pointer items-center justify-between font-semibold text-gray-900"
+				>
 					<span class="text-lg">Bagaimana dengan training untuk guru?</span>
 					<span class="text-2xl transition-transform group-open:rotate-180">▼</span>
 				</summary>
 				<p class="mt-4 text-gray-700">
-					Termasuk dalam paket! Kami provide: (1) On-site training session untuk admin & guru, (2) Video tutorial library, (3) User manual bahasa Indonesia, (4) Ongoing webinar untuk advanced features. Training dirancang agar guru yang tidak tech-savvy pun bisa dengan mudah menggunakan platform.
+					Termasuk dalam paket! Kami provide: (1) On-site training session untuk admin & guru, (2)
+					Video tutorial library, (3) User manual bahasa Indonesia, (4) Ongoing webinar untuk
+					advanced features. Training dirancang agar guru yang tidak tech-savvy pun bisa dengan
+					mudah menggunakan platform.
 				</p>
 			</details>
 
 			<details class="group rounded-2xl bg-white p-6 shadow-lg transition-all hover:shadow-xl">
-				<summary class="flex cursor-pointer items-center justify-between font-semibold text-gray-900">
+				<summary
+					class="flex cursor-pointer items-center justify-between font-semibold text-gray-900"
+				>
 					<span class="text-lg">Apakah bisa integrasi dengan sistem yang sudah ada?</span>
 					<span class="text-2xl transition-transform group-open:rotate-180">▼</span>
 				</summary>
 				<p class="mt-4 text-gray-700">
-					Ya! We Will Shine memiliki API untuk integrasi dengan sistem existing. Jika sekolah menggunakan <strong>Sistem Akademik</strong> kami, integrasi otomatis (SSO, auto-enrollment, data sync). Untuk sistem lain, kami provide API documentation dan technical support untuk integration.
+					Ya! We Will Shine memiliki API untuk integrasi dengan sistem existing. Jika sekolah
+					menggunakan <strong>Sistem Akademik</strong> kami, integrasi otomatis (SSO, auto-enrollment,
+					data sync). Untuk sistem lain, kami provide API documentation dan technical support untuk integration.
 				</p>
 			</details>
 
 			<details class="group rounded-2xl bg-white p-6 shadow-lg transition-all hover:shadow-xl">
-				<summary class="flex cursor-pointer items-center justify-between font-semibold text-gray-900">
+				<summary
+					class="flex cursor-pointer items-center justify-between font-semibold text-gray-900"
+				>
 					<span class="text-lg">Apa yang terjadi jika kami ingin berhenti berlangganan?</span>
 					<span class="text-2xl transition-transform group-open:rotate-180">▼</span>
 				</summary>
 				<p class="mt-4 text-gray-700">
-					No lock-in contract! Sekolah bisa cancel kapan saja dengan notice 30 hari. Kami akan provide full data export dalam format standar (CSV, JSON). No hidden fees atau penalty. Kami percaya pada value kami - kalau platform tidak memberikan value, sekolah should be free to go.
+					No lock-in contract! Sekolah bisa cancel kapan saja dengan notice 30 hari. Kami akan
+					provide full data export dalam format standar (CSV, JSON). No hidden fees atau penalty.
+					Kami percaya pada value kami - kalau platform tidak memberikan value, sekolah should be
+					free to go.
 				</p>
 			</details>
 		</div>
@@ -675,12 +743,7 @@
 			>
 				📞 Jadwalkan Konsultasi
 			</a>
-			<a
-				href="{base}/pricing"
-				class="btn-white-outline"
-			>
-				Lihat Pricing Detail
-			</a>
+			<a href="{base}/pricing" class="btn-white-outline"> Lihat Pricing Detail </a>
 		</div>
 
 		<p class="mt-8 text-sm text-indigo-200">
@@ -692,4 +755,3 @@
 <style lang="postcss">
 	@reference "tailwindcss";
 </style>
-

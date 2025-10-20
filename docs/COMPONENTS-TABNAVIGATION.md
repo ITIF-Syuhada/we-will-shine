@@ -16,76 +16,72 @@ Komponen reusable untuk navigasi tab yang dapat digunakan di berbagai halaman de
 
 ```typescript
 interface TabSection {
-  id: string;
-  label: string;
-  icon: string;
+	id: string;
+	label: string;
+	icon: string;
 }
 
 interface Props {
-  sections: TabSection[];           // Array of tab sections
-  activeSection?: string;          // Currently active section (bindable)
-  queryParam?: string;             // URL query parameter name (default: 'tab')
-  position?: 'sticky' | 'static'; // Position behavior (default: 'sticky')
-  topOffset?: string;              // Top offset for sticky (default: 'top-14')
-  backgroundColor?: string;        // Background color class (default: gradient)
-  className?: string;              // Additional CSS classes
+	sections: TabSection[]; // Array of tab sections
+	activeSection?: string; // Currently active section (bindable)
+	queryParam?: string; // URL query parameter name (default: 'tab')
+	position?: 'sticky' | 'static'; // Position behavior (default: 'sticky')
+	topOffset?: string; // Top offset for sticky (default: 'top-14')
+	backgroundColor?: string; // Background color class (default: gradient)
+	className?: string; // Additional CSS classes
 }
 ```
 
 ## 🚀 **Usage Examples:**
 
 ### **Basic Usage (About Page):**
+
 ```svelte
 <script>
-  import TabNavigation from '$lib/components/TabNavigation.svelte';
-  
-  const sections = [
-    { id: 'cerita', label: 'Cerita Kami', icon: '📖' },
-    { id: 'filosofi', label: 'Filosofi & Misi', icon: '💎' },
-    { id: 'tim', label: 'Tim', icon: '👥' }
-  ];
-  
-  let activeSection = $state('cerita');
+	import TabNavigation from '$lib/components/TabNavigation.svelte';
+
+	const sections = [
+		{ id: 'cerita', label: 'Cerita Kami', icon: '📖' },
+		{ id: 'filosofi', label: 'Filosofi & Misi', icon: '💎' },
+		{ id: 'tim', label: 'Tim', icon: '👥' }
+	];
+
+	let activeSection = $state('cerita');
 </script>
 
-<TabNavigation 
-  bind:activeSection={activeSection}
-  {sections}
-  position="sticky"
-  topOffset="top-14"
-/>
+<TabNavigation bind:activeSection {sections} position="sticky" topOffset="top-14" />
 ```
 
 ### **Floating Right Navigation (Recommended for Reading):**
+
 ```svelte
-<TabNavigation 
-  bind:activeSection={activeSection}
-  {sections}
-  position="floating-right"
-/>
+<TabNavigation bind:activeSection {sections} position="floating-right" />
 ```
 
 **Benefits:**
+
 - ✅ **Layar Lebih Luas** - Konten tidak terpotong
 - ✅ **Always Visible** - Terlihat saat scroll
 - ✅ **Modern UX** - Clean & professional
 - ✅ **Auto-Responsive** - Vertikal di desktop, horizontal di mobile
 
 ### **Custom Configuration:**
+
 ```svelte
-<TabNavigation 
-  bind:activeSection={activeSection}
-  {sections}
-  queryParam="section"
-  position="static"
-  backgroundColor="bg-gradient-to-r from-blue-50 to-green-50"
-  className="my-custom-class"
+<TabNavigation
+	bind:activeSection
+	{sections}
+	queryParam="section"
+	position="static"
+	backgroundColor="bg-gradient-to-r from-blue-50 to-green-50"
+	className="my-custom-class"
 />
 ```
 
 ### **Real Implementation Examples:**
 
 #### **1. About Page (src/routes/(public)/about/+page.svelte):**
+
 ```svelte
 const sections = [
   { id: 'cerita', label: 'Cerita Kami', icon: '📖' },
@@ -98,6 +94,7 @@ const sections = [
 ```
 
 #### **2. Features Page (src/routes/(public)/features/+page.svelte):**
+
 ```svelte
 const sections = [
   { id: 'ai-mentor', label: 'AI Mentor', icon: '🤖' },
@@ -109,6 +106,7 @@ const sections = [
 ```
 
 #### **3. Pricing Page (src/routes/(public)/pricing/+page.svelte):**
+
 ```svelte
 const sections = [
   { id: 'pricing', label: 'Paket & Harga', icon: '💰' },
@@ -120,6 +118,7 @@ const sections = [
 ```
 
 #### **4. Roadmap Page (src/routes/(public)/roadmap/+page.svelte):**
+
 ```svelte
 const sections = [
   { id: 'overview', label: 'Overview', icon: '🎯' },
@@ -134,47 +133,44 @@ const sections = [
 ## 🎨 **Styling Options:**
 
 ### **Position Types:**
+
 - **`sticky`** - Sticky horizontal bar di atas konten
 - **`static`** - Normal document flow (tidak sticky)
 - **`floating-right`** ⭐ NEW - Floating vertical navigation di kanan (Desktop only, horizontal di mobile)
 
 ### **Top Offset Options:**
+
 - **`top-14`** - 56px (default)
 - **`top-16`** - 64px
 - **`top-20`** - 80px
 - **`top-24`** - 96px
 
 ### **Background Colors:**
+
 ```svelte
-// Default gradient
-backgroundColor="bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50"
-
-// Custom gradients
-backgroundColor="bg-gradient-to-r from-blue-50 to-green-50"
-backgroundColor="bg-gradient-to-r from-red-50 to-yellow-50"
-
-// Solid colors
-backgroundColor="bg-gray-50"
-backgroundColor="bg-white"
+// Default gradient backgroundColor="bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50" //
+Custom gradients backgroundColor="bg-gradient-to-r from-blue-50 to-green-50"
+backgroundColor="bg-gradient-to-r from-red-50 to-yellow-50" // Solid colors
+backgroundColor="bg-gray-50" backgroundColor="bg-white"
 ```
 
 ## 🔗 **URL Query Support:**
 
 ### **Default Behavior:**
+
 ```
 /page?tab=section-id
 ```
 
 ### **Custom Query Parameter:**
+
 ```svelte
-<TabNavigation 
-  queryParam="section"
-  {sections}
-/>
+<TabNavigation queryParam="section" {sections} />
 // Results in: /page?section=section-id
 ```
 
 ### **Shareable Links:**
+
 - ✅ **Bookmarkable** - User bisa bookmark tab tertentu
 - ✅ **Shareable** - Link bisa dibagikan dengan tab aktif
 - ✅ **Browser Navigation** - Back/forward buttons work
@@ -185,11 +181,13 @@ backgroundColor="bg-white"
 ### **Sticky Position:**
 
 **Desktop:**
+
 - Centered layout dengan flex-wrap
 - Full labels visible
 - Hover effects dengan lift animation
 
 **Mobile:**
+
 - Horizontal scroll (swipe-able)
 - Hidden scrollbar
 - Smaller text & padding
@@ -198,6 +196,7 @@ backgroundColor="bg-white"
 ### **Floating-Right Position:**
 
 **Desktop (≥1024px):**
+
 - Fixed position di kanan layar
 - Vertical layout (icon + label stacked)
 - Centered vertically (50% dari viewport)
@@ -205,6 +204,7 @@ backgroundColor="bg-white"
 - Backdrop blur untuk glass effect
 
 **Tablet/Mobile (<1024px):**
+
 - Automatically switches ke horizontal bar di atas
 - Fixed position di top
 - Horizontal scroll (swipe-able)
@@ -213,12 +213,14 @@ backgroundColor="bg-white"
 ## 🎭 **Animation Features:**
 
 ### **Tab Buttons:**
+
 - **Hover:** Lift effect dengan shadow
 - **Active:** Scale effect dengan gradient background
 - **Icons:** Scale animation on hover/active
 - **Transitions:** Smooth 300ms duration
 
 ### **Visual States:**
+
 ```css
 /* Inactive */
 background: rgba(255, 255, 255, 0.6);
@@ -236,6 +238,7 @@ transform: translateY(-2px) scale(1.05);
 ## 🌙 **Dark Mode Support:**
 
 Automatic dark mode adaptation dengan:
+
 - Darker backgrounds
 - Adjusted border colors
 - Proper contrast ratios
@@ -244,6 +247,7 @@ Automatic dark mode adaptation dengan:
 ## 🔧 **Technical Implementation:**
 
 ### **State Management:**
+
 ```svelte
 // Bindable active section
 let activeSection = $state('default');
@@ -257,6 +261,7 @@ function switchToSection(sectionId: string) {
 ```
 
 ### **URL Query Handling:**
+
 ```svelte
 onMount(() => {
   const urlTab = $page.url.searchParams.get(queryParam);
@@ -289,6 +294,7 @@ docs/
 ## 🎯 **Best Practices:**
 
 ### **Section Configuration:**
+
 ```typescript
 // Good: Clear, descriptive IDs
 { id: 'ai-assistant', label: 'AI Assistant', icon: '🤖' }
@@ -298,11 +304,13 @@ docs/
 ```
 
 ### **Icon Selection:**
+
 - Use emoji untuk consistency
 - Choose icons yang representatif
 - Keep icons simple dan recognizable
 
 ### **Label Writing:**
+
 - Keep labels concise (2-3 words max)
 - Use title case
 - Be descriptive tapi tidak terlalu panjang
@@ -310,20 +318,23 @@ docs/
 ## 📊 **Implementation Statistics:**
 
 ### **Current Deployments:**
+
 - ✅ **4 Pages** - Successfully implemented
 - ✅ **22 Total Tabs** - Across all pages
 - ✅ **100% Consistent** - Same component everywhere
 - ✅ **Zero Duplication** - Single source of truth
 
 ### **Page Breakdown:**
-| Page | Tabs | Sections | URL Pattern |
-|------|------|----------|-------------|
-| About | 6 | Cerita, Filosofi, Siapa, Tim, Progress, Open Source | `/about?tab=cerita` |
-| Features | 5 | AI Mentor, Mental Health, Productivity, Analytics, Integration | `/features?tab=ai-mentor` |
-| Pricing | 5 | Pricing, Transparansi, Perbandingan, Integrasi, FAQ | `/pricing?tab=pricing` |
-| Roadmap | 6 | Overview, Timeline, Visi 2045, Detail, Faktor Sukses, Investasi | `/roadmap?tab=overview` |
+
+| Page     | Tabs | Sections                                                        | URL Pattern               |
+| -------- | ---- | --------------------------------------------------------------- | ------------------------- |
+| About    | 6    | Cerita, Filosofi, Siapa, Tim, Progress, Open Source             | `/about?tab=cerita`       |
+| Features | 5    | AI Mentor, Mental Health, Productivity, Analytics, Integration  | `/features?tab=ai-mentor` |
+| Pricing  | 5    | Pricing, Transparansi, Perbandingan, Integrasi, FAQ             | `/pricing?tab=pricing`    |
+| Roadmap  | 6    | Overview, Timeline, Visi 2045, Detail, Faktor Sukses, Investasi | `/roadmap?tab=overview`   |
 
 ### **Benefits Achieved:**
+
 - ✅ **Reduced Code** - 70% less duplication
 - ✅ **Improved UX** - Focused content per tab
 - ✅ **Better Performance** - Conditional rendering
@@ -334,6 +345,7 @@ docs/
 ## 🚀 **Future Enhancements:**
 
 ### **Potential Features:**
+
 - **Badge Support** - Notification badges pada tabs
 - **Loading States** - Loading indicators
 - **Keyboard Navigation** - Arrow key support
@@ -341,6 +353,7 @@ docs/
 - **Nested Tabs** - Sub-navigation support
 
 ### **Integration Ideas:**
+
 - **Breadcrumb Integration** - Sync dengan breadcrumb
 - **Search Integration** - Highlight search results
 - **Analytics Integration** - Track tab usage

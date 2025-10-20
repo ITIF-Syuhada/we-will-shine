@@ -2,7 +2,11 @@
 	import TabNavigation from '$lib/components/TabNavigation.svelte';
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
-	import { setTabNavigation, hideTabNavigation, setHeaderVisibility } from '$lib/stores/tabNavigation';
+	import {
+		setTabNavigation,
+		hideTabNavigation,
+		setHeaderVisibility
+	} from '$lib/stores/tabNavigation';
 
 	// Section navigation configuration
 	const sections = [
@@ -20,7 +24,7 @@
 	onMount(() => {
 		// Set tab navigation in store
 		setTabNavigation(sections, activeSection);
-		
+
 		// Scroll detection for header visibility
 		const handleScroll = () => {
 			if (tabNavigationElement) {
@@ -32,7 +36,7 @@
 
 		window.addEventListener('scroll', handleScroll);
 		handleScroll(); // Initial check
-		
+
 		// Cleanup when component is destroyed
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
@@ -61,23 +65,21 @@
 	<div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
 		<div class="text-center">
 			<div class="mb-6 text-6xl">🌟</div>
-			<h1 class="mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-5xl font-bold text-transparent sm:text-6xl">
+			<h1
+				class="mb-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-5xl font-bold text-transparent sm:text-6xl"
+			>
 				Tentang We Will Shine
 			</h1>
 			<p class="mx-auto mb-4 max-w-3xl text-xl text-gray-700">
-				Perjalanan kami membangun platform AI learning yang demokratis, transparan, dan berdaulat untuk Indonesia
+				Perjalanan kami membangun platform AI learning yang demokratis, transparan, dan berdaulat
+				untuk Indonesia
 			</p>
 		</div>
 	</div>
 </section>
 
 <!-- Tab Navigation - Below Hero -->
-<TabNavigation 
-	bind:this={tabNavigationElement}
-	bind:activeSection={activeSection}
-	{sections}
-	position="sticky"
-/>
+<TabNavigation bind:this={tabNavigationElement} bind:activeSection {sections} position="sticky" />
 
 <!-- Our Story - More Personal & Engaging -->
 <section id="cerita" class="py-20">
@@ -93,33 +95,47 @@
 				<div class="mb-6 text-5xl">💭</div>
 				<h3 class="mb-4 text-2xl font-bold text-gray-900">Berawal dari Kegelisahan</h3>
 				<p class="mb-4 text-lg leading-relaxed text-gray-700">
-					ChatGPT, Claude, Gemini — AI tools ini sangat powerful untuk pembelajaran. Kami sendiri menggunakannya setiap hari untuk coding, riset, bahkan diskusi filosofis.
+					ChatGPT, Claude, Gemini — AI tools ini sangat powerful untuk pembelajaran. Kami sendiri
+					menggunakannya setiap hari untuk coding, riset, bahkan diskusi filosofis.
 				</p>
 				<p class="mb-6 text-lg leading-relaxed text-gray-700">
-					Namun ada yang mengganjal: <strong>subscription $20/bulan</strong> terlalu mahal untuk mayoritas pelajar Indonesia. Belum lagi data pembelajaran tersimpan di server luar negeri, dan AI seringkali langsung memberikan jawaban tanpa mendorong pemikiran kritis.
+					Namun ada yang mengganjal: <strong>subscription $20/bulan</strong> terlalu mahal untuk mayoritas
+					pelajar Indonesia. Belum lagi data pembelajaran tersimpan di server luar negeri, dan AI seringkali
+					langsung memberikan jawaban tanpa mendorong pemikiran kritis.
 				</p>
 				<div class="relative mt-6 pl-6">
-					<div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-indigo-400 to-purple-400 rounded-full"></div>
+					<div
+						class="absolute top-0 bottom-0 left-0 w-1 rounded-full bg-gradient-to-b from-indigo-400 to-purple-400"
+					></div>
 					<p class="text-lg leading-relaxed text-gray-800 italic">
-						Jika seperti ini terus, yang mampu akan semakin maju, sementara yang kurang mampu semakin tertinggal. <span class="font-bold text-indigo-700">Ini bukan Indonesia yang kami inginkan.</span>
+						Jika seperti ini terus, yang mampu akan semakin maju, sementara yang kurang mampu
+						semakin tertinggal. <span class="font-bold text-indigo-700"
+							>Ini bukan Indonesia yang kami inginkan.</span
+						>
 					</p>
 				</div>
 			</div>
 
 			<!-- The Idea -->
-			<div class="grid md:grid-cols-2 gap-8">
-				<div class="rounded-2xl bg-white p-8 shadow-lg border-2 border-purple-200">
+			<div class="grid gap-8 md:grid-cols-2">
+				<div class="rounded-2xl border-2 border-purple-200 bg-white p-8 shadow-lg">
 					<div class="mb-4 text-4xl">💡</div>
 					<h3 class="mb-3 text-xl font-bold text-gray-900">Kemudian Muncul Sebuah Ide</h3>
-					<p class="text-gray-700 leading-relaxed">
-						Bagaimana jika kami membuat platform AI learning yang <strong>gratis</strong>, <strong>open source</strong>, dan menggunakan <strong>API key pribadi</strong>?
+					<p class="leading-relaxed text-gray-700">
+						Bagaimana jika kami membuat platform AI learning yang <strong>gratis</strong>,
+						<strong>open source</strong>, dan menggunakan <strong>API key pribadi</strong>?
 					</p>
-					<p class="mt-3 text-gray-700 leading-relaxed">
-						User membawa API key mereka sendiri (Gemini, OpenAI, atau provider lain), kami menyediakan interface dan AI yang tidak sekadar memberikan jawaban, melainkan <em>membimbing proses berpikir</em>.
+					<p class="mt-3 leading-relaxed text-gray-700">
+						User membawa API key mereka sendiri (Gemini, OpenAI, atau provider lain), kami
+						menyediakan interface dan AI yang tidak sekadar memberikan jawaban, melainkan <em
+							>membimbing proses berpikir</em
+						>.
 					</p>
 				</div>
 
-				<div class="rounded-2xl bg-gradient-to-br from-purple-600 to-pink-600 p-8 text-white shadow-lg">
+				<div
+					class="rounded-2xl bg-gradient-to-br from-purple-600 to-pink-600 p-8 text-white shadow-lg"
+				>
 					<div class="mb-4 text-4xl">🎯</div>
 					<h3 class="mb-3 text-xl font-bold">Mengapa Ini Feasible?</h3>
 					<ul class="space-y-3 text-sm">
@@ -144,32 +160,41 @@
 			</div>
 
 			<!-- The Launch -->
-			<div class="rounded-3xl bg-gradient-to-br from-green-50 to-emerald-50 p-8 md:p-12 relative overflow-hidden">
+			<div
+				class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-50 to-emerald-50 p-8 md:p-12"
+			>
 				<!-- Playful dots accent in corner -->
-				<div class="absolute -top-4 -right-4 w-24 h-24 opacity-20">
-					<div class="absolute top-0 right-0 w-16 h-16 rounded-full bg-gradient-to-br from-green-400 to-emerald-400"></div>
-					<div class="absolute top-8 right-8 w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-400"></div>
-					<div class="absolute top-12 right-4 w-4 h-4 rounded-full bg-teal-300"></div>
+				<div class="absolute -top-4 -right-4 h-24 w-24 opacity-20">
+					<div
+						class="absolute top-0 right-0 h-16 w-16 rounded-full bg-gradient-to-br from-green-400 to-emerald-400"
+					></div>
+					<div
+						class="absolute top-8 right-8 h-8 w-8 rounded-full bg-gradient-to-br from-emerald-400 to-teal-400"
+					></div>
+					<div class="absolute top-12 right-4 h-4 w-4 rounded-full bg-teal-300"></div>
 				</div>
-				
+
 				<div class="mb-6 text-5xl">🚀</div>
 				<h3 class="mb-4 text-2xl font-bold text-gray-900">Oktober 2025: We Will Shine Lahir</h3>
 				<p class="mb-4 text-lg leading-relaxed text-gray-700">
-					Alhamdulillah, kami memiliki modal awal: <strong>15+ sekolah</strong> yang sudah menggunakan Sistem Akademik kami. Mereka mempercayai visi ini, dan siap menjadi early adopters.
+					Alhamdulillah, kami memiliki modal awal: <strong>15+ sekolah</strong> yang sudah menggunakan
+					Sistem Akademik kami. Mereka mempercayai visi ini, dan siap menjadi early adopters.
 				</p>
 				<p class="mb-6 text-lg leading-relaxed text-gray-700">
-					Ini bukan sekadar peluncuran produk. Ini adalah <strong>awal dari sebuah gerakan</strong> — gerakan untuk mendemokratisasi akses AI education di Indonesia, dengan pendekatan yang sustainable, transparan, dan berpihak pada seluruh rakyat Indonesia.
+					Ini bukan sekadar peluncuran produk. Ini adalah <strong>awal dari sebuah gerakan</strong> —
+					gerakan untuk mendemokratisasi akses AI education di Indonesia, dengan pendekatan yang sustainable,
+					transparan, dan berpihak pada seluruh rakyat Indonesia.
 				</p>
-				<div class="grid md:grid-cols-3 gap-4 text-center">
-					<div class="rounded-2xl bg-white/60 backdrop-blur-sm p-4 border border-green-200">
+				<div class="grid gap-4 text-center md:grid-cols-3">
+					<div class="rounded-2xl border border-green-200 bg-white/60 p-4 backdrop-blur-sm">
 						<div class="text-3xl font-bold text-green-600">15+</div>
 						<div class="text-sm text-gray-600">Sekolah Partner</div>
 					</div>
-					<div class="rounded-2xl bg-white/60 backdrop-blur-sm p-4 border border-blue-200">
+					<div class="rounded-2xl border border-blue-200 bg-white/60 p-4 backdrop-blur-sm">
 						<div class="text-3xl font-bold text-blue-600">100%</div>
 						<div class="text-sm text-gray-600">Open Source</div>
 					</div>
-					<div class="rounded-2xl bg-white/60 backdrop-blur-sm p-4 border border-purple-200">
+					<div class="rounded-2xl border border-purple-200 bg-white/60 p-4 backdrop-blur-sm">
 						<div class="text-3xl font-bold text-purple-600">Rp 0</div>
 						<div class="text-sm text-gray-600">Biaya Platform</div>
 					</div>
@@ -177,14 +202,19 @@
 			</div>
 
 			<!-- The Vision -->
-			<div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 p-1">
+			<div
+				class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-orange-400 via-pink-500 to-purple-600 p-1"
+			>
 				<div class="rounded-3xl bg-white p-8 md:p-12">
 					<div class="mb-6 text-center text-6xl">🇮🇩</div>
 					<h3 class="mb-4 text-center text-2xl font-bold text-gray-900">Mimpi Kami Sederhana</h3>
 					<p class="mx-auto max-w-3xl text-center text-lg leading-relaxed text-gray-700">
-						Suatu hari nanti, <strong>setiap anak Indonesia</strong> — dari Sabang sampai Merauke, dari yang mampu sampai yang kurang mampu — punya <strong>akses setara</strong> ke AI learning assistant yang bisa <em>menemani mereka belajar, berpikir kritis, dan berkembang</em>.
+						Suatu hari nanti, <strong>setiap anak Indonesia</strong> — dari Sabang sampai Merauke,
+						dari yang mampu sampai yang kurang mampu — punya <strong>akses setara</strong> ke AI
+						learning assistant yang bisa
+						<em>menemani mereka belajar, berpikir kritis, dan berkembang</em>.
 					</p>
-					<p class="mx-auto mt-4 max-w-2xl text-center text-base italic text-gray-600">
+					<p class="mx-auto mt-4 max-w-2xl text-center text-base text-gray-600 italic">
 						Bukan sekadar mimpi. Ini komitmen kami untuk Generasi Emas 2045.
 					</p>
 				</div>
@@ -204,19 +234,23 @@
 		</div>
 
 		<!-- Core Philosophy -->
-		<div class="mb-12 rounded-3xl bg-gradient-to-r from-amber-50 to-orange-50 p-8 shadow-lg md:p-12">
+		<div
+			class="mb-12 rounded-3xl bg-gradient-to-r from-amber-50 to-orange-50 p-8 shadow-lg md:p-12"
+		>
 			<div class="mb-6 text-center text-5xl">🌱</div>
 			<h3 class="mb-6 text-center text-3xl font-bold text-gray-900">Filosofi Dasar</h3>
-			
+
 			<div class="space-y-6 text-center">
-				<p class="text-2xl font-bold text-orange-900">
-					"Tidak Ada Anak yang Bodoh"
+				<p class="text-2xl font-bold text-orange-900">"Tidak Ada Anak yang Bodoh"</p>
+				<p class="mx-auto max-w-3xl text-lg leading-relaxed text-gray-700">
+					Setiap anak adalah <strong>tunas bangsa</strong> dengan potensi luar biasa yang menunggu
+					untuk dipupuk. Yang mereka butuhkan bukan label atau judgement, tapi
+					<strong>dukungan moral dan tuntunan yang tepat dari orang dewasa yang bijaksana</strong>.
 				</p>
-				<p class="mx-auto max-w-3xl text-lg text-gray-700 leading-relaxed">
-					Setiap anak adalah <strong>tunas bangsa</strong> dengan potensi luar biasa yang menunggu untuk dipupuk. Yang mereka butuhkan bukan label atau judgement, tapi <strong>dukungan moral dan tuntunan yang tepat dari orang dewasa yang bijaksana</strong>.
-				</p>
-				<p class="mx-auto max-w-3xl text-lg text-gray-700 leading-relaxed">
-					<strong>Kedewasaan sejati</strong> adalah wawasan dan kebijaksanaan kolektif yang mengedepankan <strong>nilai-nilai ketuhanan dan humanis</strong>, serta mengesampingkan ego demi hajat hidup orang banyak.
+				<p class="mx-auto max-w-3xl text-lg leading-relaxed text-gray-700">
+					<strong>Kedewasaan sejati</strong> adalah wawasan dan kebijaksanaan kolektif yang
+					mengedepankan <strong>nilai-nilai ketuhanan dan humanis</strong>, serta mengesampingkan
+					ego demi hajat hidup orang banyak.
 				</p>
 			</div>
 		</div>
@@ -227,25 +261,33 @@
 				<h3 class="mb-6 text-2xl font-bold text-gray-900">🎯 Misi Kami</h3>
 				<div class="space-y-4 text-gray-700">
 					<p class="leading-relaxed">
-						Membantu setiap anak <strong>menemukan jati dirinya</strong> dalam kebaikan dan kebermanfaatan kolektif - bukan sekadar meningkatkan nilai akademik.
+						Membantu setiap anak <strong>menemukan jati dirinya</strong> dalam kebaikan dan kebermanfaatan
+						kolektif - bukan sekadar meningkatkan nilai akademik.
 					</p>
 					<p class="leading-relaxed">
-						Memberikan akses setara ke AI-powered education yang <strong>menghormati keunikan setiap individu</strong>, sambil menjaga kedaulatan data dan transparansi penuh.
+						Memberikan akses setara ke AI-powered education yang <strong
+							>menghormati keunikan setiap individu</strong
+						>, sambil menjaga kedaulatan data dan transparansi penuh.
 					</p>
 					<p class="leading-relaxed">
-						Membangun generasi yang tidak hanya <strong>cerdas secara intelektual</strong>, tapi juga <strong>sehat mental</strong>, <strong>berkarakter mulia</strong>, dan <strong>bermanfaat untuk sesama</strong>.
+						Membangun generasi yang tidak hanya <strong>cerdas secara intelektual</strong>, tapi
+						juga <strong>sehat mental</strong>, <strong>berkarakter mulia</strong>, dan
+						<strong>bermanfaat untuk sesama</strong>.
 					</p>
 				</div>
 			</div>
 
 			<!-- Values -->
-			<div class="rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 p-8 text-white shadow-lg">
+			<div
+				class="rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 p-8 text-white shadow-lg"
+			>
 				<h3 class="mb-6 text-2xl font-bold">💎 Nilai-Nilai Luhur</h3>
 				<ul class="space-y-4">
 					<li class="flex items-start gap-3">
 						<span class="mt-1 text-xl">☪️</span>
 						<div>
-							<strong>Ketuhanan</strong> - Setiap fitur dirancang dengan nilai-nilai spiritual dan moral yang luhur
+							<strong>Ketuhanan</strong> - Setiap fitur dirancang dengan nilai-nilai spiritual dan moral
+							yang luhur
 						</div>
 					</li>
 					<li class="flex items-start gap-3">
@@ -269,13 +311,15 @@
 					<li class="flex items-start gap-3">
 						<span class="mt-1 text-xl">🌱</span>
 						<div>
-							<strong>Pertumbuhan Holistik</strong> - Akademik, mental, spiritual, dan sosial berkembang bersama
+							<strong>Pertumbuhan Holistik</strong> - Akademik, mental, spiritual, dan sosial berkembang
+							bersama
 						</div>
 					</li>
 					<li class="flex items-start gap-3">
 						<span class="mt-1 text-xl">🇮🇩</span>
 						<div>
-							<strong>Kedaulatan</strong> - Indonesia mandiri dalam teknologi pendidikan, data milik rakyat
+							<strong>Kedaulatan</strong> - Indonesia mandiri dalam teknologi pendidikan, data milik
+							rakyat
 						</div>
 					</li>
 				</ul>
@@ -290,43 +334,60 @@
 		<div class="mb-16 text-center">
 			<h2 class="mb-4 text-4xl font-bold text-gray-900">Siapa Kami?</h2>
 			<p class="mx-auto max-w-2xl text-lg text-gray-600">
-				Tim kecil dengan pengalaman transformasi digital sekolah & mimpi besar untuk pendidikan Indonesia
+				Tim kecil dengan pengalaman transformasi digital sekolah & mimpi besar untuk pendidikan
+				Indonesia
 			</p>
 		</div>
 
 		<!-- PT Koneksi - Story Format -->
-		<div class="mb-12 rounded-3xl bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-8 md:p-12">
+		<div
+			class="mb-12 rounded-3xl bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-8 md:p-12"
+		>
 			<div class="mb-6 flex items-center gap-4">
 				<div class="text-6xl">🏫</div>
 				<div>
 					<h3 class="text-3xl font-bold text-gray-900">PT Koneksi Jaringan Indonesia</h3>
-					<p class="text-gray-600">Digital Transformation Partner untuk Sekolah-sekolah di Indonesia</p>
+					<p class="text-gray-600">
+						Digital Transformation Partner untuk Sekolah-sekolah di Indonesia
+					</p>
 				</div>
 			</div>
-			
+
 			<p class="mb-6 text-lg leading-relaxed text-gray-700">
-				Sejak 2020, kami membantu 15+ sekolah (SMP & SMA) bertransformasi digital melalui <strong>Sistem Akademik</strong> dan <strong>Sistem Administrasi Sekolah</strong>. Dari kelola nilai, absensi, jadwal, sampai komunikasi orang tua-sekolah — semua terintegrasi dalam satu platform.
+				Sejak 2020, kami membantu 15+ sekolah (SMP & SMA) bertransformasi digital melalui <strong
+					>Sistem Akademik</strong
+				>
+				dan <strong>Sistem Administrasi Sekolah</strong>. Dari kelola nilai, absensi, jadwal, sampai
+				komunikasi orang tua-sekolah — semua terintegrasi dalam satu platform.
 			</p>
 
 			<p class="mb-8 text-lg leading-relaxed text-gray-700">
-				Namun kami menyadari: <em>digitalisasi administrasi saja tidak cukup</em>. Siswa membutuhkan tools yang dapat <strong>benar-benar membantu mereka dalam proses pembelajaran</strong>. Dari situ lahirlah We Will Shine.
+				Namun kami menyadari: <em>digitalisasi administrasi saja tidak cukup</em>. Siswa membutuhkan
+				tools yang dapat <strong>benar-benar membantu mereka dalam proses pembelajaran</strong>.
+				Dari situ lahirlah We Will Shine.
 			</p>
 
-			<div class="grid md:grid-cols-3 gap-6">
+			<div class="grid gap-6 md:grid-cols-3">
 				<div class="rounded-xl bg-white p-6 shadow-sm">
 					<div class="mb-2 text-3xl">📊</div>
 					<h4 class="mb-2 font-bold text-gray-900">Sistem Akademik</h4>
-					<p class="text-sm text-gray-600">Platform manajemen sekolah lengkap yang sudah dipercaya 15+ institusi</p>
+					<p class="text-sm text-gray-600">
+						Platform manajemen sekolah lengkap yang sudah dipercaya 15+ institusi
+					</p>
 				</div>
 				<div class="rounded-xl bg-white p-6 shadow-sm">
 					<div class="mb-2 text-3xl">🌟</div>
 					<h4 class="mb-2 font-bold text-gray-900">We Will Shine</h4>
-					<p class="text-sm text-gray-600">AI learning assistant yang demokratis & open source (you're here!)</p>
+					<p class="text-sm text-gray-600">
+						AI learning assistant yang demokratis & open source (you're here!)
+					</p>
 				</div>
 				<div class="rounded-xl bg-white p-6 shadow-sm">
 					<div class="mb-2 text-3xl">🤖</div>
 					<h4 class="mb-2 font-bold text-gray-900">2USE AI</h4>
-					<p class="text-sm text-gray-600">Custom middleware untuk Socratic learning & mental health support</p>
+					<p class="text-sm text-gray-600">
+						Custom middleware untuk Socratic learning & mental health support
+					</p>
 				</div>
 			</div>
 
@@ -351,7 +412,7 @@
 		</div>
 
 		<!-- 2USE AI - Technical Deep Dive -->
-		<div class="rounded-3xl bg-gradient-to-r from-purple-600 to-pink-600 p-8 md:p-12 text-white">
+		<div class="rounded-3xl bg-gradient-to-r from-purple-600 to-pink-600 p-8 text-white md:p-12">
 			<div class="mb-6 flex items-center gap-4">
 				<div class="text-6xl">🧠</div>
 				<div>
@@ -361,12 +422,14 @@
 			</div>
 
 			<p class="mb-6 text-lg leading-relaxed text-purple-50">
-				Pernah bertanya soal PR ke ChatGPT dan langsung mendapat jawaban lengkap? Praktis memang, namun <em>tidak ada proses pembelajaran sejati</em>. <strong>2USE AI</strong> dirancang untuk mengubah kebiasaan tersebut.
+				Pernah bertanya soal PR ke ChatGPT dan langsung mendapat jawaban lengkap? Praktis memang,
+				namun <em>tidak ada proses pembelajaran sejati</em>. <strong>2USE AI</strong> dirancang untuk
+				mengubah kebiasaan tersebut.
 			</p>
 
-			<div class="grid md:grid-cols-2 gap-6 mb-8">
-				<div class="rounded-xl bg-white/10 backdrop-blur-sm p-6">
-					<h4 class="mb-3 font-bold text-white flex items-center gap-2">
+			<div class="mb-8 grid gap-6 md:grid-cols-2">
+				<div class="rounded-xl bg-white/10 p-6 backdrop-blur-sm">
+					<h4 class="mb-3 flex items-center gap-2 font-bold text-white">
 						<span>❌</span> AI Biasa (ChatGPT, etc)
 					</h4>
 					<ul class="space-y-2 text-sm text-purple-100">
@@ -376,8 +439,8 @@
 						<li>• Tidak melatih berpikir kritis</li>
 					</ul>
 				</div>
-				<div class="rounded-xl bg-white/20 backdrop-blur-sm p-6 border-2 border-white/30">
-					<h4 class="mb-3 font-bold text-white flex items-center gap-2">
+				<div class="rounded-xl border-2 border-white/30 bg-white/20 p-6 backdrop-blur-sm">
+					<h4 class="mb-3 flex items-center gap-2 font-bold text-white">
 						<span>✅</span> 2USE AI (We Will Shine)
 					</h4>
 					<ul class="space-y-2 text-sm text-white">
@@ -389,7 +452,7 @@
 				</div>
 			</div>
 
-			<p class="mb-6 text-purple-50 italic text-center">
+			<p class="mb-6 text-center text-purple-50 italic">
 				"Kasih pancing, bukan ikan. Ajarin berpikir, bukan kasih hafalan."
 			</p>
 
@@ -417,38 +480,47 @@
 			</p>
 		</div>
 
-		<div class="grid md:grid-cols-2 gap-8 mb-12">
+		<div class="mb-12 grid gap-8 md:grid-cols-2">
 			<!-- Core Team -->
 			<div class="rounded-2xl bg-white p-8 shadow-lg">
 				<div class="mb-4 text-5xl">👨‍💻</div>
 				<h3 class="mb-3 text-2xl font-bold text-gray-900">Core Team</h3>
-				<p class="mb-4 text-gray-700 leading-relaxed">
-					Tim kecil di PT Koneksi Jaringan Indonesia yang tidak bisa tinggal diam melihat pendidikan Indonesia tertinggal di era AI. Developer, designer, educator — semua berkontribusi langsung.
+				<p class="mb-4 leading-relaxed text-gray-700">
+					Tim kecil di PT Koneksi Jaringan Indonesia yang tidak bisa tinggal diam melihat pendidikan
+					Indonesia tertinggal di era AI. Developer, designer, educator — semua berkontribusi
+					langsung.
 				</p>
 				<p class="text-sm text-gray-600 italic">
-					"Bekerja dengan penuh dedikasi, coding dengan fokus, deploy dengan hati-hati. Yang pasti: <strong>komitmen penuh untuk misi ini</strong>."
+					"Bekerja dengan penuh dedikasi, coding dengan fokus, deploy dengan hati-hati. Yang pasti: <strong
+						>komitmen penuh untuk misi ini</strong
+					>."
 				</p>
 			</div>
 
 			<!-- Open Source Contributors -->
-			<div class="rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 p-8 text-white shadow-lg">
+			<div
+				class="rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 p-8 text-white shadow-lg"
+			>
 				<div class="mb-4 text-5xl">🌍</div>
 				<h3 class="mb-3 text-2xl font-bold">Open Source Community</h3>
 				<p class="mb-4 leading-relaxed text-purple-50">
-					We Will Shine <strong>100% open source</strong>. Artinya, siapa pun bisa kontribusi: fix bugs, add features, improve docs, atau sekadar kasih feedback.
+					We Will Shine <strong>100% open source</strong>. Artinya, siapa pun bisa kontribusi: fix
+					bugs, add features, improve docs, atau sekadar kasih feedback.
 				</p>
-				<p class="text-sm italic text-purple-100">
+				<p class="text-sm text-purple-100 italic">
 					Produk terbaik dibangun bersama, bukan sendirian. Every PR matters!
 				</p>
 			</div>
 		</div>
 
 		<!-- Call to Contribute -->
-		<div class="rounded-3xl bg-white p-8 md:p-12 text-center shadow-xl">
+		<div class="rounded-3xl bg-white p-8 text-center shadow-xl md:p-12">
 			<div class="mb-6 text-6xl">🤝</div>
 			<h3 class="mb-4 text-3xl font-bold text-gray-900">Ingin Bergabung?</h3>
 			<p class="mx-auto mb-8 max-w-2xl text-lg text-gray-700">
-				Anda tidak perlu menjadi developer expert. Bisa design? Menulis? Testing? Memberikan ide? <strong>Semua kontribusi sangat berharga!</strong>
+				Anda tidak perlu menjadi developer expert. Bisa design? Menulis? Testing? Memberikan ide? <strong
+					>Semua kontribusi sangat berharga!</strong
+				>
 			</p>
 
 			<div class="flex flex-wrap items-center justify-center gap-4">
@@ -496,26 +568,36 @@
 		</div>
 
 		<!-- Timeline with honesty -->
-		<div class="space-y-8 mb-12">
+		<div class="mb-12 space-y-8">
 			<!-- Now -->
-			<div class="rounded-3xl bg-gradient-to-br from-yellow-50 to-amber-50 p-8 md:p-12 relative overflow-hidden">
+			<div
+				class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-50 to-amber-50 p-8 md:p-12"
+			>
 				<!-- Playful dots accent in corner -->
-				<div class="absolute -top-4 -right-4 w-24 h-24 opacity-20">
-					<div class="absolute top-0 right-0 w-16 h-16 rounded-full bg-gradient-to-br from-yellow-400 to-amber-400"></div>
-					<div class="absolute top-8 right-8 w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-400"></div>
-					<div class="absolute top-12 right-4 w-4 h-4 rounded-full bg-orange-300"></div>
+				<div class="absolute -top-4 -right-4 h-24 w-24 opacity-20">
+					<div
+						class="absolute top-0 right-0 h-16 w-16 rounded-full bg-gradient-to-br from-yellow-400 to-amber-400"
+					></div>
+					<div
+						class="absolute top-8 right-8 h-8 w-8 rounded-full bg-gradient-to-br from-amber-400 to-orange-400"
+					></div>
+					<div class="absolute top-12 right-4 h-4 w-4 rounded-full bg-orange-300"></div>
 				</div>
 				<div class="flex items-start gap-6">
 					<div class="text-6xl">⏳</div>
 					<div class="flex-1">
 						<div class="mb-2 text-sm font-bold text-yellow-600">OKTOBER 2025 — SEKARANG</div>
-				<h3 class="mb-3 text-2xl font-bold text-gray-900">Kami Sedang Membangun Platform Ini</h3>
-				<p class="mb-4 text-lg text-gray-700 leading-relaxed">
-					Saat ini kami tengah mengembangkan platform ini. 2USE AI sudah berjalan, interface sedang dipoles, database setup, dan testing berlangsung terus-menerus. Sederhana, namun <strong>progress konsisten setiap hari</strong>.
-				</p>
-						<div class="grid md:grid-cols-2 gap-4">
+						<h3 class="mb-3 text-2xl font-bold text-gray-900">
+							Kami Sedang Membangun Platform Ini
+						</h3>
+						<p class="mb-4 text-lg leading-relaxed text-gray-700">
+							Saat ini kami tengah mengembangkan platform ini. 2USE AI sudah berjalan, interface
+							sedang dipoles, database setup, dan testing berlangsung terus-menerus. Sederhana,
+							namun <strong>progress konsisten setiap hari</strong>.
+						</p>
+						<div class="grid gap-4 md:grid-cols-2">
 							<div class="rounded-xl bg-green-50 p-4">
-								<div class="flex items-center gap-2 mb-2">
+								<div class="mb-2 flex items-center gap-2">
 									<span class="text-green-600">✓</span>
 									<span class="font-bold text-gray-900">Done</span>
 								</div>
@@ -527,7 +609,7 @@
 								</ul>
 							</div>
 							<div class="rounded-xl bg-yellow-50 p-4">
-								<div class="flex items-center gap-2 mb-2">
+								<div class="mb-2 flex items-center gap-2">
 									<span class="text-yellow-600">⚡</span>
 									<span class="font-bold text-gray-900">In Progress</span>
 								</div>
@@ -544,60 +626,82 @@
 			</div>
 
 			<!-- Soon -->
-			<div class="rounded-3xl bg-gradient-to-br from-indigo-50 to-purple-50 p-8 md:p-12 relative overflow-hidden">
+			<div
+				class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-50 to-purple-50 p-8 md:p-12"
+			>
 				<!-- Playful dots accent in corner -->
-				<div class="absolute -top-4 -right-4 w-24 h-24 opacity-20">
-					<div class="absolute top-0 right-0 w-16 h-16 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400"></div>
-					<div class="absolute top-8 right-8 w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-400"></div>
-					<div class="absolute top-12 right-4 w-4 h-4 rounded-full bg-pink-300"></div>
+				<div class="absolute -top-4 -right-4 h-24 w-24 opacity-20">
+					<div
+						class="absolute top-0 right-0 h-16 w-16 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400"
+					></div>
+					<div
+						class="absolute top-8 right-8 h-8 w-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-400"
+					></div>
+					<div class="absolute top-12 right-4 h-4 w-4 rounded-full bg-pink-300"></div>
 				</div>
 				<div class="flex items-start gap-6">
 					<div class="text-6xl">🚀</div>
 					<div class="flex-1">
 						<div class="mb-2 text-sm font-bold text-indigo-600">Q4 2025 — SOFT LAUNCH</div>
-				<h3 class="mb-3 text-2xl font-bold text-gray-900">Beta Bersama 15+ Sekolah Partner</h3>
-				<p class="mb-4 text-lg text-gray-700 leading-relaxed">
-					Peluncuran pertama kami <strong>tidak langsung skala nasional</strong>. Kami memulai dengan sekolah-sekolah yang telah mempercayai Sistem Akademik kami. Target <strong>1,000-5,000 siswa</strong> untuk beta testing intensif.
-				</p>
-				<p class="text-gray-600 italic">
-					Mengapa soft launch? Karena kami ingin mendengarkan feedback pengguna sesungguhnya sebelum scale up. Lebih baik iterasi cepat dengan pengguna terbatas daripada peluncuran besar yang berisiko gagal.
-				</p>
+						<h3 class="mb-3 text-2xl font-bold text-gray-900">Beta Bersama 15+ Sekolah Partner</h3>
+						<p class="mb-4 text-lg leading-relaxed text-gray-700">
+							Peluncuran pertama kami <strong>tidak langsung skala nasional</strong>. Kami memulai
+							dengan sekolah-sekolah yang telah mempercayai Sistem Akademik kami. Target
+							<strong>1,000-5,000 siswa</strong> untuk beta testing intensif.
+						</p>
+						<p class="text-gray-600 italic">
+							Mengapa soft launch? Karena kami ingin mendengarkan feedback pengguna sesungguhnya
+							sebelum scale up. Lebih baik iterasi cepat dengan pengguna terbatas daripada
+							peluncuran besar yang berisiko gagal.
+						</p>
 					</div>
 				</div>
 			</div>
 
 			<!-- Next -->
-			<div class="rounded-3xl bg-gradient-to-br from-purple-50 to-pink-50 p-8 md:p-12 relative overflow-hidden">
+			<div
+				class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50 to-pink-50 p-8 md:p-12"
+			>
 				<!-- Playful dots accent in corner -->
-				<div class="absolute -top-4 -right-4 w-24 h-24 opacity-20">
-					<div class="absolute top-0 right-0 w-16 h-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400"></div>
-					<div class="absolute top-8 right-8 w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-400"></div>
-					<div class="absolute top-12 right-4 w-4 h-4 rounded-full bg-rose-300"></div>
+				<div class="absolute -top-4 -right-4 h-24 w-24 opacity-20">
+					<div
+						class="absolute top-0 right-0 h-16 w-16 rounded-full bg-gradient-to-br from-purple-400 to-pink-400"
+					></div>
+					<div
+						class="absolute top-8 right-8 h-8 w-8 rounded-full bg-gradient-to-br from-pink-400 to-rose-400"
+					></div>
+					<div class="absolute top-12 right-4 h-4 w-4 rounded-full bg-rose-300"></div>
 				</div>
 				<div class="flex items-start gap-6">
 					<div class="text-6xl">🎯</div>
 					<div class="flex-1">
 						<div class="mb-2 text-sm font-bold text-purple-600">Q1-Q2 2026 — SCALE UP</div>
-				<h3 class="mb-3 text-2xl font-bold text-gray-900">Public Launch & Ekspansi</h3>
-				<p class="mb-4 text-lg text-gray-700 leading-relaxed">
-					Jika beta berhasil, kami akan membuka akses <strong>public BYOK</strong> untuk seluruh masyarakat Indonesia. Target <strong>10,000+ pengguna</strong>, pengembangan mobile app, dan pengajuan proposal ke Kemendikbud untuk integrasi dengan Belajar.id.
-				</p>
-				<div class="mt-4 rounded-xl bg-purple-100 p-4">
-					<p class="text-sm text-purple-900">
-						<strong>Visi besar kami:</strong> Menjadi platform AI learning assistant resmi untuk seluruh pelajar Indonesia yang memiliki akun Belajar.id 🇮🇩
-					</p>
-				</div>
+						<h3 class="mb-3 text-2xl font-bold text-gray-900">Public Launch & Ekspansi</h3>
+						<p class="mb-4 text-lg leading-relaxed text-gray-700">
+							Jika beta berhasil, kami akan membuka akses <strong>public BYOK</strong> untuk seluruh
+							masyarakat Indonesia. Target <strong>10,000+ pengguna</strong>, pengembangan mobile
+							app, dan pengajuan proposal ke Kemendikbud untuk integrasi dengan Belajar.id.
+						</p>
+						<div class="mt-4 rounded-xl bg-purple-100 p-4">
+							<p class="text-sm text-purple-900">
+								<strong>Visi besar kami:</strong> Menjadi platform AI learning assistant resmi untuk
+								seluruh pelajar Indonesia yang memiliki akun Belajar.id 🇮🇩
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Long-term vision CTA -->
-		<div class="rounded-3xl bg-gradient-to-r from-indigo-600 to-purple-600 p-8 md:p-12 text-white text-center shadow-xl">
+		<div
+			class="rounded-3xl bg-gradient-to-r from-indigo-600 to-purple-600 p-8 text-center text-white shadow-xl md:p-12"
+		>
 			<div class="mb-4 text-5xl">🌅</div>
 			<h3 class="mb-4 text-3xl font-bold">Visi 2045: Generasi Emas</h3>
-			<p class="mx-auto mb-8 max-w-3xl text-lg text-indigo-100 leading-relaxed">
-				Ini baru tahap awal. Kami memiliki <strong>roadmap 20 tahun</strong> untuk membangun ekosistem AI education yang demokratis, berkelanjutan, dan benar-benar berpihak pada seluruh rakyat Indonesia.
+			<p class="mx-auto mb-8 max-w-3xl text-lg leading-relaxed text-indigo-100">
+				Ini baru tahap awal. Kami memiliki <strong>roadmap 20 tahun</strong> untuk membangun ekosistem
+				AI education yang demokratis, berkelanjutan, dan benar-benar berpihak pada seluruh rakyat Indonesia.
 			</p>
 			<a
 				href="{base}/roadmap"
@@ -610,15 +714,18 @@
 </section>
 
 <!-- Open Source Commitment -->
-<section id="opensource" class="bg-gradient-to-r from-gray-900 via-indigo-900 to-purple-900 py-20 text-white">
+<section
+	id="opensource"
+	class="bg-gradient-to-r from-gray-900 via-indigo-900 to-purple-900 py-20 text-white"
+>
 	<div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
 		<div class="mb-12 text-center">
 			<div class="mb-4 text-6xl">🔓</div>
 			<h2 class="mb-4 text-4xl font-bold">Open Source Commitment</h2>
 			<p class="mx-auto max-w-2xl text-xl text-indigo-200">
 				Transparansi bukan hanya janji - ini adalah kenyataan yang bisa Anda verifikasi
-	</p>
-</div>
+			</p>
+		</div>
 
 		<div class="grid gap-8 md:grid-cols-3">
 			<div class="rounded-2xl bg-white/10 p-6 backdrop-blur-sm">
@@ -711,18 +818,8 @@
 			>
 				Start Learning
 			</a>
-			<a
-				href="{base}/pricing"
-				class="btn-white-outline"
-			>
-				View Pricing
-			</a>
-			<a
-				href="{base}/partnership"
-				class="btn-white-outline"
-			>
-				Partnership
-			</a>
+			<a href="{base}/pricing" class="btn-white-outline"> View Pricing </a>
+			<a href="{base}/partnership" class="btn-white-outline"> Partnership </a>
 		</div>
 	</div>
 </section>

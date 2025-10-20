@@ -1,7 +1,11 @@
 <script lang="ts">
 	import Footer from '$lib/components/Footer.svelte';
 	import TabNavigation from '$lib/components/TabNavigation.svelte';
-	import { setTabNavigation, hideTabNavigation, setHeaderVisibility } from '$lib/stores/tabNavigation';
+	import {
+		setTabNavigation,
+		hideTabNavigation,
+		setHeaderVisibility
+	} from '$lib/stores/tabNavigation';
 	import { base } from '$app/paths';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
@@ -29,7 +33,7 @@
 	onMount(() => {
 		// Set tab navigation in store
 		setTabNavigation(sections, activeSection);
-		
+
 		// Scroll detection for header visibility
 		const handleScroll = () => {
 			if (tabNavigationElement) {
@@ -42,13 +46,16 @@
 		window.addEventListener('scroll', handleScroll);
 		handleScroll(); // Initial check
 
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting && entry.target.id === 'metrics') {
-					animateMetrics();
-				}
-			});
-		}, { threshold: 0.3 });
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting && entry.target.id === 'metrics') {
+						animateMetrics();
+					}
+				});
+			},
+			{ threshold: 0.3 }
+		);
 
 		const section = document.getElementById('metrics');
 		if (section) observer.observe(section);
@@ -104,14 +111,17 @@
 <section class="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 py-20 text-white">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="text-center">
-			<div class="mb-6 inline-block rounded-full bg-white/20 px-6 py-2 text-sm font-semibold backdrop-blur-sm">
+			<div
+				class="mb-6 inline-block rounded-full bg-white/20 px-6 py-2 text-sm font-semibold backdrop-blur-sm"
+			>
 				🇮🇩 Built for Indonesia's Future
 			</div>
 			<h1 class="mb-6 text-5xl font-bold sm:text-6xl">
 				Partnership untuk Transformasi Digital Pendidikan
 			</h1>
 			<p class="mx-auto mb-8 max-w-3xl text-xl text-indigo-100">
-				Mengundang Kemendikbud, Kominfo, institusi pendidikan, dan stakeholder untuk berkolaborasi membangun ekosistem pendidikan digital yang berdaulat dan berkelanjutan
+				Mengundang Kemendikbud, Kominfo, institusi pendidikan, dan stakeholder untuk berkolaborasi
+				membangun ekosistem pendidikan digital yang berdaulat dan berkelanjutan
 			</p>
 			<div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
 				<a
@@ -132,12 +142,7 @@
 </section>
 
 <!-- Tab Navigation -->
-<TabNavigation 
-	bind:this={tabNavigationElement}
-	bind:activeSection={activeSection}
-	{sections}
-	position="sticky"
-/>
+<TabNavigation bind:this={tabNavigationElement} bind:activeSection {sections} position="sticky" />
 
 <!-- Success Metrics Target -->
 <section id="metrics" class="bg-gradient-to-br from-indigo-50 to-purple-50 py-16">
@@ -148,18 +153,20 @@
 		</div>
 
 		<div class="grid gap-8 md:grid-cols-3">
-			<div class="rounded-3xl bg-white/70 p-8 text-center shadow-xl backdrop-blur-lg transition-transform hover:scale-105">
+			<div
+				class="rounded-3xl bg-white/70 p-8 text-center shadow-xl backdrop-blur-lg transition-transform hover:scale-105"
+			>
 				<div class="mb-4 text-5xl">🏫</div>
 				<p class="mb-2 text-5xl font-bold text-indigo-600">
 					{targetSchools.toLocaleString('id-ID')}+
 				</p>
 				<p class="font-semibold text-gray-900">Sekolah Partner</p>
-				<p class="mt-2 text-sm text-gray-600">
-					Dari SD hingga SMA di seluruh Indonesia
-				</p>
+				<p class="mt-2 text-sm text-gray-600">Dari SD hingga SMA di seluruh Indonesia</p>
 			</div>
 
-			<div class="rounded-3xl bg-white/70 p-8 text-center shadow-xl backdrop-blur-lg transition-transform hover:scale-105">
+			<div
+				class="rounded-3xl bg-white/70 p-8 text-center shadow-xl backdrop-blur-lg transition-transform hover:scale-105"
+			>
 				<div class="mb-4 text-5xl">👥</div>
 				<p class="mb-2 text-5xl font-bold text-purple-600">
 					{targetStudents.toLocaleString('id-ID')}+
@@ -170,15 +177,15 @@
 				</p>
 			</div>
 
-			<div class="rounded-3xl bg-white/70 p-8 text-center shadow-xl backdrop-blur-lg transition-transform hover:scale-105">
+			<div
+				class="rounded-3xl bg-white/70 p-8 text-center shadow-xl backdrop-blur-lg transition-transform hover:scale-105"
+			>
 				<div class="mb-4 text-5xl">💰</div>
 				<p class="mb-2 text-5xl font-bold text-green-600">
 					Rp {targetBudgetSaved}M
 				</p>
 				<p class="font-semibold text-gray-900">Budget Hemat</p>
-				<p class="mt-2 text-sm text-gray-600">
-					vs solusi proprietary asing per tahun
-				</p>
+				<p class="mt-2 text-sm text-gray-600">vs solusi proprietary asing per tahun</p>
 			</div>
 		</div>
 
@@ -210,7 +217,8 @@
 		<div class="mb-12 text-center">
 			<h2 class="mb-4 text-4xl font-bold text-gray-900">Integrasi Belajar.id</h2>
 			<p class="mx-auto max-w-3xl text-lg text-gray-700">
-				Mendukung penuh ekosistem <strong>Belajar.id</strong> dari Kemendikbud sebagai langkah nyata untuk kedaulatan digital pendidikan Indonesia
+				Mendukung penuh ekosistem <strong>Belajar.id</strong> dari Kemendikbud sebagai langkah nyata
+				untuk kedaulatan digital pendidikan Indonesia
 			</p>
 		</div>
 
@@ -247,9 +255,13 @@
 			</div>
 
 			<!-- We Will Shine Integration -->
-			<div class="rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 p-8 text-white shadow-xl">
+			<div
+				class="rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 p-8 text-white shadow-xl"
+			>
 				<div class="mb-6 flex items-center gap-4">
-					<div class="flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
+					<div
+						class="flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm"
+					>
 						<span class="text-3xl">🌟</span>
 					</div>
 					<div>
@@ -276,7 +288,9 @@
 					</li>
 					<li class="flex items-start gap-3">
 						<span class="mt-1">✅</span>
-						<span><strong>Data Sovereignty</strong> - server di Indonesia, data milik Indonesia</span>
+						<span
+							><strong>Data Sovereignty</strong> - server di Indonesia, data milik Indonesia</span
+						>
 					</li>
 					<li class="flex items-start gap-3">
 						<span class="mt-1">✅</span>
@@ -290,7 +304,9 @@
 			<h3 class="mb-6 text-center text-2xl font-bold text-gray-900">Technical Integration Path</h3>
 			<div class="grid gap-8 md:grid-cols-3">
 				<div>
-					<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-2xl font-bold text-indigo-600">
+					<div
+						class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-indigo-100 text-2xl font-bold text-indigo-600"
+					>
 						1
 					</div>
 					<h4 class="mb-2 font-semibold text-gray-900">OAuth Integration</h4>
@@ -299,7 +315,9 @@
 					</p>
 				</div>
 				<div>
-					<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 text-2xl font-bold text-purple-600">
+					<div
+						class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 text-2xl font-bold text-purple-600"
+					>
 						2
 					</div>
 					<h4 class="mb-2 font-semibold text-gray-900">Data Sync</h4>
@@ -308,12 +326,15 @@
 					</p>
 				</div>
 				<div>
-					<div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-pink-100 text-2xl font-bold text-pink-600">
+					<div
+						class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-pink-100 text-2xl font-bold text-pink-600"
+					>
 						3
 					</div>
 					<h4 class="mb-2 font-semibold text-gray-900">Analytics API</h4>
 					<p class="text-sm text-gray-600">
-						Real-time dashboard untuk Kemendikbud: learning progress, mental health trends, engagement metrics
+						Real-time dashboard untuk Kemendikbud: learning progress, mental health trends,
+						engagement metrics
 					</p>
 				</div>
 			</div>
@@ -329,7 +350,8 @@
 				<div class="mb-4 text-6xl">🇮🇩</div>
 				<h2 class="mb-4 text-4xl font-bold text-gray-900">Visi untuk Indonesia</h2>
 				<p class="mx-auto max-w-3xl text-xl font-semibold text-red-600">
-					"Lebih dari sekadar aplikasi - ini adalah gerakan untuk kedaulatan digital pendidikan Indonesia"
+					"Lebih dari sekadar aplikasi - ini adalah gerakan untuk kedaulatan digital pendidikan
+					Indonesia"
 				</p>
 			</div>
 
@@ -348,11 +370,14 @@
 						</li>
 						<li class="flex items-start gap-3">
 							<span class="mt-1 text-red-600">▸</span>
-							<span>Evaluasi pendidikan hanya dari top-down, tidak dari akar rumput (grassroots)</span>
+							<span
+								>Evaluasi pendidikan hanya dari top-down, tidak dari akar rumput (grassroots)</span
+							>
 						</li>
 						<li class="flex items-start gap-3">
 							<span class="mt-1 text-red-600">▸</span>
-							<span>Mental health crisis di kalangan pelajar terabaikan (WHO: 1 dari 7 remaja)</span>
+							<span>Mental health crisis di kalangan pelajar terabaikan (WHO: 1 dari 7 remaja)</span
+							>
 						</li>
 						<li class="flex items-start gap-3">
 							<span class="mt-1 text-red-600">▸</span>
@@ -371,27 +396,41 @@
 					<ul class="space-y-3 text-gray-700">
 						<li class="flex items-start gap-3">
 							<span class="mt-1 text-green-600">▸</span>
-							<span><strong>Data Sovereignty</strong> - Server lokal di Indonesia dengan enkripsi penuh</span>
+							<span
+								><strong>Data Sovereignty</strong> - Server lokal di Indonesia dengan enkripsi penuh</span
+							>
 						</li>
 						<li class="flex items-start gap-3">
 							<span class="mt-1 text-green-600">▸</span>
-							<span><strong>2USE AI</strong> - Riset LLM lokal untuk bahasa & konteks Indonesia</span>
+							<span
+								><strong>2USE AI</strong> - Riset LLM lokal untuk bahasa & konteks Indonesia</span
+							>
 						</li>
 						<li class="flex items-start gap-3">
 							<span class="mt-1 text-green-600">▸</span>
-							<span><strong>Grassroots Analytics</strong> - Data pembelajaran real-time untuk evidence-based policy</span>
+							<span
+								><strong>Grassroots Analytics</strong> - Data pembelajaran real-time untuk evidence-based
+								policy</span
+							>
 						</li>
 						<li class="flex items-start gap-3">
 							<span class="mt-1 text-green-600">▸</span>
-							<span><strong>Mental Health First</strong> - AI psikolog untuk setiap pelajar, privacy-focused</span>
+							<span
+								><strong>Mental Health First</strong> - AI psikolog untuk setiap pelajar, privacy-focused</span
+							>
 						</li>
 						<li class="flex items-start gap-3">
 							<span class="mt-1 text-green-600">▸</span>
-							<span><strong>Gratis & Open Source</strong> - Akses setara untuk semua, no subscription barrier</span>
+							<span
+								><strong>Gratis & Open Source</strong> - Akses setara untuk semua, no subscription barrier</span
+							>
 						</li>
 						<li class="flex items-start gap-3">
 							<span class="mt-1 text-green-600">▸</span>
-							<span><strong>Full Transparency</strong> - Open source code, auditable algorithms, community governance</span>
+							<span
+								><strong>Full Transparency</strong> - Open source code, auditable algorithms, community
+								governance</span
+							>
 						</li>
 					</ul>
 				</div>
@@ -410,7 +449,9 @@
 					</div>
 					<div class="text-center">
 						<div class="mb-2 text-4xl font-bold">Real-time</div>
-						<p class="text-sm text-indigo-100">Analytics untuk kebijakan pendidikan berbasis data</p>
+						<p class="text-sm text-indigo-100">
+							Analytics untuk kebijakan pendidikan berbasis data
+						</p>
 					</div>
 					<div class="text-center">
 						<div class="mb-2 text-4xl font-bold">Open</div>
@@ -528,7 +569,9 @@
 			<!-- Phase 1 -->
 			<div class="rounded-2xl border-2 border-indigo-200 bg-white p-8">
 				<div class="mb-4 flex items-center gap-4">
-					<div class="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-600 text-xl font-bold text-white">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-600 text-xl font-bold text-white"
+					>
 						Q1
 					</div>
 					<div>
@@ -567,7 +610,9 @@
 			<!-- Phase 2 -->
 			<div class="rounded-2xl border-2 border-purple-200 bg-white p-8">
 				<div class="mb-4 flex items-center gap-4">
-					<div class="flex h-12 w-12 items-center justify-center rounded-full bg-purple-600 text-xl font-bold text-white">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-full bg-purple-600 text-xl font-bold text-white"
+					>
 						Q2
 					</div>
 					<div>
@@ -606,7 +651,9 @@
 			<!-- Phase 3 -->
 			<div class="rounded-2xl border-2 border-pink-200 bg-white p-8">
 				<div class="mb-4 flex items-center gap-4">
-					<div class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-600 text-xl font-bold text-white">
+					<div
+						class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-600 text-xl font-bold text-white"
+					>
 						Q3
 					</div>
 					<div>
@@ -651,7 +698,8 @@
 		<div class="mb-12 text-center">
 			<h2 class="mb-4 text-4xl font-bold text-white">Mari Berkolaborasi</h2>
 			<p class="mx-auto max-w-3xl text-xl text-indigo-100">
-				Kami siap untuk diskusi, presentasi, atau pilot program. Hubungi tim kami untuk memulai perjalanan transformasi digital pendidikan Indonesia.
+				Kami siap untuk diskusi, presentasi, atau pilot program. Hubungi tim kami untuk memulai
+				perjalanan transformasi digital pendidikan Indonesia.
 			</p>
 		</div>
 
@@ -703,16 +751,9 @@
 		</div>
 
 		<div class="mt-12 text-center">
-			<p class="text-indigo-100">
-				Atau lihat detail pricing dan technical specs:
-			</p>
+			<p class="text-indigo-100">Atau lihat detail pricing dan technical specs:</p>
 			<div class="mt-4 flex flex-col items-center justify-center gap-4 sm:flex-row">
-				<a
-					href="{base}/pricing"
-					class="btn-white-outline"
-				>
-					Pricing
-				</a>
+				<a href="{base}/pricing" class="btn-white-outline"> Pricing </a>
 				<a
 					href="https://github.com/konxc/we-will-shine"
 					target="_blank"
@@ -731,4 +772,3 @@
 <style lang="postcss">
 	@reference "tailwindcss";
 </style>
-

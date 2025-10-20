@@ -1,11 +1,13 @@
 # Header Component Documentation
 
 ## Overview
+
 Komponen `Header.svelte` adalah floating navigation header yang clean, minimalistic, dan interaktif untuk aplikasi We Will Shine.
 
 ## Features
 
 ### 🎯 **Core Features:**
+
 1. **Conditional Rendering** - Tidak muncul di landing page (`/`) dan sign-in page (`/signin`)
 2. **Interactive Logo** - Logo bintang dengan pulse animation dan spin on hover
 3. **Brand Title** - Gradient text "We Will Shine" dengan glow effect
@@ -22,25 +24,25 @@ Komponen `Header.svelte` adalah floating navigation header yang clean, minimalis
 ## Component Structure
 
 ### **Script Section:**
+
 ```svelte
 <script lang="ts">
-  import { base } from '$app/paths';
-  import { page } from '$app/stores';
+	import { base } from '$app/paths';
+	import { page } from '$app/stores';
 
-  // Hide header on landing and signin pages
-  const hideHeader = $derived($page.url.pathname === '/' || $page.url.pathname === '/signin/');
+	// Hide header on landing and signin pages
+	const hideHeader = $derived($page.url.pathname === '/' || $page.url.pathname === '/signin/');
 
-  // Shortcut buttons configuration
-  const shortcutButtons = [
-    { href, icon, title, label }
-  ];
+	// Shortcut buttons configuration
+	const shortcutButtons = [{ href, icon, title, label }];
 
-  // Toggle state
-  let showShortcuts = $state(false);
+	// Toggle state
+	let showShortcuts = $state(false);
 </script>
 ```
 
 ### **Template Structure:**
+
 ```
 Floating Header Container (justify-between)
 ├── Left Section (grouped navigation)
@@ -68,6 +70,7 @@ Floating Header Container (justify-between)
 ## Design Specifications
 
 ### **Visual Design:**
+
 - **Position**: Fixed, top-left corner (16px from top/left)
 - **Background**: White with 90% opacity + blur(10px) glassmorphism
 - **Border**: 1px solid rgba(0, 0, 0, 0.1)
@@ -75,11 +78,13 @@ Floating Header Container (justify-between)
 - **Border Radius**: 16px (rounded-2xl) for main button, 12px for shortcuts
 
 ### **Interactive States:**
+
 - **Hover**: Brighter background, larger shadow, scale(1.05)
 - **Active**: Scale(0.95)
 - **Menu Open**: Toggle button slides right dynamically
 
 ### **Animations:**
+
 1. **fadeInSlideDown** - Header appears from top (0.3s)
 2. **logoPulse** - Logo pulses continuously (2s infinite)
 3. **logoSpin** - Logo spins 360° on hover (0.5s)
@@ -90,6 +95,7 @@ Floating Header Container (justify-between)
 ## Staggered Animation System
 
 ### **How It Works:**
+
 ```svelte
 {#if showShortcuts}
   {#each shortcutButtons as button, index}
@@ -99,6 +105,7 @@ Floating Header Container (justify-between)
 ```
 
 ### **Animation Flow:**
+
 1. User clicks toggle button
 2. Icon changes: ☰ → ✕
 3. Shortcuts appear with delay:
@@ -109,6 +116,7 @@ Floating Header Container (justify-between)
 4. Toggle button slides right to final position
 
 ### **Positioning Logic:**
+
 - **Desktop**: `translateX(298px)` - 4 buttons × 70px + 3 gaps × 6px
 - **Mobile**: `translateX(238px)` - 4 buttons × 55px + gaps
 - **Small**: `translateX(146px)` - 4 buttons × 32px + gaps (icon only)
@@ -118,18 +126,21 @@ Floating Header Container (justify-between)
 ## Responsive Behavior
 
 ### **Desktop (> 640px):**
+
 - Full-sized buttons with text labels
 - Logo: 18px
 - Brand title: 14px
 - Shortcut buttons: 2.5rem × 2rem padding
 
 ### **Mobile (≤ 640px):**
+
 - Smaller buttons and text
 - Logo: 14px
 - Brand title: 12px
 - Toggle: 6×6 (24px)
 
 ### **Very Small (≤ 480px):**
+
 - Text labels hidden (icon-only)
 - Compact button sizes
 - Reduced toggle travel distance
@@ -139,16 +150,19 @@ Floating Header Container (justify-between)
 ## Accessibility
 
 ### **ARIA Labels:**
+
 - Main button: `"Kembali ke halaman utama We Will Shine"`
 - Toggle button: `"Buka menu navigasi"` / `"Tutup menu navigasi"`
 - Each shortcut: Custom label per button
 
 ### **Keyboard Navigation:**
+
 - All buttons are keyboard accessible
 - Focus states visible
 - Semantic HTML (`<a>`, `<button>`)
 
 ### **Screen Readers:**
+
 - Descriptive titles for all interactive elements
 - SVG icons have proper stroke attributes
 
@@ -157,12 +171,13 @@ Floating Header Container (justify-between)
 ## Dark Mode Support
 
 Automatically adapts to user's system preference:
+
 ```css
 @media (prefers-color-scheme: dark) {
-  background: rgba(17, 24, 39, 0.9);
-  border-color: rgba(255, 255, 255, 0.2);
-  text-color: gray-300;
-  hover:bg-gray-800;
+	background: rgba(17, 24, 39, 0.9);
+	border-color: rgba(255, 255, 255, 0.2);
+	text-color: gray-300;
+	hover: bg-gray-800;
 }
 ```
 
@@ -171,6 +186,7 @@ Automatically adapts to user's system preference:
 ## Bug Fixes & Refactoring (Latest Update)
 
 ### **Bugs Fixed:**
+
 1. ✅ **Double Animation Definition** - Removed conflicting keyframes
 2. ✅ **Double Transition** - Consolidated `.toggle-icon` transitions
 3. ✅ **Conflicting Animations** - Simplified to single animation system
@@ -179,6 +195,7 @@ Automatically adapts to user's system preference:
 6. ✅ **CSS Utility Class Error** - Removed `@apply cubic-bezier(...)`
 
 ### **Code Simplifications:**
+
 1. **Removed**: Duplicate `.toggle-icon` definitions
 2. **Removed**: `nth-child` animation delays
 3. **Removed**: `.animate-in` class (replaced with conditional rendering)
@@ -187,6 +204,7 @@ Automatically adapts to user's system preference:
 6. **Improved**: Cleaner CSS structure with better organization
 
 ### **Performance Improvements:**
+
 - Conditional rendering reduces DOM nodes when menu closed
 - Single animation system reduces CSS complexity
 - Removed redundant transitions
@@ -198,13 +216,13 @@ Automatically adapts to user's system preference:
 ```svelte
 <!-- In +layout.svelte -->
 <script>
-  import Header from '$lib/components/Header.svelte';
-  let { children } = $props();
+	import Header from '$lib/components/Header.svelte';
+	let { children } = $props();
 </script>
 
 <div class="app">
-  <Header />
-  {@render children()}
+	<Header />
+	{@render children()}
 </div>
 ```
 
@@ -215,29 +233,32 @@ The header will automatically hide on `/` and `/signin/` routes.
 ## Customization
 
 ### **Add New Shortcut Button:**
+
 ```typescript
 const shortcutButtons = [
-  // ... existing buttons
-  {
-    href: `${base}/new-page`,
-    icon: '🚀',
-    title: 'New Page',
-    label: 'Navigate to new page'
-  }
+	// ... existing buttons
+	{
+		href: `${base}/new-page`,
+		icon: '🚀',
+		title: 'New Page',
+		label: 'Navigate to new page'
+	}
 ];
 ```
 
 ### **Adjust Animation Timing:**
+
 ```svelte
 <!-- Change delay multiplier (default: 80ms) -->
 style="animation-delay: {index * 100}ms;"
 ```
 
 ### **Modify Toggle Position:**
+
 ```css
 /* Adjust based on new button count/sizes */
 .toggle-shortcuts.menu-open {
-  transform: translateX(XXXpx); /* Calculate accordingly */
+	transform: translateX(XXXpx); /* Calculate accordingly */
 }
 ```
 
@@ -256,16 +277,19 @@ style="animation-delay: {index * 100}ms;"
 ## Technical Notes
 
 ### **Svelte 5 Runes:**
+
 - `$derived` for reactive hide logic
 - `$state` for toggle state
 
 ### **CSS Features:**
+
 - Tailwind CSS v4 with `@reference`
 - PostCSS processing
 - Glassmorphism effects
 - Cubic-bezier easing
 
 ### **Performance:**
+
 - GPU-accelerated animations (transform, opacity)
 - Conditional rendering for better performance
 - Optimized transitions
@@ -275,17 +299,21 @@ style="animation-delay: {index * 100}ms;"
 ## Maintenance
 
 ### **When Adding Routes:**
+
 Update `hideHeader` logic:
+
 ```typescript
 const hideHeader = $derived(
-  $page.url.pathname === '/' || 
-  $page.url.pathname === '/signin/' ||
-  $page.url.pathname === '/new-route/' // Add here
+	$page.url.pathname === '/' ||
+		$page.url.pathname === '/signin/' ||
+		$page.url.pathname === '/new-route/' // Add here
 );
 ```
 
 ### **When Changing Button Sizes:**
+
 Update toggle position calculations for all breakpoints:
+
 - Desktop: `.toggle-shortcuts.menu-open`
 - Mobile: `@media (max-width: 640px)`
 - Small: `@media (max-width: 480px)`
@@ -295,6 +323,7 @@ Update toggle position calculations for all breakpoints:
 ## Future Enhancements
 
 ### **Potential Additions:**
+
 - [ ] Keyboard shortcuts (e.g., Cmd+K for menu)
 - [ ] Search integration
 - [ ] User profile dropdown
@@ -352,6 +381,7 @@ $effect(() => {
 ```
 
 #### **Features:**
+
 - ✅ Real-time reactive updates (no refresh needed)
 - ✅ Smooth animations & hover effects
 - ✅ Responsive sizing for all screen sizes
@@ -363,6 +393,7 @@ $effect(() => {
 ## Version History
 
 ### **v3.0 - Smart CTA (Current)**
+
 - Added Smart CTA Button with authentication detection
 - Implemented `justify-between` layout
 - Added left/right section grouping
@@ -370,6 +401,7 @@ $effect(() => {
 - Improved conversion-focused design
 
 ### **v2.0 - Refactored**
+
 - Fixed multiple animation bugs
 - Simplified code structure
 - Improved performance
@@ -377,6 +409,7 @@ $effect(() => {
 - Cleaner CSS organization
 
 ### **v1.0 - Initial**
+
 - Basic floating header
 - Static navigation
 - Simple back button

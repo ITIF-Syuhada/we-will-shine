@@ -1,12 +1,12 @@
 <script lang="ts">
 	/**
 	 * Reusable Help Chat Box Component
-	 * 
+	 *
 	 * A compact, non-intrusive help widget that appears in the bottom-right corner.
 	 * Can be used anywhere in the app to provide contextual help, tips, or hints.
-	 * 
+	 *
 	 * Future: Can be integrated with AI chat for real-time assistance.
-	 * 
+	 *
 	 * @component
 	 */
 
@@ -57,7 +57,9 @@
 {#if isOpen}
 	<div class="help-chat-box">
 		<!-- Header -->
-		<div class="flex items-center justify-between border-b-2 border-purple-200 bg-gradient-to-r from-purple-500 to-pink-500 p-3 text-white">
+		<div
+			class="flex items-center justify-between border-b-2 border-purple-200 bg-gradient-to-r from-purple-500 to-pink-500 p-3 text-white"
+		>
 			<div class="flex items-center gap-2">
 				<span class="text-lg">{headerIcon}</span>
 				<h3 class="text-sm font-bold">{title}</h3>
@@ -90,7 +92,19 @@
 						<div class="space-y-1.5">
 							{#each section.content as item (item.label)}
 								<div class="rounded bg-white p-2">
-									<p class="mb-0.5 text-xs font-semibold {section.color === 'indigo' ? 'text-indigo-600' : section.color === 'purple' ? 'text-purple-600' : section.color === 'green' ? 'text-green-600' : section.color === 'orange' ? 'text-orange-600' : section.color === 'blue' ? 'text-blue-600' : 'text-pink-600'}">
+									<p
+										class="mb-0.5 text-xs font-semibold {section.color === 'indigo'
+											? 'text-indigo-600'
+											: section.color === 'purple'
+												? 'text-purple-600'
+												: section.color === 'green'
+													? 'text-green-600'
+													: section.color === 'orange'
+														? 'text-orange-600'
+														: section.color === 'blue'
+															? 'text-blue-600'
+															: 'text-pink-600'}"
+									>
 										{item.label}
 									</p>
 									<code class="text-xs text-gray-900">{item.value}</code>
@@ -117,7 +131,9 @@
 		max-width: calc(100vw - 3rem);
 		background: white;
 		border-radius: 1rem;
-		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+		box-shadow:
+			0 20px 25px -5px rgba(0, 0, 0, 0.1),
+			0 8px 10px -6px rgba(0, 0, 0, 0.1);
 		animation: slideInRight 0.3s ease-out;
 		overflow: hidden;
 	}
@@ -142,4 +158,3 @@
 		}
 	}
 </style>
-
