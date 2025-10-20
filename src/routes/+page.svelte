@@ -108,7 +108,7 @@
 			// Success
 			showToastMessage('🎉 Thanks for subscribing! Check your inbox for confirmation.', 'success');
 			email = '';
-		} catch (_error) {
+		} catch {
 			showToastMessage('❌ Oops! Something went wrong. Please try again.', 'error');
 		} finally {
 			isSubmitting = false;

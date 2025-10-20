@@ -11,12 +11,7 @@
 	const hideHeader = $derived($page.url.pathname === '/');
 
 	// Tab navigation state
-	let tabNavState = $state($tabNavigationStore);
-
-	// Update tabNavState when store changes
-	$effect(() => {
-		tabNavState = $tabNavigationStore;
-	});
+	let tabNavState = $derived($tabNavigationStore);
 
 	// Shortcut buttons configuration
 	const shortcutButtons = [

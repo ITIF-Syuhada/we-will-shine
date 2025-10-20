@@ -196,7 +196,7 @@
 	 */
 	function detectUserRole(
 		email: string,
-		userData: any
+		userData: { role?: string }
 	): 'admin' | 'school_staff' | 'teacher' | 'student' | 'public' {
 		const emailLower = email.toLowerCase();
 

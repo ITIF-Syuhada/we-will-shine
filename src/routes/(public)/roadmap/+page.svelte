@@ -15,6 +15,7 @@
 	];
 
 	let activeSection = $state('overview');
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let tabNavigationElement: any = $state();
 
 	// Collapsible timeline state

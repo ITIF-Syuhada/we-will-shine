@@ -21,6 +21,7 @@
 	];
 
 	let activeSection = $state($page.url.searchParams.get('tab') || 'calculator');
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let tabNavigationElement: any = $state();
 
 	// Calculator state

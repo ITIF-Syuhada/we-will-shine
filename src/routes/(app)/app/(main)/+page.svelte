@@ -3,7 +3,6 @@
 	import { motivationalQuotes } from '$lib/data/motivations';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { page } from '$app/stores';
 
 	let currentQuote = $state(
 		motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)]
