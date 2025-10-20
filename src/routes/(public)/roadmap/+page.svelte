@@ -15,7 +15,7 @@
 	];
 
 	let activeSection = $state('overview');
-	let tabNavigationElement: HTMLElement | undefined;
+	let tabNavigationElement: any = $state();
 
 	// Collapsible timeline state
 	let showDetailedTimeline = $state(false);

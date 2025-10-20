@@ -17,7 +17,7 @@
 	];
 
 	let activeSection = $state($page.url.searchParams.get('tab') || 'calculator');
-	let tabNavigationElement: HTMLElement | undefined;
+	let tabNavigationElement: any = $state();
 
 	// Calculator state
 	let studentCount = $state(500);

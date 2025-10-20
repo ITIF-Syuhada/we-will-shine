@@ -15,7 +15,7 @@
 	];
 
 	let activeSection = $state('cerita');
-	let tabNavigationElement: HTMLElement | undefined;
+	let tabNavigationElement: any = $state();
 
 	onMount(() => {
 		// Set tab navigation in store

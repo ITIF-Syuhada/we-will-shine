@@ -15,7 +15,7 @@
 	];
 
 	let activeSection = $state($page.url.searchParams.get('tab') || 'pricing');
-	let tabNavigationElement: HTMLElement | undefined;
+	let tabNavigationElement: any = $state();
 
 	// Billing toggle state
 	let billingPeriod = $state<'monthly' | 'annual'>('monthly');

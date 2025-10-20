@@ -15,7 +15,7 @@
 	];
 
 	let activeSection = $state($page.url.searchParams.get('tab') || 'metrics');
-	let tabNavigationElement: HTMLElement | undefined;
+	let tabNavigationElement: any = $state();
 
 	// Success metrics animation
 	let targetSchools = $state(0);

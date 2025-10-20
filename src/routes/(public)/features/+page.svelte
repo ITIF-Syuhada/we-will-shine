@@ -18,7 +18,7 @@
 	];
 
 	let activeSection = $state('ai-mentor');
-	let tabNavigationElement: HTMLElement | undefined;
+	let tabNavigationElement: any = $state();
 
 	onMount(() => {
 		// Set tab navigation in store
