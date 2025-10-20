@@ -189,7 +189,7 @@
 	 * 
 	 * Note: Belajar.id adalah sistem email nasional dari Kemendikbud
 	 */
-	function detectUserRole(email: string, _userData: unknown): 'admin' | 'school_staff' | 'teacher' | 'student' | 'public' {
+	function detectUserRole(email: string, userData: any): 'admin' | 'school_staff' | 'teacher' | 'student' | 'public' {
 		const emailLower = email.toLowerCase();
 		
 		// 1. Admin We Will Shine
@@ -210,7 +210,7 @@
 		}
 		
 		// 4. Check database role field as fallback
-		if (userData.role) {
+		if (userData?.role) {
 			if (userData.role === 'admin') return 'admin';
 			if (userData.role === 'teacher' || userData.role === 'counselor' || userData.role === 'school_staff') return 'teacher';
 			if (userData.role === 'student') return 'student';
