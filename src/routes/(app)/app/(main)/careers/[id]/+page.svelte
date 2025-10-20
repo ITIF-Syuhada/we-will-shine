@@ -115,7 +115,7 @@
 				← Explore Lagi
 			</button>
 			<a
-				href="{base}/dashboard/{$page.params.code}/quiz"
+				href="{base}/app/quiz"
 				class="block rounded-xl bg-gradient-to-r from-purple-400 to-pink-400 py-2.5 text-center text-xs font-bold text-white shadow-sm transition-all active:scale-95"
 			>
 				🧠 Ambil Quiz

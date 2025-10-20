@@ -135,7 +135,7 @@
 	class:stuck={isStuck && position === 'sticky'}
 >
 	<div class="tab-nav-container" class:stuck={isStuck && position === 'sticky'}>
-		{#each sections as section}
+		{#each sections as section (section.id)}
 			<button
 				class="tab-nav-item"
 				class:active={activeSection === section.id}

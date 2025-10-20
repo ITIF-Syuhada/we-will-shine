@@ -48,15 +48,6 @@
 		pink: 'bg-pink-50'
 	};
 
-	const codeColorClasses = {
-		indigo: 'bg-indigo-50 text-indigo-600',
-		purple: 'bg-purple-50 text-purple-600',
-		green: 'bg-green-50 text-green-600',
-		orange: 'bg-orange-50 text-orange-600',
-		blue: 'bg-blue-50 text-blue-600',
-		pink: 'bg-pink-50 text-pink-600'
-	};
-
 	function handleClose() {
 		isOpen = false;
 		onClose();
@@ -82,7 +73,7 @@
 
 		<!-- Content (Scrollable) -->
 		<div class="max-h-96 space-y-3 overflow-y-auto p-4">
-			{#each sections as section}
+			{#each sections as section (section.title)}
 				<div class="rounded-lg {colorClasses[section.color]} p-3">
 					<!-- Section Title -->
 					<p class="mb-2 flex items-center gap-1 text-xs font-semibold text-gray-900">
@@ -97,7 +88,7 @@
 					{:else}
 						<!-- Key-value pairs (e.g., email examples) -->
 						<div class="space-y-1.5">
-							{#each section.content as item}
+							{#each section.content as item (item.label)}
 								<div class="rounded bg-white p-2">
 									<p class="mb-0.5 text-xs font-semibold {section.color === 'indigo' ? 'text-indigo-600' : section.color === 'purple' ? 'text-purple-600' : section.color === 'green' ? 'text-green-600' : section.color === 'orange' ? 'text-orange-600' : section.color === 'blue' ? 'text-blue-600' : 'text-pink-600'}">
 										{item.label}

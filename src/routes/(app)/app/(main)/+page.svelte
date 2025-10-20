@@ -142,7 +142,7 @@
 				{/if}
 			</p>
 			<a
-				href="{base}/dashboard/{$page.params.code}/quiz"
+				href="{base}/app/quiz"
 				class="block w-full rounded-lg bg-gradient-to-r from-purple-400 to-pink-400 py-2 text-center text-xs font-bold text-white shadow-sm transition-all active:scale-95"
 			>
 				{quizCompleted ? '📝 Lihat Hasil' : '🚀 Mulai Quiz'}
@@ -161,7 +161,7 @@
 				Chat untuk tanya jawab tentang karir kapan saja!
 			</p>
 			<a
-				href="{base}/dashboard/{$page.params.code}/ai-mentor"
+				href="{base}/app/ai-mentor"
 				class="block w-full rounded-lg border-2 border-blue-400 bg-white py-2 text-center text-xs font-bold text-blue-600 shadow-sm transition-all active:scale-95"
 			>
 				💬 Mulai Chat
@@ -180,7 +180,7 @@
 				Lihat progress belajar dan pola minatmu!
 			</p>
 			<a
-				href="{base}/dashboard/{$page.params.code}/analytics"
+				href="{base}/app/analytics"
 				class="block w-full rounded-lg border-2 border-purple-400 bg-white py-2 text-center text-xs font-bold text-purple-600 shadow-sm transition-all active:scale-95"
 			>
 				📈 Lihat Progress

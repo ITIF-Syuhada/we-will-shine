@@ -4,7 +4,7 @@
 	import { db } from '$lib/supabase';
 	import { adminStore } from '$lib/stores/admin';
 	import { userProgress } from '$lib/stores/user';
-	import { setStudentCode, getStudentCode } from '$lib/stores/session';
+	import { getStudentCode } from '$lib/stores/session';
 	import HelpChatBox from '$lib/components/HelpChatBox.svelte';
 	import type { HelpSection } from '$lib/components/HelpChatBox.svelte';
 	import { onMount } from 'svelte';
@@ -189,7 +189,7 @@
 	 * 
 	 * Note: Belajar.id adalah sistem email nasional dari Kemendikbud
 	 */
-	function detectUserRole(email: string, userData: any): 'admin' | 'school_staff' | 'teacher' | 'student' | 'public' {
+	function detectUserRole(email: string, _userData: unknown): 'admin' | 'school_staff' | 'teacher' | 'student' | 'public' {
 		const emailLower = email.toLowerCase();
 		
 		// 1. Admin We Will Shine

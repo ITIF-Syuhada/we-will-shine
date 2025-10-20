@@ -130,7 +130,7 @@
 			<!-- Shortcut Buttons -->
 			{#if showShortcuts}
 				<div class="shortcuts-container">
-					{#each shortcutButtons as button, index}
+					{#each shortcutButtons as button, index (button.href)}
 						<a
 							href={button.href}
 							class="shortcut-button"

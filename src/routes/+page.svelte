@@ -11,7 +11,6 @@
 	let toastType = $state<'success' | 'error'>('success');
 
 	// Animated numbers state
-	let statsVisible = $state(false);
 	let activeUsers = $state(0);
 	let schools = $state(0);
 	let questionsAnswered = $state(0);
@@ -42,7 +41,6 @@
 					
 					// Trigger stats animation when stats section is visible
 					if (entry.target.id === 'stats-section') {
-						statsVisible = true;
 						animateNumbers();
 					}
 				}
@@ -110,7 +108,7 @@
 			// Success
 			showToastMessage('🎉 Thanks for subscribing! Check your inbox for confirmation.', 'success');
 			email = '';
-		} catch (error) {
+		} catch (_error) {
 			showToastMessage('❌ Oops! Something went wrong. Please try again.', 'error');
 		} finally {
 			isSubmitting = false;

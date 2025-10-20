@@ -15,10 +15,9 @@
 	];
 
 	let activeSection = $state($page.url.searchParams.get('tab') || 'metrics');
-	let tabNavigationElement: any;
+	let tabNavigationElement: HTMLElement | undefined;
 
 	// Success metrics animation
-	let metricsVisible = $state(false);
 	let targetSchools = $state(0);
 	let targetStudents = $state(0);
 	let targetBudgetSaved = $state(0);
@@ -46,7 +45,6 @@
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach((entry) => {
 				if (entry.isIntersecting && entry.target.id === 'metrics') {
-					metricsVisible = true;
 					animateMetrics();
 				}
 			});

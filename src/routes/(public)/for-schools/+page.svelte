@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Footer from '$lib/components/Footer.svelte';
 	import TabNavigation from '$lib/components/TabNavigation.svelte';
 	import { setTabNavigation, hideTabNavigation, setHeaderVisibility } from '$lib/stores/tabNavigation';
 	import { onMount } from 'svelte';
@@ -18,7 +17,7 @@
 	];
 
 	let activeSection = $state($page.url.searchParams.get('tab') || 'calculator');
-	let tabNavigationElement: any;
+	let tabNavigationElement: HTMLElement | undefined;
 
 	// Calculator state
 	let studentCount = $state(500);
